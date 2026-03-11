@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+body {
+  background-color: #faf4ec;
+  /* font-family: "Google Sans", sans-serif; */
+  /* font-family: "JetBrains Mono", monospace; */
+  font-family: "Source Code Pro", monospace;
+}
+
+@theme {
+  --animate-spin-slow: spin-slow 20s linear infinite;
+
+  --color-navy: #1a3263;
+  --color-navy-light: #547792;
+  --color-yellow: #fab95b;
+  --color-yellow-light: #e8e2db;
+
+  --color-coral: #EB6843;
+  --color-blue: #0D8DFF;
+  --color-green: #47be96;
+
+  --font-display: "Google Sans", sans-serif;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
