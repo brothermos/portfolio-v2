@@ -5,14 +5,16 @@ interface DockItem {
   label: string;
   icon: string;
   href: string;
+  bubbleBg: string;
+  arrowColor: string;
 }
 
 const DOCK_ITEMS: DockItem[] = [
-  { label: "Home", icon: "🏠", href: "#home" },
-  { label: "About", icon: "👤", href: "#about" },
-  { label: "Skills", icon: "⚡", href: "#skills" },
-  { label: "Work", icon: "💼", href: "#work" },
-  { label: "Contact", icon: "✉️", href: "#contact" },
+  { label: "Home", icon: "🏠", href: "#home", bubbleBg: "bg-red-500", arrowColor: "after:border-t-red-500" },
+  { label: "About", icon: "👤", href: "#about", bubbleBg: "bg-blue-500", arrowColor: "after:border-t-blue-500" },
+  { label: "Skills", icon: "⚡", href: "#skills", bubbleBg: "bg-yellow-500", arrowColor: "after:border-t-yellow-500" },
+  { label: "Work", icon: "💼", href: "#work", bubbleBg: "bg-purple-500", arrowColor: "after:border-t-purple-500" },
+  { label: "Contact", icon: "✉️", href: "#contact", bubbleBg: "bg-green-500", arrowColor: "after:border-t-green-500" },
 ];
 
 const MIN_SIZE = 48;
@@ -85,7 +87,7 @@ export default function Dock() {
               aria-label={item.label}
             >
               <span className="text-[22px] leading-none">{item.icon}</span>
-              <span className="absolute -top-7 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-gray-900 bg-white/85 backdrop-blur-sm px-2 py-0.5 rounded-md whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 shadow-sm group-hover:opacity-100">
+              <span className={`absolute -top-9 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded-lg whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 shadow-lg group-hover:opacity-100 after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent ${item.bubbleBg} ${item.arrowColor}`}>
                 {item.label}
               </span>
             </button>
