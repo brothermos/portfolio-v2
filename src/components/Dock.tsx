@@ -87,7 +87,7 @@ export default function Dock() {
     <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 flex justify-center">
       <ul
         ref={dockRef}
-        className="inline-flex justify-center items-end h-16 m-0 px-3 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl list-none shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)]"
+        className="inline-flex justify-center items-end h-full m-0 px-3 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl list-none shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)]"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -99,7 +99,7 @@ export default function Dock() {
           >
             <button
               onClick={() => handleClick(item.href)}
-              className="group flex flex-col items-center justify-center w-full h-full rounded-xl bg-white/60 border border-black/8 cursor-pointer transition-colors duration-200 p-0 relative hover:bg-white/85"
+              className="group flex flex-col items-center justify-center w-full h-full rounded-xl bg-white/60 cursor-pointer transition-colors duration-200 p-0 relative hover:bg-white/85"
               aria-label={item.label}
             >
               <span className="text-[22px] leading-none">{item.icon}</span>
