@@ -2,9 +2,9 @@
 
 body {
   background-color: #faf4ec;
-  /* font-family: "Google Sans", sans-serif; */
+  font-family: "Google Sans", sans-serif;
   /* font-family: "JetBrains Mono", monospace; */
-  font-family: "Source Code Pro", monospace;
+  /* font-family: "Source Code Pro", monospace; */
 }
 
 @theme {

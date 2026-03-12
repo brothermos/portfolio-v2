@@ -1,13 +1,14 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import logo_macbook from "./assets/macbook.png";
 import hooray from "./assets/hooray.png";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 const NAME = "Natdanai Kanyakoon";
-const TITLE = "FRONTEND DEVELOPER";
+const TITLE = "Frontend Developer";
 
 const SKILL_HIGHLIGHT_WORDS = new Set(["React", "TypeScript"]);
 const SOFTWARE_DEVELOPER_HIGHLIGHT_WORDS = new Set(["Software", "Developer"]);
@@ -20,13 +21,13 @@ const PROJECTS = [
 ];
 
 const SKILLS = [
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "TypeScript",
-  "React.js",
-  "Next.js",
-  "Vue.js",
+  { name: "HTML", color: "bg-red-500" },
+  { name: "CSS", color: "bg-blue-500" },
+  { name: "JavaScript", color: "bg-yellow-500" },
+  { name: "TypeScript", color: "bg-sky-500" },
+  { name: "React.js", color: "bg-purple-500" },
+  { name: "Next.js", color: "bg-green-500" },
+  { name: "Vue.js", color: "bg-pink-500" },
 ];
 
 const INTRO_PARAGRAPHS = [
@@ -286,14 +287,20 @@ function App() {
               </span>
             ))}
           </h1>
-          <h2 className="text-6xl font-bold text-black tracking-widest uppercase flex flex-wrap justify-center mt-4">
-            {TITLE.split("").map((char, i) => (
+          <h2 className="text-6xl font-bold text-black tracking-widest flex flex-wrap justify-center mt-4">
+            {TITLE.split(" ").map((word, wIdx) => (
               <span
-                key={`t${i}`}
-                className="char inline-block"
-                style={char === " " ? { width: "0.3em" } : undefined}
+                key={`tw${wIdx}`}
+                className={`inline-flex ${
+                  word === "Developer" ? "title-dev-word" : ""
+                }`}
+                style={wIdx > 0 ? { marginLeft: "0.3em" } : undefined}
               >
-                {char === " " ? "\u00A0" : char}
+                {word.split("").map((char, cIdx) => (
+                  <span key={`tc${wIdx}-${cIdx}`} className="char inline-block">
+                    {char}
+                  </span>
+                ))}
               </span>
             ))}
           </h2>
@@ -347,28 +354,31 @@ function App() {
         />
       </section>
 
-      <section className="h-screen flex flex-col gap-28 items-center justify-center px-6 text-black text-8xl font-bold">
-        <div className="flex items-center gap-6">
-          <span>Skills</span>
+      <section className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold">
+        <div className="flex items-center gap-4">
+          <span className="text-4xl md:text-6xl lg:text-8xl">Skills</span>
         </div>
-        <div ref={skillsRef} className="flex flex-col items-center gap-12">
-          <div className="flex gap-6">
+        <div
+          ref={skillsRef}
+          className="flex flex-col items-center gap-4 md:gap-8 lg:gap-12"
+        >
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6">
             {SKILLS.slice(0, 4).map((skill) => (
               <span
-                key={skill}
-                className="skill-badge px-8 py-4 border-4 border-black rounded-full bg-purple-500 text-white text-5xl font-semibold will-change-transform"
+                key={skill.name}
+                className={`skill-badge px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 border-2 md:border-4 border-black rounded-full ${skill.color} text-white text-base md:text-2xl lg:text-5xl font-semibold will-change-transform`}
               >
-                {skill}
+                {skill.name}
               </span>
             ))}
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6">
             {SKILLS.slice(4).map((skill) => (
               <span
-                key={skill}
-                className="skill-badge px-8 py-4 border-4 border-black rounded-full bg-green-500 text-white text-5xl font-semibold will-change-transform"
+                key={skill.name}
+                className={`skill-badge px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 border-2 md:border-4 border-black rounded-full ${skill.color} text-white text-base md:text-2xl lg:text-5xl font-semibold will-change-transform`}
               >
-                {skill}
+                {skill.name}
               </span>
             ))}
           </div>
