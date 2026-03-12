@@ -70,10 +70,10 @@ export default function HeroSection() {
         <div className="flex flex-col items-center justify-center">
           <img
             src={logo_macbook}
-            className="h-96 pointer-events-none drop-shadow-[0_0_1.5rem_rgba(100,108,255,0.4)]"
+            className="h-48 md:h-72 lg:h-96 pointer-events-none drop-shadow-[0_0_1.5rem_rgba(100,108,255,0.4)]"
             alt="Logo"
           />
-          <div ref={hiRef} className="text-black text-4xl font-bold">
+          <div ref={hiRef} className="text-black text-2xl md:text-3xl lg:text-4xl font-bold">
             Hi 👋
           </div>
         </div>
@@ -85,7 +85,10 @@ export default function HeroSection() {
         className="h-screen flex flex-col items-center justify-center relative overflow-hidden"
       >
         <div ref={titleRef} className="z-20 flex flex-col items-center">
-          <h1 className="text-9xl font-bold text-black tracking-tight flex flex-wrap justify-center">
+          <h1
+            className="font-bold text-black tracking-tight flex flex-wrap justify-center px-4"
+            style={{ fontSize: "clamp(2rem, 5vw + 2rem, 8rem)" }}
+          >
             {NAME.split("").map((char, i) => (
               <span
                 key={`n${i}`}
@@ -96,7 +99,7 @@ export default function HeroSection() {
               </span>
             ))}
           </h1>
-          <h2 className="text-6xl font-bold text-black tracking-widest flex flex-wrap justify-center mt-4">
+          <h2 className="text-xl md:text-4xl lg:text-6xl font-bold text-black tracking-widest flex flex-wrap justify-center mt-2 md:mt-4">
             {TITLE.split(" ").map((word, wIdx) => (
               <span
                 key={`tw${wIdx}`}

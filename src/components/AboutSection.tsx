@@ -131,9 +131,9 @@ export default function AboutSection() {
     <section
       id="about"
       ref={introRef}
-      className="h-screen flex flex-col items-center justify-center px-6 gap-8"
+      className="h-screen flex flex-col items-center justify-center px-4 md:px-6 gap-4 md:gap-8"
     >
-      <div className="max-w-5xl text-2xl md:text-3xl font-semibold leading-relaxed tracking-tight text-black space-y-8">
+      <div className="max-w-5xl text-xl md:text-2xl lg:text-3xl font-semibold leading-relaxed tracking-tight text-black space-y-4 md:space-y-8">
         {INTRO_PARAGRAPHS.map((paragraph, pIdx) => (
           <p key={pIdx} className="flex flex-wrap gap-y-2">
             {paragraph.split(" ").map((word, wIdx) => {

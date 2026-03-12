@@ -57,21 +57,21 @@ export default function WorkSection() {
     <>
       <section
         id="work"
-        className="h-screen flex items-center justify-center px-6 text-black text-8xl font-bold"
+        className="h-screen flex items-center justify-center px-4 md:px-6 text-black text-4xl md:text-6xl lg:text-8xl font-bold"
       >
         My Work
       </section>
 
-      <div ref={workRef} className="flex flex-col items-center gap-10">
+      <div ref={workRef} className="flex flex-col items-center gap-6 md:gap-10 px-4 md:px-0">
         {PROJECTS.map((project, i) => (
           <section
             key={i}
-            className={`work-panel w-[1200px] border-4 max-w-full h-[600px] rounded-[56px] flex flex-col items-center justify-center ${project.color}`}
+            className={`work-panel w-full md:w-[900px] lg:w-[1200px] border-2 md:border-4 max-w-full h-[300px] md:h-[450px] lg:h-[600px] rounded-3xl md:rounded-[40px] lg:rounded-[56px] flex flex-col items-center justify-center ${project.color}`}
           >
-            <span className="text-[12rem] font-bold text-black/20 leading-none">
+            <span className="text-6xl md:text-[8rem] lg:text-[12rem] font-bold text-black/20 leading-none">
               {project.number}
             </span>
-            <h3 className="text-5xl font-bold text-black mt-4">
+            <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-black mt-2 md:mt-4">
               {project.title}
             </h3>
           </section>
