@@ -15,9 +15,28 @@ const INTRO_PARAGRAPHS = [
 export default function AboutSection() {
   const introRef = useRef<HTMLElement>(null);
   const hoorayRef = useRef<HTMLImageElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: "top 80%",
+              end: "top 40%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
       const wordEls = introRef.current
         ? Array.from(introRef.current.querySelectorAll(".word"))
         : [];
@@ -88,19 +107,16 @@ export default function AboutSection() {
               if (i < revealed) {
                 gsap.set(textEls[i], { opacity: 1 });
                 gsap.set(bgEls[i], { opacity: 0 });
-                if (highlightEls[i])
-                  gsap.set(highlightEls[i], { opacity: 1 });
+                if (highlightEls[i]) gsap.set(highlightEls[i], { opacity: 1 });
               } else if (i < revealed + LOOKAHEAD) {
                 const pos = i - revealed;
                 gsap.set(textEls[i], { opacity: pos === 0 ? 0.4 : 0 });
                 gsap.set(bgEls[i], { opacity: fadeSteps[pos] });
-                if (highlightEls[i])
-                  gsap.set(highlightEls[i], { opacity: 0 });
+                if (highlightEls[i]) gsap.set(highlightEls[i], { opacity: 0 });
               } else {
                 gsap.set(textEls[i], { opacity: 0 });
                 gsap.set(bgEls[i], { opacity: 0 });
-                if (highlightEls[i])
-                  gsap.set(highlightEls[i], { opacity: 0 });
+                if (highlightEls[i]) gsap.set(highlightEls[i], { opacity: 0 });
               }
             }
             prevRevealed = revealed;
@@ -133,6 +149,12 @@ export default function AboutSection() {
       ref={introRef}
       className="h-screen flex flex-col items-center justify-center px-4 md:px-6 gap-4 md:gap-8"
     >
+      <div
+        ref={headingRef}
+        className="flex items-center gap-4 font-bold text-4xl md:text-6xl lg:text-8xl"
+      >
+        <span>About me</span>
+      </div>
       <div className="max-w-5xl text-xl md:text-2xl lg:text-3xl font-semibold leading-relaxed tracking-tight text-black space-y-4 md:space-y-8">
         {INTRO_PARAGRAPHS.map((paragraph, pIdx) => (
           <p key={pIdx} className="flex flex-wrap gap-y-2">

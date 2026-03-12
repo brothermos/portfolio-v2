@@ -13,9 +13,28 @@ const PROJECTS = [
 
 export default function WorkSection() {
   const workRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: "top 80%",
+              end: "top 40%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
       const panels = workRef.current
         ? Array.from(
             workRef.current.querySelectorAll<HTMLElement>(".work-panel")
@@ -57,12 +76,15 @@ export default function WorkSection() {
     <>
       <section
         id="work"
-        className="h-screen flex items-center justify-center px-4 md:px-6 text-black text-4xl md:text-6xl lg:text-8xl font-bold"
+        ref={workRef}
+        className="flex flex-col items-center gap-6 md:gap-10 px-4 md:px-0"
       >
-        My Work
-      </section>
-
-      <div ref={workRef} className="flex flex-col items-center gap-6 md:gap-10 px-4 md:px-0">
+        <div
+          ref={headingRef}
+          className="text-black text-4xl md:text-6xl lg:text-8xl font-bold"
+        >
+          My Work
+        </div>
         {PROJECTS.map((project, i) => (
           <section
             key={i}
@@ -76,7 +98,7 @@ export default function WorkSection() {
             </h3>
           </section>
         ))}
-      </div>
+      </section>
     </>
   );
 }

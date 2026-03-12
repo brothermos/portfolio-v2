@@ -5,6 +5,14 @@ body {
   font-family: "Google Sans", sans-serif;
   /* font-family: "JetBrains Mono", monospace; */
   /* font-family: "Source Code Pro", monospace; */
+  cursor: url("./assets/arrowhead-rounded-outline.svg") 0 0, auto;
+}
+
+a,
+button,
+[role="button"],
+.cursor-pointer {
+  cursor: url("./assets/hand-pointer.svg") 0 0, pointer;
 }
 
 @theme {

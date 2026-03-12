@@ -4,6 +4,7 @@ import SkillsSection from "./components/SkillsSection";
 import WorkSection from "./components/WorkSection";
 import ContactSection from "./components/ContactSection";
 import Dock from "./components/Dock";
+import ScrollTopButton from "./components/ScrollTopButton";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <WorkSection />
       <ContactSection />
       <Dock />
+      <ScrollTopButton />
     </div>
   );
 }

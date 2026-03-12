@@ -1,5 +1,8 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SKILLS = [
   { name: "HTML", color: "bg-red-500" },
@@ -13,9 +16,46 @@ const SKILLS = [
 
 export default function SkillsSection() {
   const skillsRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: "top 80%",
+              end: "top 40%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
+      if (skillsRef.current) {
+        gsap.fromTo(
+          skillsRef.current,
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: skillsRef.current,
+              start: "top 85%",
+              end: "top 55%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
       const badges = skillsRef.current
         ? Array.from(
             skillsRef.current.querySelectorAll<HTMLElement>(".skill-badge")
@@ -43,7 +83,7 @@ export default function SkillsSection() {
       id="skills"
       className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
     >
-      <div className="flex items-center gap-4">
+      <div ref={headingRef} className="flex items-center gap-4">
         <span className="text-4xl md:text-6xl lg:text-8xl">Skills</span>
       </div>
       <div
