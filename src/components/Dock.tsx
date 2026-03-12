@@ -1,5 +1,9 @@
 import { useRef, useLayoutEffect, useCallback } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 interface DockItem {
   label: string;
@@ -64,7 +68,19 @@ export default function Dock() {
   const handleClick = useCallback((href: string) => {
     const id = href.replace("#", "");
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (!el) return;
+
+    const trigger = ScrollTrigger.getAll().find(
+      (t) => t.trigger === el || (t.pin && t.pin === el)
+    );
+
+    const scrollTarget = trigger ? trigger.end : href;
+
+    gsap.to(window, {
+      duration: 1.5,
+      scrollTo: { y: scrollTarget, autoKill: false },
+      ease: "power2.inOut",
+    });
   }, []);
 
   return (
