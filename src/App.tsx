@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import logo_macbook from "./assets/macbook.png";
 import hooray from "./assets/hooray.png";
+import Dock from "./components/Dock";
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
@@ -272,6 +273,7 @@ function App() {
       </div>
 
       <section
+        id="home"
         ref={heroRef}
         className="h-screen flex flex-col items-center justify-center relative overflow-hidden"
       >
@@ -308,6 +310,7 @@ function App() {
       </section>
 
       <section
+        id="about"
         ref={introRef}
         className="h-screen flex flex-col items-center justify-center px-6 gap-8"
       >
@@ -354,7 +357,7 @@ function App() {
         />
       </section>
 
-      <section className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold">
+      <section id="skills" className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold">
         <div className="flex items-center gap-4">
           <span className="text-4xl md:text-6xl lg:text-8xl">Skills</span>
         </div>
@@ -385,7 +388,7 @@ function App() {
         </div>
       </section>
 
-      <section className="h-screen flex items-center justify-center px-6 text-black text-8xl font-bold">
+      <section id="work" className="h-screen flex items-center justify-center px-6 text-black text-8xl font-bold">
         My Work
       </section>
 
@@ -405,9 +408,11 @@ function App() {
         ))}
       </div>
 
-      <section className="h-screen flex items-center justify-center px-6 text-black text-8xl font-bold">
+      <section id="contact" className="h-screen flex items-center justify-center px-6 text-black text-8xl font-bold">
         Contact Me
       </section>
+
+      <Dock />
     </div>
   );
 }
