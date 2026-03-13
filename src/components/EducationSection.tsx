@@ -11,6 +11,7 @@ const EDUCATION = [
     period: "May 2022 - Aug 2022",
     color: "bg-coral",
     dotColor: "bg-coral",
+    shadow: "shadow-[0_20px_40px_rgba(235,104,67,0.45)]",
     icon: "🚀",
   },
   {
@@ -20,6 +21,7 @@ const EDUCATION = [
     period: "2015 - 2019",
     color: "bg-blue",
     dotColor: "bg-blue",
+    shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.45)]",
     icon: "🎓",
   },
 ];
@@ -155,7 +157,7 @@ export default function EducationSection() {
                   }`}
                 >
                   <div
-                    className={`${edu.color} rounded-3xl md:rounded-4xl border-2 md:border-4 border-black p-6 md:p-8 lg:p-10 shadow-[4px_4px_0_0_rgba(0,0,0,1)] md:shadow-[6px_6px_0_0_rgba(0,0,0,1)]`}
+                    className={`${edu.color} rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${edu.shadow}`}
                   >
                     <span className="text-3xl md:text-4xl lg:text-5xl block mb-3">
                       {edu.icon}
