@@ -2,9 +2,9 @@ import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
 import SkillsSection from "./components/SkillsSection";
 import WorkSection from "./components/WorkSection";
+import EducationSection from "./components/EducationSection";
 import ContactSection from "./components/ContactSection";
 import Dock from "./components/Dock";
-import ScrollTopButton from "./components/ScrollTopButton";
 
 function App() {
   return (
@@ -13,9 +13,9 @@ function App() {
       <AboutSection />
       <SkillsSection />
       <WorkSection />
+      <EducationSection />
       <ContactSection />
       <Dock />
-      <ScrollTopButton />
     </div>
   );
 }

@@ -1,0 +1,188 @@
+import { useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const EDUCATION = [
+  {
+    institution: "Generation Thailand",
+    program: "Software Developer Bootcamp",
+    period: "May 2022 - Aug 2022",
+    color: "bg-coral",
+    dotColor: "bg-coral",
+    icon: "🚀",
+  },
+  {
+    institution: "Prince of Songkhla University (Hatyai)",
+    program: "Faculty of Management Science",
+    detail: "Major Human Resource Management",
+    period: "2015 - 2019",
+    color: "bg-blue",
+    dotColor: "bg-blue",
+    icon: "🎓",
+  },
+];
+
+export default function EducationSection() {
+  const headingRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: "top 80%",
+              end: "top 40%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
+      if (lineRef.current) {
+        gsap.fromTo(
+          lineRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: lineRef.current,
+              start: "top 75%",
+              end: "bottom 50%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+
+      const cards = cardsRef.current
+        ? Array.from(
+            cardsRef.current.querySelectorAll<HTMLElement>(".edu-card")
+          )
+        : [];
+
+      cards.forEach((card, i) => {
+        const isLeft = i % 2 === 0;
+        gsap.fromTo(
+          card,
+          { x: isLeft ? -80 : 80, opacity: 0, rotation: isLeft ? -4 : 4 },
+          {
+            x: 0,
+            opacity: 1,
+            rotation: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 82%",
+              end: "top 55%",
+              scrub: 1,
+            },
+          }
+        );
+      });
+
+      const dots = cardsRef.current
+        ? Array.from(
+            cardsRef.current.querySelectorAll<HTMLElement>(".edu-dot")
+          )
+        : [];
+
+      dots.forEach((dot) => {
+        gsap.fromTo(
+          dot,
+          { scale: 0 },
+          {
+            scale: 1,
+            ease: "back.out(3)",
+            scrollTrigger: {
+              trigger: dot,
+              start: "top 75%",
+              end: "top 60%",
+              scrub: 1,
+            },
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      id="education"
+      className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
+    >
+      <div ref={headingRef} className="flex items-center gap-4">
+        <span className="text-4xl md:text-6xl lg:text-8xl">Education</span>
+      </div>
+
+      <div ref={cardsRef} className="relative w-full max-w-4xl">
+        {/* Timeline vertical line */}
+        <div
+          ref={lineRef}
+          className="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-black/15 origin-top md:-translate-x-1/2"
+        />
+
+        <div className="flex flex-col gap-16 md:gap-24">
+          {EDUCATION.map((edu, i) => {
+            const isLeft = i % 2 === 0;
+            return (
+              <div
+                key={i}
+                className="edu-card relative flex items-start md:items-center"
+              >
+                {/* Dot on the timeline */}
+                <div
+                  className={`edu-dot absolute left-6 md:left-1/2 w-5 h-5 rounded-full border-4 border-black ${edu.dotColor} z-10 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2`}
+                />
+
+                {/* Card */}
+                <div
+                  className={`ml-14 md:ml-0 md:w-[calc(50%-2.5rem)] ${
+                    isLeft ? "md:mr-auto md:pr-0" : "md:ml-auto md:pl-0"
+                  }`}
+                >
+                  <div
+                    className={`${edu.color} rounded-3xl md:rounded-4xl border-2 md:border-4 border-black p-6 md:p-8 lg:p-10 shadow-[4px_4px_0_0_rgba(0,0,0,1)] md:shadow-[6px_6px_0_0_rgba(0,0,0,1)]`}
+                  >
+                    <span className="text-3xl md:text-4xl lg:text-5xl block mb-3">
+                      {edu.icon}
+                    </span>
+                    <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-white leading-tight">
+                      {edu.institution}
+                    </h3>
+                    <p className="text-sm md:text-lg lg:text-xl font-semibold text-white/80 mt-2">
+                      {edu.program}
+                    </p>
+                    {edu.detail && (
+                      <p className="text-sm md:text-base lg:text-lg font-medium text-white/65 mt-1">
+                        {edu.detail}
+                      </p>
+                    )}
+                    <div className="mt-4 inline-block bg-black/20 rounded-full px-4 py-1.5 md:px-5 md:py-2">
+                      <span className="text-xs md:text-sm lg:text-base font-bold text-white tracking-wide">
+                        {edu.period}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

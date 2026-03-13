@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const SKILLS = [
   { name: "HTML", color: "bg-red-500" },
   { name: "CSS", color: "bg-blue-500" },
-  { name: "JavaScript", color: "bg-yellow-500" },
+  { name: "JavaScript", color: "bg-yellow-400" },
   { name: "TypeScript", color: "bg-sky-500" },
   { name: "React.js", color: "bg-purple-500" },
   { name: "Next.js", color: "bg-green-500" },
@@ -81,7 +81,7 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
+      className="h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
     >
       <div ref={headingRef} className="flex items-center gap-4">
         <span className="text-4xl md:text-6xl lg:text-8xl">Skills</span>

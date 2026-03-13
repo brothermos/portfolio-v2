@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const PROJECTS = [
   { number: "01", title: "Project Alpha", color: "bg-orange-500" },
   { number: "02", title: "Project Beta", color: "bg-blue-500" },
-  { number: "03", title: "Project Gamma", color: "bg-yellow-500" },
+  { number: "03", title: "Project Gamma", color: "bg-yellow-bright" },
   { number: "04", title: "Project Delta", color: "bg-pink-500" },
 ];
 
@@ -77,13 +77,12 @@ export default function WorkSection() {
       <section
         id="work"
         ref={workRef}
-        className="flex flex-col items-center gap-6 md:gap-10 px-4 md:px-0"
+        className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
       >
-        <div
-          ref={headingRef}
-          className="text-black text-4xl md:text-6xl lg:text-8xl font-bold"
-        >
-          My Work
+        <div ref={headingRef} className="flex items-center gap-4">
+          <span className="text-black text-4xl md:text-6xl lg:text-8xl font-bold">
+            My Work
+          </span>
         </div>
         {PROJECTS.map((project, i) => (
           <section
