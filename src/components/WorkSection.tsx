@@ -59,29 +59,24 @@ export default function WorkSection() {
 
       if (!panels.length) return;
 
-      const TOP_SPACE = 80;
-
       panels.forEach((panel, i) => {
-        panel.style.zIndex = String(i + 1);
-
-        ScrollTrigger.create({
-          trigger: panel,
-          start: `top ${TOP_SPACE}px`,
-          endTrigger: workRef.current!,
-          end: `bottom+=${panels.length * 100} bottom`, // เพิ่ม offset
-          pin: true,
-          pinSpacing: false,
-          onUpdate: (self) => {
-            if (i === panels.length - 1) return;
-
-            const p = self.progress;
-            const scale = 1 - p * 0.15;
-            const rotate = p * -10;
-            const yShift = p * 120;
-            panel.style.transform = `translateY(${yShift}px) rotate(${rotate}deg) scale(${scale})`;
-            panel.style.transformOrigin = "center bottom";
+        const isLeft = i % 2 === 0;
+        gsap.fromTo(
+          panel,
+          { x: isLeft ? -80 : 80, opacity: 0, rotation: isLeft ? -4 : 4 },
+          {
+            x: 0,
+            opacity: 1,
+            rotation: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: panel,
+              start: "top 82%",
+              end: "top 55%",
+              scrub: 1,
+            },
           },
-        });
+        );
       });
     });
 
