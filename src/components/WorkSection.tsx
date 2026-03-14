@@ -51,15 +51,11 @@ export default function WorkSection() {
               end: "top 40%",
               scrub: 1,
             },
-          }
+          },
         );
       }
 
-      const panels = workRef.current
-        ? Array.from(
-            workRef.current.querySelectorAll<HTMLElement>(".work-panel")
-          )
-        : [];
+      const panels = workRef.current ? Array.from(workRef.current.querySelectorAll<HTMLElement>(".work-panel")) : [];
 
       if (!panels.length) return;
 
@@ -72,7 +68,7 @@ export default function WorkSection() {
           trigger: panel,
           start: `top ${TOP_SPACE}px`,
           endTrigger: workRef.current!,
-          end: "bottom bottom",
+          end: `bottom+=${panels.length * 100} bottom`, // เพิ่ม offset
           pin: true,
           pinSpacing: false,
           onUpdate: (self) => {
@@ -100,9 +96,7 @@ export default function WorkSection() {
         className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
       >
         <div ref={headingRef} className="flex items-center gap-4">
-          <span className="text-black text-4xl md:text-6xl lg:text-8xl font-bold">
-            My Work
-          </span>
+          <span className="text-black text-4xl md:text-6xl lg:text-8xl font-bold">My Work</span>
         </div>
         {PROJECTS.map((project, i) => (
           <section
@@ -112,9 +106,7 @@ export default function WorkSection() {
             <span className="text-6xl md:text-[8rem] lg:text-[12rem] font-bold text-white/15 leading-none">
               {project.number}
             </span>
-            <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold mt-2 md:mt-4">
-              {project.title}
-            </h3>
+            <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold mt-2 md:mt-4">{project.title}</h3>
           </section>
         ))}
       </section>
