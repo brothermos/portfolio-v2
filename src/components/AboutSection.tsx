@@ -127,7 +127,9 @@ export default function AboutSection() {
             if (self.progress > revealPhase) {
               const hoorayProgress =
                 (self.progress - revealPhase) / (1 - revealPhase);
-              const w = hoorayProgress * 30;
+              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+              const maxW = isMobile ? 75 : 30;
+              const w = hoorayProgress * maxW;
               gsap.set(hoorayRef.current, {
                 width: `${w}%`,
                 opacity: hoorayProgress,

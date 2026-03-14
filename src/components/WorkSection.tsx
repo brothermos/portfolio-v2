@@ -8,26 +8,26 @@ const PROJECTS = [
   {
     number: "01",
     title: "Project Alpha",
-    color: "bg-orange-500",
-    shadow: "shadow-[0_20px_40px_rgba(249,115,22,0.45)]",
+    color: "bg-teal-500",
+    shadow: "shadow-[0_20px_40px_rgba(20,184,166,0.45)]",
   },
   {
     number: "02",
     title: "Project Beta",
-    color: "bg-blue-500",
-    shadow: "shadow-[0_20px_40px_rgba(59,130,246,0.45)]",
+    color: "bg-rose-500",
+    shadow: "shadow-[0_20px_40px_rgba(244,63,94,0.45)]",
   },
   {
     number: "03",
     title: "Project Gamma",
-    color: "bg-yellow-bright",
-    shadow: "shadow-[0_20px_40px_rgba(255,255,0,0.45)]",
+    color: "bg-indigo-500",
+    shadow: "shadow-[0_20px_40px_rgba(99,102,241,0.45)]",
   },
   {
     number: "04",
     title: "Project Delta",
-    color: "bg-pink-500",
-    shadow: "shadow-[0_20px_40px_rgba(236,72,153,0.45)]",
+    color: "bg-amber-500",
+    shadow: "shadow-[0_20px_40px_rgba(245,158,11,0.45)]",
   },
 ];
 

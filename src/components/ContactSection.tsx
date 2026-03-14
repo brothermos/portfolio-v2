@@ -15,7 +15,6 @@ const CONTACT_INFO = {
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -33,27 +32,7 @@ export default function ContactSection() {
               end: "top 40%",
               scrub: 1,
             },
-          }
-        );
-      }
-
-      if (cardsRef.current) {
-        const items = cardsRef.current.querySelectorAll(".contact-item");
-        gsap.fromTo(
-          items,
-          { y: 24, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.08,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 70%",
-              end: "top 40%",
-              scrub: 1,
-            },
-          }
+          },
         );
       }
     });
@@ -68,29 +47,19 @@ export default function ContactSection() {
       className="min-h-screen flex items-center justify-center px-4 md:px-6 py-16 text-black"
     >
       <div className="w-full max-w-5xl">
-        <div
-          ref={headingRef}
-          className="mb-8 md:mb-10 flex justify-center text-center"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-            Let&apos;s work together
-          </h2>
+        <div ref={headingRef} className="mb-8 md:mb-10 flex justify-center text-center">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">Let&apos;s work together</h2>
         </div>
 
-        <div
-          ref={cardsRef}
-          className="grid gap-4 md:gap-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.1fr)]"
-        >
+        <div className="grid gap-4 md:gap-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.1fr)]">
           {/* Left: location + primary contact */}
-          <div className="contact-item rounded-[32px] bg-purple text-white shadow-[0_20px_40px_rgba(124,58,237,0.45)] px-5 py-6 md:px-7 md:py-8 flex flex-col justify-between transform md:-rotate-2 hover:rotate-0 hover:-translate-y-1 transition-transform duration-300">
+          <div className="contact-item rounded-[32px] bg-purple text-white shadow-[0_20px_40px_rgba(124,58,237,0.45)] px-5 py-6 md:px-7 md:py-8 flex flex-col justify-between">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs font-medium tracking-wide">
                 <span className="text-lg" aria-hidden>
                   📍
                 </span>
-                <span className="uppercase text-white/80">
-                  {CONTACT_INFO.location}
-                </span>
+                <span className="uppercase text-white/80">{CONTACT_INFO.location}</span>
               </div>
 
               <div>
@@ -114,24 +83,17 @@ export default function ContactSection() {
                 <span className="text-lg" aria-hidden>
                   📞
                 </span>
-                <a
-                  href="tel:+66836536262"
-                  className="font-medium hover:text-yellow-light transition-colors"
-                >
+                <a href="tel:+66836536262" className="font-medium hover:text-yellow-light transition-colors">
                   {CONTACT_INFO.phone}
                 </a>
               </div>
-              <div className="text-xs text-white/70">
-                Local time: Bangkok (UTC+7)
-              </div>
+              <div className="text-xs text-white/70">Local time: Bangkok (UTC+7)</div>
             </div>
           </div>
 
           {/* Right: social links */}
-          <div className="contact-item rounded-[32px] bg-yellow text-black shadow-[0_20px_40px_rgba(250,185,91,0.45)] px-5 py-6 md:px-7 md:py-8 flex flex-col gap-4 transform md:rotate-2 hover:rotate-0 hover:-translate-y-1 transition-transform duration-300">
-            <div className="text-xs font-semibold tracking-[0.22em] text-black/70 uppercase">
-              Find me online
-            </div>
+          <div className="contact-item rounded-[32px] bg-yellow text-black shadow-[0_20px_40px_rgba(250,185,91,0.45)] px-5 py-6 md:px-7 md:py-8 flex flex-col gap-4">
+            <div className="text-xs font-semibold tracking-[0.22em] text-black/70 uppercase">Find me online</div>
 
             <div className="space-y-3">
               <a
@@ -146,9 +108,7 @@ export default function ContactSection() {
                   </span>
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold">GitHub</span>
-                    <span className="text-xs text-black/65 truncate">
-                      brothermos
-                    </span>
+                    <span className="text-xs text-black/65 truncate">brothermos</span>
                   </div>
                 </div>
                 <span className="text-xs font-medium text-black/70 group-hover:translate-x-0.5 transition-transform">
@@ -168,9 +128,7 @@ export default function ContactSection() {
                   </span>
                   <div className="flex flex-col">
                     <span className="text-sm font-semibold">LinkedIn</span>
-                    <span className="text-xs text-black/65 truncate">
-                      Natdanai Kanyakoon
-                    </span>
+                    <span className="text-xs text-black/65 truncate">Natdanai Kanyakoon</span>
                   </div>
                 </div>
                 <span className="text-xs font-medium text-black/70 group-hover:translate-x-0.5 transition-transform">
