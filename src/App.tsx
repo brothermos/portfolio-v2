@@ -5,6 +5,7 @@ import WorkSection from "./components/WorkSection";
 import EducationSection from "./components/EducationSection";
 import ContactSection from "./components/ContactSection";
 import Dock from "./components/Dock";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <EducationSection />
       <ContactSection />
       <Dock />
+      <SpeedInsights />
     </div>
   );
 }
