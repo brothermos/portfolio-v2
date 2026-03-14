@@ -8,13 +8,13 @@ const PROJECTS = [
   {
     number: "01",
     title: "Project Alpha",
-    color: "bg-teal-500",
+    color: "bg-[#77DD77]",
     shadow: "shadow-[0_20px_40px_rgba(20,184,166,0.45)]",
   },
   {
     number: "02",
     title: "Project Beta",
-    color: "bg-rose-500",
+    color: "bg-[#FF746C]",
     shadow: "shadow-[0_20px_40px_rgba(244,63,94,0.45)]",
   },
   {
@@ -26,8 +26,8 @@ const PROJECTS = [
   {
     number: "04",
     title: "Project Delta",
-    color: "bg-amber-500",
-    shadow: "shadow-[0_20px_40px_rgba(245,158,11,0.45)]",
+    color: "bg-yellow",
+    shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.45)]",
   },
 ];
 

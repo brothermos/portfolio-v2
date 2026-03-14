@@ -53,7 +53,7 @@ export default function ContactSection() {
 
         <div className="grid gap-4 md:gap-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.1fr)]">
           {/* Left: location + primary contact */}
-          <div className="contact-item rounded-[32px] bg-purple text-white shadow-[0_20px_40px_rgba(124,58,237,0.45)] px-5 py-6 md:px-7 md:py-8 flex flex-col justify-between">
+          <div className="contact-item rounded-[32px] bg-teal-500 text-white shadow-[0_20px_40px_rgba(20,184,166,0.45)] px-5 py-6 md:px-7 md:py-8 flex flex-col justify-between">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs font-medium tracking-wide">
                 <span className="text-lg" aria-hidden>
