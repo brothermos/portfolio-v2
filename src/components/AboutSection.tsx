@@ -1,7 +1,6 @@
-import hooray from "../assets/images/hooray.png";
+import hooray from "../../public/images/hooray.png";
 import { SKILL_HIGHLIGHT_WORDS, SOFTWARE_DEVELOPER_HIGHLIGHT_WORDS, INTRO_PARAGRAPHS } from "../data/about";
 import useAboutSection from "../hooks/useAboutSection";
-
 
 const AboutSection = () => {
   const { introRef, hoorayRef, headingRef } = useAboutSection();

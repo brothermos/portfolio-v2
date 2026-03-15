@@ -1,4 +1,4 @@
-import logoMacbook from "../assets/images/macbook.png";
+import logoMacbook from "../../public/images/macbook.png";
 import { NAME, TITLE } from "../data/hero";
 import useHeroSection from "../hooks/useHeroSection";
 
