@@ -1,5 +1,28 @@
+import {
+  HiOutlineHome,
+  HiOutlineUser,
+  HiOutlineBolt,
+  HiOutlineBriefcase,
+  HiOutlineComputerDesktop,
+  HiOutlineAcademicCap,
+  HiOutlineEnvelope,
+} from "react-icons/hi2";
+import type { DockIconKey } from "../data/dock";
 import { DOCK_ITEMS } from "../data/dock";
 import useDock from "../hooks/useDock";
+
+const DOCK_ICON_MAP: Record<
+  DockIconKey,
+  React.ComponentType<{ className?: string }>
+> = {
+  home: HiOutlineHome,
+  user: HiOutlineUser,
+  skills: HiOutlineBolt,
+  experience: HiOutlineBriefcase,
+  work: HiOutlineComputerDesktop,
+  education: HiOutlineAcademicCap,
+  contact: HiOutlineEnvelope,
+};
 
 const Dock = () => {
   const { dockRef, itemRefs, handleMouseMove, handleMouseLeave, handleClick } = useDock();
@@ -12,7 +35,9 @@ const Dock = () => {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {DOCK_ITEMS.map((item, i) => (
+        {DOCK_ITEMS.map((item, i) => {
+          const IconComponent = DOCK_ICON_MAP[item.iconKey];
+          return (
           <li
             key={item.label}
             ref={(el) => {
@@ -25,7 +50,9 @@ const Dock = () => {
               className="group flex flex-col items-center justify-center w-full h-full rounded-xl bg-white/60 cursor-pointer transition-colors duration-200 p-0 relative hover:bg-white/85"
               aria-label={item.label}
             >
-              <span className="text-[22px] leading-none">{item.icon}</span>
+              <span className="text-[22px] leading-none flex items-center justify-center text-black/80">
+                {IconComponent ? <IconComponent className="w-6 h-6" /> : null}
+              </span>
               <span
                 className={`absolute -top-9 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded-lg whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 shadow-lg group-hover:opacity-100 after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent ${item.bubbleBg} ${item.arrowColor}`}
               >
@@ -33,7 +60,8 @@ const Dock = () => {
               </span>
             </button>
           </li>
-        ))}
+          );
+        })}
       </ul>
     </div>
   );

@@ -1,6 +1,15 @@
+export type DockIconKey =
+  | "home"
+  | "user"
+  | "skills"
+  | "experience"
+  | "work"
+  | "education"
+  | "contact";
+
 export interface DockItem {
   label: string;
-  icon: string;
+  iconKey: DockIconKey;
   href: string;
   bubbleBg: string;
   arrowColor: string;
@@ -9,49 +18,49 @@ export interface DockItem {
 export const DOCK_ITEMS: DockItem[] = [
   {
     label: "Home",
-    icon: "🏠",
+    iconKey: "home",
     href: "#home",
     bubbleBg: "bg-red-500",
     arrowColor: "after:border-t-red-500",
   },
   {
     label: "About",
-    icon: "👤",
+    iconKey: "user",
     href: "#about",
     bubbleBg: "bg-blue-500",
     arrowColor: "after:border-t-blue-500",
   },
   {
     label: "Skills",
-    icon: "⚡",
+    iconKey: "skills",
     href: "#skills",
     bubbleBg: "bg-yellow-500",
     arrowColor: "after:border-t-yellow-500",
   },
   {
     label: "Experience",
-    icon: "💼",
+    iconKey: "experience",
     href: "#experience",
     bubbleBg: "bg-amber-500",
     arrowColor: "after:border-t-amber-500",
   },
   {
     label: "Work",
-    icon: "🖥️",
+    iconKey: "work",
     href: "#work",
     bubbleBg: "bg-purple-500",
     arrowColor: "after:border-t-purple-500",
   },
   {
     label: "Education",
-    icon: "🎓",
+    iconKey: "education",
     href: "#education",
     bubbleBg: "bg-indigo-500",
     arrowColor: "after:border-t-indigo-500",
   },
   {
     label: "Contact",
-    icon: "✉️",
+    iconKey: "contact",
     href: "#contact",
     bubbleBg: "bg-green-500",
     arrowColor: "after:border-t-green-500",

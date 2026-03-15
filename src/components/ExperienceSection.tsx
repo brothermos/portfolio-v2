@@ -1,5 +1,11 @@
+import { HiOutlineBriefcase, HiOutlineComputerDesktop } from "react-icons/hi2";
 import { EXPERIENCE } from "../data/experience";
 import useExperienceSection from "../hooks/useExperienceSection";
+
+const EXP_ICON_MAP: Record<import("../data/experience").ExperienceIconKey, React.ComponentType<{ className?: string }>> = {
+  briefcase: HiOutlineBriefcase,
+  laptop: HiOutlineComputerDesktop,
+};
 
 const ExperienceSection = () => {
   const { headingRef, cardsRef, lineRef } = useExperienceSection();
@@ -41,8 +47,11 @@ const ExperienceSection = () => {
                   <div
                     className={`${exp.color} ${exp.border} backdrop-blur-xl rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${exp.shadow} ${exp.hoverShadow} md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out`}
                   >
-                    <span className="text-3xl md:text-4xl lg:text-5xl block mb-3">
-                      {exp.icon}
+                    <span className="text-3xl md:text-4xl lg:text-5xl block mb-3 text-white">
+                      {(() => {
+                        const Icon = EXP_ICON_MAP[exp.iconKey];
+                        return Icon ? <Icon className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14" /> : null;
+                      })()}
                     </span>
                     <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-white leading-tight">
                       {exp.company}
