@@ -33,7 +33,7 @@ export default function AboutSection() {
               end: "top 40%",
               scrub: 1,
             },
-          }
+          },
         );
       }
 
@@ -45,13 +45,13 @@ export default function AboutSection() {
 
       const LOOKAHEAD = 7;
       const textEls = wordEls.map(
-        (w) => w.querySelector(".word-text") as HTMLElement
+        (w) => w.querySelector(".word-text") as HTMLElement,
       );
       const bgEls = wordEls.map(
-        (w) => w.querySelector(".word-bg") as HTMLElement
+        (w) => w.querySelector(".word-bg") as HTMLElement,
       );
       const highlightEls = wordEls.map(
-        (w) => w.querySelector(".word-highlight") as HTMLElement | null
+        (w) => w.querySelector(".word-highlight") as HTMLElement | null,
       );
 
       gsap.set(textEls, { opacity: 0 });
@@ -59,7 +59,7 @@ export default function AboutSection() {
 
       const fadeSteps = Array.from(
         { length: LOOKAHEAD },
-        (_, i) => 1 - i / LOOKAHEAD
+        (_, i) => 1 - i / LOOKAHEAD,
       );
 
       const total = wordEls.length;
@@ -98,7 +98,7 @@ export default function AboutSection() {
 
           const revealProgress = Math.min(
             (self.progress - introPhase) / (revealPhase - introPhase),
-            1
+            1,
           );
           const revealed = Math.round(revealProgress * total);
 
@@ -127,7 +127,8 @@ export default function AboutSection() {
             if (self.progress > revealPhase) {
               const hoorayProgress =
                 (self.progress - revealPhase) / (1 - revealPhase);
-              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+              const isMobile =
+                typeof window !== "undefined" && window.innerWidth < 768;
               const maxW = isMobile ? 75 : 30;
               const w = hoorayProgress * maxW;
               gsap.set(hoorayRef.current, {
@@ -153,7 +154,7 @@ export default function AboutSection() {
     >
       <div
         ref={headingRef}
-        className="flex items-center gap-4 font-bold text-4xl md:text-6xl lg:text-8xl"
+        className="flex items-center gap-4 font-bold text-6xl md:text-6xl lg:text-8xl"
       >
         <span>About me</span>
       </div>

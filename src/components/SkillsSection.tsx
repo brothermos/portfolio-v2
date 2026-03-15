@@ -5,13 +5,48 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const SKILLS = [
-  { name: "HTML", color: "bg-red-500/45", border: "border border-red-400/50", shadow: "shadow-[0_20px_40px_rgba(239,68,68,0.35)]" },
-  { name: "CSS", color: "bg-blue-500/45", border: "border border-blue-400/50", shadow: "shadow-[0_20px_40px_rgba(59,130,246,0.35)]" },
-  { name: "JavaScript", color: "bg-yellow-400/55", border: "border border-yellow-300/60", shadow: "shadow-[0_20px_40px_rgba(250,204,21,0.35)]" },
-  { name: "TypeScript", color: "bg-sky-500/45", border: "border border-sky-400/50", shadow: "shadow-[0_20px_40px_rgba(14,165,233,0.35)]" },
-  { name: "React.js", color: "bg-purple-500/45", border: "border border-purple-400/50", shadow: "shadow-[0_20px_40px_rgba(168,85,247,0.35)]" },
-  { name: "Next.js", color: "bg-green-500/45", border: "border border-green-400/50", shadow: "shadow-[0_20px_40px_rgba(34,197,94,0.35)]" },
-  { name: "Vue.js", color: "bg-pink-500/45", border: "border border-pink-400/50", shadow: "shadow-[0_20px_40px_rgba(236,72,153,0.35)]" },
+  {
+    name: "HTML",
+    color: "bg-red-500/45",
+    border: "border border-red-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(239,68,68,0.35)]",
+  },
+  {
+    name: "CSS",
+    color: "bg-blue-500/45",
+    border: "border border-blue-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(59,130,246,0.35)]",
+  },
+  {
+    name: "JavaScript",
+    color: "bg-yellow-400/55",
+    border: "border border-yellow-300/60",
+    shadow: "shadow-[0_20px_40px_rgba(250,204,21,0.35)]",
+  },
+  {
+    name: "TypeScript",
+    color: "bg-sky-500/45",
+    border: "border border-sky-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(14,165,233,0.35)]",
+  },
+  {
+    name: "React.js",
+    color: "bg-purple-500/45",
+    border: "border border-purple-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(168,85,247,0.35)]",
+  },
+  {
+    name: "Next.js",
+    color: "bg-green-500/45",
+    border: "border border-green-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(34,197,94,0.35)]",
+  },
+  {
+    name: "Vue.js",
+    color: "bg-pink-500/45",
+    border: "border border-pink-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(236,72,153,0.35)]",
+  },
 ];
 
 export default function SkillsSection() {
@@ -34,7 +69,7 @@ export default function SkillsSection() {
               end: "top 40%",
               scrub: 1,
             },
-          }
+          },
         );
       }
 
@@ -52,13 +87,13 @@ export default function SkillsSection() {
               end: "top 55%",
               scrub: 1,
             },
-          }
+          },
         );
       }
 
       const badges = skillsRef.current
         ? Array.from(
-            skillsRef.current.querySelectorAll<HTMLElement>(".skill-badge")
+            skillsRef.current.querySelectorAll<HTMLElement>(".skill-badge"),
           )
         : [];
 
@@ -84,7 +119,9 @@ export default function SkillsSection() {
       className="h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
     >
       <div ref={headingRef} className="flex items-center gap-4">
-        <span className="text-4xl md:text-6xl lg:text-8xl">Skills</span>
+        <span className="text-6xl md:text-6xl lg:text-8xl font-bold">
+          Skills
+        </span>
       </div>
       <div
         ref={skillsRef}

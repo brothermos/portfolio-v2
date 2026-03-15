@@ -39,7 +39,7 @@ export default function HeroSection() {
       tl.to(
         logoRef.current,
         { x: 20, y: 10, xPercent: 0, yPercent: 0, scale: 0.3 },
-        0
+        0,
       );
 
       tl.fromTo(navRef.current, { opacity: 0 }, { opacity: 1 }, 0.4);
@@ -51,7 +51,7 @@ export default function HeroSection() {
           chars,
           { opacity: 0, y: 30 },
           { opacity: 1, y: 0, stagger: 0.03, ease: "power2.out" },
-          0
+          0,
         );
       }
     });
@@ -73,7 +73,10 @@ export default function HeroSection() {
             className="h-48 md:h-72 lg:h-96 pointer-events-none drop-shadow-[0_0_1.5rem_rgba(100,108,255,0.4)]"
             alt="Logo"
           />
-          <div ref={hiRef} className="text-black text-2xl md:text-3xl lg:text-4xl font-bold">
+          <div
+            ref={hiRef}
+            className="text-black text-2xl md:text-3xl lg:text-4xl font-bold"
+          >
             Hi 👋
           </div>
         </div>
@@ -123,7 +126,7 @@ export default function HeroSection() {
               ))}
             </span>
           </h1>
-          <h2 className="text-xl md:text-4xl lg:text-6xl font-bold text-black tracking-widest flex flex-wrap justify-center mt-2 md:mt-4">
+          <h2 className="text-2xl md:text-4xl lg:text-6xl font-bold text-black tracking-widest flex flex-wrap justify-center mt-2 md:mt-4">
             {TITLE.split(" ").map((word, wIdx) => (
               <span
                 key={`tw${wIdx}`}

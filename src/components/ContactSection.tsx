@@ -78,9 +78,9 @@ export default function ContactSection() {
           ref={headingRef}
           className="mb-12 md:mb-12 flex justify-center text-center"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-            Let&apos;s work together
-          </h2>
+          <span className="text-6xl md:text-6xl lg:text-8xl font-bold">
+            Get in touch
+          </span>
         </div>
 
         <div
