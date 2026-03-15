@@ -15,6 +15,7 @@ const CONTACT_INFO = {
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -27,14 +28,40 @@ export default function ContactSection() {
             opacity: 1,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
+              trigger: headingRef.current,
+              start: "top 80%",
               end: "top 40%",
               scrub: 1,
             },
           },
         );
       }
+
+      const cards = cardsRef.current
+        ? Array.from(
+            cardsRef.current.querySelectorAll<HTMLElement>(".contact-card"),
+          )
+        : [];
+
+      cards.forEach((card, i) => {
+        const isLeft = i % 2 === 0;
+        gsap.fromTo(
+          card,
+          { x: isLeft ? -80 : 80, opacity: 0, rotation: isLeft ? -4 : 4 },
+          {
+            x: 0,
+            opacity: 1,
+            rotation: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 82%",
+              end: "top 55%",
+              scrub: 1,
+            },
+          },
+        );
+      });
     });
 
     return () => ctx.revert();
@@ -56,9 +83,12 @@ export default function ContactSection() {
           </h2>
         </div>
 
-        <div className="grid gap-10 md:gap-8 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.1fr)]">
+        <div
+          ref={cardsRef}
+          className="grid gap-10 md:gap-8 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.1fr)]"
+        >
           {/* Left: location + primary contact */}
-          <div className="contact-item rounded-[32px] bg-teal-500/45 border border-teal-400/50 backdrop-blur-xl text-white shadow-[0_20px_40px_rgba(20,184,166,0.35)] md:hover:shadow-[0_28px_56px_rgba(20,184,166,0.5)] md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out px-5 py-6 md:px-7 md:py-8 flex flex-col justify-between">
+          <div className="contact-card contact-item rounded-[32px] bg-teal-500/45 border border-teal-400/50 backdrop-blur-xl text-white shadow-[0_20px_40px_rgba(20,184,166,0.35)] md:hover:shadow-[0_28px_56px_rgba(20,184,166,0.5)] md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out px-5 py-6 md:px-7 md:py-8 flex flex-col justify-between">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs font-medium tracking-wide">
                 <span className="text-lg" aria-hidden>
@@ -104,7 +134,7 @@ export default function ContactSection() {
           </div>
 
           {/* Right: social links */}
-          <div className="contact-item rounded-[32px] bg-[#FAB95B]/55 border border-[#FAB95B]/60 backdrop-blur-xl text-black shadow-[0_20px_40px_rgba(250,185,91,0.35)] md:hover:shadow-[0_28px_56px_rgba(250,185,91,0.5)] md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out px-5 py-6 md:px-7 md:py-8 flex flex-col gap-4">
+          <div className="contact-card contact-item rounded-[32px] bg-[#FAB95B]/55 border border-[#FAB95B]/60 backdrop-blur-xl text-black shadow-[0_20px_40px_rgba(250,185,91,0.35)] md:hover:shadow-[0_28px_56px_rgba(250,185,91,0.5)] md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out px-5 py-6 md:px-7 md:py-8 flex flex-col gap-4">
             <div className="text-xs font-semibold tracking-[0.22em] text-black/70 uppercase">
               Find me online
             </div>
