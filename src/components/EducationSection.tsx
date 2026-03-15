@@ -13,6 +13,7 @@ const EDUCATION = [
     border: "border border-[#EB6843]/50",
     dotColor: "bg-coral",
     shadow: "shadow-[0_20px_40px_rgba(235,104,67,0.35)]",
+    hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(235,104,67,0.5)]",
     icon: "🚀",
   },
   {
@@ -24,6 +25,7 @@ const EDUCATION = [
     border: "border border-[#0D8DFF]/50",
     dotColor: "bg-blue",
     shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.35)]",
+    hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(13,141,255,0.5)]",
     icon: "🎓",
   },
 ];
@@ -157,7 +159,7 @@ export default function EducationSection() {
                   }`}
                 >
                   <div
-                    className={`${edu.color} ${edu.border} backdrop-blur-xl rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${edu.shadow}`}
+                    className={`${edu.color} ${edu.border} backdrop-blur-xl rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${edu.shadow} ${edu.hoverShadow} md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out`}
                   >
                     <span className="text-3xl md:text-4xl lg:text-5xl block mb-3">
                       {edu.icon}
