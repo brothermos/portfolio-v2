@@ -41,4 +41,10 @@ export const SKILLS = [
     border: "border border-pink-400/50",
     shadow: "shadow-[0_20px_40px_rgba(236,72,153,0.35)]",
   },
+  {
+    name: "Node.js",
+    color: "bg-emerald-500/45",
+    border: "border border-emerald-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(16,185,129,0.35)]",
+  },
 ];
