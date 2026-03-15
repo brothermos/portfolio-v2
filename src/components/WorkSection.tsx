@@ -171,7 +171,6 @@ export default function WorkSection() {
             <div
               className={`w-full h-full rounded-[32px] md:rounded-[40px] lg:rounded-[56px] flex flex-col overflow-hidden transition-all duration-300 ease-out md:hover:scale-[1.02] md:hover:-translate-y-2 ${project.shadow} ${project.hoverShadow} ${project.border}`}
             >
-              {/* Mobile: ครึ่งบนโลโก้เต็ม, ครึ่งล่างข้อความ */}
               <div className="flex flex-col flex-1 md:hidden min-h-0">
                 <div className="relative flex-1 min-h-0 flex flex-col bg-white justify-between px-6 pt-6 pb-3 overflow-hidden">
                   <img
@@ -211,7 +210,6 @@ export default function WorkSection() {
                 </div>
               </div>
 
-              {/* Desktop / Tablet: ดีไซน์เดิม — ลูกบอลสีเต็มการ์ด, logo กล่องขวา */}
               <div
                 className={`hidden md:flex flex-col justify-between text-white px-12 lg:px-16 py-12 lg:py-16 overflow-hidden backdrop-blur-xl h-full min-h-full rounded-[32px] md:rounded-[40px] lg:rounded-[56px] ${project.color}`}
               >
