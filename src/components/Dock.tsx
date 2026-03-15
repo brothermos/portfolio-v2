@@ -44,7 +44,7 @@ const Dock = () => {
             ref={(el) => {
               itemRefs.current[i] = el;
             }}
-            className="w-14 h-14 mx-[3px] will-change-transform"
+            className={`w-14 h-14 mx-[3px] will-change-transform ${item.hideOnMobile ? "hidden md:flex" : ""}`}
           >
             <button
               onClick={() => handleClick(item.href)}

@@ -13,6 +13,8 @@ export interface DockItem {
   href: string;
   bubbleBg: string;
   arrowColor: string;
+  /** Hidden on mobile to keep dock compact (5 icons); shown from md up */
+  hideOnMobile?: boolean;
 }
 
 export const DOCK_ITEMS: DockItem[] = [
@@ -43,6 +45,7 @@ export const DOCK_ITEMS: DockItem[] = [
     href: "#experience",
     bubbleBg: "bg-amber-500",
     arrowColor: "after:border-t-amber-500",
+    hideOnMobile: true,
   },
   {
     label: "Work",
@@ -57,6 +60,7 @@ export const DOCK_ITEMS: DockItem[] = [
     href: "#education",
     bubbleBg: "bg-indigo-500",
     arrowColor: "after:border-t-indigo-500",
+    hideOnMobile: true,
   },
   {
     label: "Contact",
