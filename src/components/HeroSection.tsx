@@ -3,26 +3,20 @@ import { NAME, TITLE } from "../data/hero";
 import useHeroSection from "../hooks/useHeroSection";
 
 const HeroSection = () => {
-  const { logoRef, navRef, heroRef, titleRef, hiRef } = useHeroSection();
+  const { logoRef, navRef, heroRef, titleRef, hiRef, cvButtonRef } = useHeroSection();
 
   return (
     <>
       <div ref={navRef} className="fixed top-0 inset-x-0 h-16" />
 
-      <div
-        ref={logoRef}
-        className="fixed top-0 left-0 z-10 flex gap-4 items-center will-change-transform"
-      >
+      <div ref={logoRef} className="fixed top-0 left-0 z-10 flex gap-4 items-center will-change-transform">
         <div className="flex flex-col items-center justify-center">
           <img
             src={logoMacbook}
             className="h-48 md:h-72 lg:h-96 pointer-events-none drop-shadow-[0_0_1.5rem_rgba(100,108,255,0.4)]"
             alt="Logo"
           />
-          <div
-            ref={hiRef}
-            className="text-black text-2xl md:text-3xl lg:text-4xl font-bold"
-          >
+          <div ref={hiRef} className="text-black text-2xl md:text-3xl lg:text-4xl font-bold">
             Hi 👋
           </div>
         </div>
@@ -78,16 +72,24 @@ const HeroSection = () => {
                 style={wIdx > 0 ? { marginLeft: "0.3em" } : undefined}
               >
                 {word.split("").map((char, cIdx) => (
-                  <span
-                    key={`tc${wIdx}-${cIdx}`}
-                    className="char inline-block"
-                  >
+                  <span key={`tc${wIdx}-${cIdx}`} className="char inline-block">
                     {char}
                   </span>
                 ))}
               </span>
             ))}
           </h2>
+
+          <div className="mt-8 md:mt-12 flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6">
+            <a
+              ref={cvButtonRef}
+              href="/Natdanai_Kanyakoon_CV.pdf"
+              download
+              className={`skill-badge px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-full backdrop-blur-xl bg-yellow-400/55 border border-yellow-300/60 shadow-[0_20px_40px_rgba(250,204,21,0.35)] text-white text-base md:text-2xl lg:text-5xl font-semibold will-change-transform`}
+            >
+              Download CV
+            </a>
+          </div>
         </div>
       </section>
     </>
