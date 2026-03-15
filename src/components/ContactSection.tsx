@@ -1,3 +1,10 @@
+import {
+  HiOutlineMapPin,
+  HiOutlineEnvelope,
+  HiOutlinePhone,
+  HiOutlineCodeBracketSquare,
+  HiOutlineBriefcase,
+} from "react-icons/hi2";
 import { CONTACT_INFO } from "../data/contact";
 import useContactSection from "../hooks/useContactSection";
 
@@ -28,7 +35,7 @@ const ContactSection = () => {
             <div className="contact-item w-full h-full min-h-[200px] rounded-[32px] bg-teal-500/45 border border-teal-400/50 backdrop-blur-xl text-white shadow-[0_20px_40px_rgba(20,184,166,0.35)] md:hover:shadow-[0_28px_56px_rgba(20,184,166,0.5)] md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out px-5 py-6 md:px-7 md:py-8 flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs font-medium tracking-wide">
-                  <span className="text-lg" aria-hidden>📍</span>
+                  <HiOutlineMapPin className="w-5 h-5 shrink-0" aria-hidden />
                   <span className="uppercase text-white/80">
                     {CONTACT_INFO.location}
                   </span>
@@ -42,7 +49,7 @@ const ContactSection = () => {
                     href={`mailto:${CONTACT_INFO.email}`}
                     className="inline-flex items-center gap-2 text-base md:text-lg font-semibold hover:text-yellow-light transition-colors"
                   >
-                    <span className="text-lg" aria-hidden>✉️</span>
+                    <HiOutlineEnvelope className="w-5 h-5 shrink-0" aria-hidden />
                     <span>{CONTACT_INFO.email}</span>
                   </a>
                 </div>
@@ -50,7 +57,7 @@ const ContactSection = () => {
 
               <div className="mt-5 pt-4 border-t border-white/20 flex flex-wrap items-center gap-4 justify-between">
                 <div className="flex items-center gap-2 text-sm text-white/80">
-                  <span className="text-lg" aria-hidden>📞</span>
+                  <HiOutlinePhone className="w-5 h-5 shrink-0" aria-hidden />
                   <a
                     href="tel:+66836536262"
                     className="font-medium hover:text-yellow-light transition-colors"
@@ -79,7 +86,7 @@ const ContactSection = () => {
                   className="group flex items-center justify-between rounded-2xl bg-black/5 px-3.5 py-2.5 hover:bg-black/10 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xl" aria-hidden>🧑‍💻</span>
+                    <HiOutlineCodeBracketSquare className="w-6 h-6 shrink-0" aria-hidden />
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold">GitHub</span>
                       <span className="text-xs text-black/65 truncate">
@@ -99,7 +106,7 @@ const ContactSection = () => {
                   className="group flex items-center justify-between rounded-2xl bg-black/5 px-3.5 py-2.5 hover:bg-black/10 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xl" aria-hidden>💼</span>
+                    <HiOutlineBriefcase className="w-6 h-6 shrink-0" aria-hidden />
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold">LinkedIn</span>
                       <span className="text-xs text-black/65 truncate">
