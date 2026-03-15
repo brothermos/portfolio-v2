@@ -29,8 +29,15 @@ export const DOCK_ITEMS: DockItem[] = [
     arrowColor: "after:border-t-yellow-500",
   },
   {
-    label: "Work",
+    label: "Experience",
     icon: "💼",
+    href: "#experience",
+    bubbleBg: "bg-amber-500",
+    arrowColor: "after:border-t-amber-500",
+  },
+  {
+    label: "Work",
+    icon: "🖥️",
     href: "#work",
     bubbleBg: "bg-purple-500",
     arrowColor: "after:border-t-purple-500",
