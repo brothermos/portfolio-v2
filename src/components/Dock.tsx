@@ -1,73 +1,8 @@
-import { useRef, useLayoutEffect, useCallback } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import {
-  DOCK_ITEMS,
-  DOCK_MIN_SIZE as MIN_SIZE,
-  DOCK_MAX_SIZE as MAX_SIZE,
-  DOCK_BOUND as BOUND,
-} from "../data/dock";
-
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+import { DOCK_ITEMS } from "../data/dock";
+import useDock from "../hooks/useDock";
 
 const Dock = () => {
-  const dockRef = useRef<HTMLUListElement>(null);
-  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
-
-  useLayoutEffect(() => {
-    const items = itemRefs.current.filter(Boolean) as HTMLLIElement[];
-    gsap.set(items, { transformOrigin: "50% 100%", width: MIN_SIZE, height: MIN_SIZE });
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const dock = dockRef.current;
-    const firstItem = itemRefs.current[0];
-    if (!dock || !firstItem) return;
-
-    const offset = dock.getBoundingClientRect().left + firstItem.offsetLeft;
-    const pointer = e.clientX - offset;
-    const items = itemRefs.current.filter(Boolean) as HTMLLIElement[];
-
-    for (let i = 0; i < items.length; i++) {
-      const distance = i * MIN_SIZE + MIN_SIZE / 2 - pointer;
-      let x = 0;
-      let scale = 1;
-
-      if (-BOUND < distance && distance < BOUND) {
-        const rad = (distance / MIN_SIZE) * 0.5;
-        scale = 1 + (MAX_SIZE / MIN_SIZE - 1) * Math.cos(rad);
-        x = 2 * (MAX_SIZE - MIN_SIZE) * Math.sin(rad);
-      } else {
-        x = (-BOUND < distance ? 2 : -2) * (MAX_SIZE - MIN_SIZE);
-      }
-
-      gsap.to(items[i], { duration: 0.3, x, scale });
-    }
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    const items = itemRefs.current.filter(Boolean) as HTMLLIElement[];
-    gsap.to(items, { duration: 0.3, scale: 1, x: 0 });
-  }, []);
-
-  const handleClick = useCallback((href: string) => {
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    const trigger = ScrollTrigger.getAll().find(
-      (t) => t.trigger === el || (t.pin && t.pin === el)
-    );
-
-    const scrollTarget = trigger ? trigger.end : href;
-
-    gsap.to(window, {
-      duration: 1.5,
-      scrollTo: { y: scrollTarget, autoKill: false },
-      ease: "power2.inOut",
-    });
-  }, []);
+  const { dockRef, itemRefs, handleMouseMove, handleMouseLeave, handleClick } = useDock();
 
   return (
     <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 flex justify-center">
@@ -80,7 +15,9 @@ const Dock = () => {
         {DOCK_ITEMS.map((item, i) => (
           <li
             key={item.label}
-            ref={(el) => { itemRefs.current[i] = el; }}
+            ref={(el) => {
+              itemRefs.current[i] = el;
+            }}
             className="w-14 h-14 mx-[3px] will-change-transform"
           >
             <button
@@ -89,7 +26,9 @@ const Dock = () => {
               aria-label={item.label}
             >
               <span className="text-[22px] leading-none">{item.icon}</span>
-              <span className={`absolute -top-9 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded-lg whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 shadow-lg group-hover:opacity-100 after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent ${item.bubbleBg} ${item.arrowColor}`}>
+              <span
+                className={`absolute -top-9 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded-lg whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 shadow-lg group-hover:opacity-100 after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent ${item.bubbleBg} ${item.arrowColor}`}
+              >
                 {item.label}
               </span>
             </button>

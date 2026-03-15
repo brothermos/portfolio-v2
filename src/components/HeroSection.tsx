@@ -1,4 +1,4 @@
-import logo_macbook from "../assets/macbook.png";
+import logoMacbook from "../assets/images/macbook.png";
 import { NAME, TITLE } from "../data/hero";
 import useHeroSection from "../hooks/useHeroSection";
 
@@ -15,7 +15,7 @@ const HeroSection = () => {
       >
         <div className="flex flex-col items-center justify-center">
           <img
-            src={logo_macbook}
+            src={logoMacbook}
             className="h-48 md:h-72 lg:h-96 pointer-events-none drop-shadow-[0_0_1.5rem_rgba(100,108,255,0.4)]"
             alt="Logo"
           />

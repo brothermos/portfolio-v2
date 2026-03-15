@@ -1,7 +1,7 @@
-import logoTTB from "../assets/ttb.jpg";
-import logoSET from "../assets/set.jpg";
-import logoSKL from "../assets/skl.jpg";
-import logoINSKRU from "../assets/inskru.jpg";
+import logoINSKRU from "../assets/images/inskru.jpg";
+import logoSET from "../assets/images/set.jpg";
+import logoSKL from "../assets/images/skl.jpg";
+import logoTTB from "../assets/images/ttb.jpg";
 
 export type Project = {
   number: string;
@@ -22,8 +22,7 @@ export const PROJECTS: Project[] = [
     number: "01",
     title: "FINOVA",
     company: "Odd-e Thailand × TTB Bank",
-    description:
-      "Core banking web app replacing a legacy system for TTB Bank's financial operations",
+    description: "Core banking web app replacing a legacy system for TTB Bank's financial operations",
     tech: ["React", "TypeScript"],
     logo: logoTTB,
     color: "bg-[#0D8DFF]/45",
@@ -36,8 +35,7 @@ export const PROJECTS: Project[] = [
     number: "02",
     title: "Corporate Value Up",
     company: "Odd-e Thailand × SET",
-    description:
-      "Multi-step form platform under the Stock Exchange of Thailand's Corporate Value Up initiative",
+    description: "Multi-step form platform under the Stock Exchange of Thailand's Corporate Value Up initiative",
     tech: ["React", "TypeScript"],
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
@@ -50,8 +48,7 @@ export const PROJECTS: Project[] = [
     number: "03",
     title: "LiVE Exchange",
     company: "Odd-e Thailand × SET",
-    description:
-      "Digital fundraising platform supporting SMEs and startups listed on SET",
+    description: "Digital fundraising platform supporting SMEs and startups listed on SET",
     tech: ["Next.js", "TypeScript"],
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
@@ -64,8 +61,7 @@ export const PROJECTS: Project[] = [
     number: "04",
     title: "SET LiVE Platform",
     company: "Odd-e Thailand × SET",
-    description:
-      "Full UI revamp of the LiVE Platform with mobile-first responsive design",
+    description: "Full UI revamp of the LiVE Platform with mobile-first responsive design",
     tech: ["Next.js", "TypeScript"],
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
@@ -78,8 +74,7 @@ export const PROJECTS: Project[] = [
     number: "05",
     title: "INSKRU",
     company: "INSKRU.com",
-    description:
-      "Educational community platform for teachers to share classroom ideas and resources",
+    description: "Educational community platform for teachers to share classroom ideas and resources",
     tech: ["Next.js", "TypeScript"],
     logo: logoINSKRU,
     color: "bg-sky-500/45",
@@ -92,8 +87,7 @@ export const PROJECTS: Project[] = [
     number: "06",
     title: "SKL สยามคูโบต้า ลีสซิ่ง",
     company: "Dosetech Co., Ltd.",
-    description:
-      "Website for agricultural and construction machinery loans and leasing services",
+    description: "Website for agricultural and construction machinery loans and leasing services",
     tech: ["Vue.js", "LIFF"],
     logo: logoSKL,
     color: "bg-emerald-600/45",
@@ -104,5 +98,4 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-export const getProjectByNumber = (number: string): Project | null =>
-  PROJECTS.find((p) => p.number === number) ?? null;
+export const getProjectByNumber = (number: string): Project | null => PROJECTS.find((p) => p.number === number) ?? null;

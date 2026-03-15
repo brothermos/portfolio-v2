@@ -1,5 +1,4 @@
-
-import hooray from "../assets/hooray.png";
+import hooray from "../assets/images/hooray.png";
 import { SKILL_HIGHLIGHT_WORDS, SOFTWARE_DEVELOPER_HIGHLIGHT_WORDS, INTRO_PARAGRAPHS } from "../data/about";
 import useAboutSection from "../hooks/useAboutSection";
 
