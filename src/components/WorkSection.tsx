@@ -156,7 +156,7 @@ export default function WorkSection() {
       <section
         id="work"
         ref={workRef}
-        className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
+        className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-24 md:py-32 text-black font-bold"
       >
         <div ref={headingRef} className="flex items-center gap-4">
           <span className="text-black text-4xl md:text-6xl lg:text-8xl font-bold">

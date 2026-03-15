@@ -71,7 +71,7 @@ export default function ContactSection() {
     <section
       id="contact"
       ref={sectionRef}
-      className="min-h-screen flex items-center justify-center px-4 md:px-6 py-16 text-black"
+      className="min-h-screen flex items-center justify-center px-4 md:px-6 py-24 md:py-32 text-black"
     >
       <div className="w-full max-w-5xl">
         <div
