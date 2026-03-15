@@ -13,66 +13,78 @@ const PROJECTS = [
     number: "01",
     title: "FINOVA",
     company: "Odd-e Thailand × TTB Bank",
-    description: "Core banking web app replacing a legacy system for TTB Bank's financial operations",
-    tech: ["React", "TypeScript", "Tailwind CSS"],
+    description:
+      "Core banking web app replacing a legacy system for TTB Bank's financial operations",
+    tech: ["React", "TypeScript"],
     logo: logoTTB,
     color: "bg-[#0D8DFF]/45",
     border: "border border-[#0D8DFF]/50",
+    borderColor: "border-[#0D8DFF]/50",
     shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.35)]",
   },
   {
     number: "02",
     title: "SET Corporate Value Up",
     company: "Odd-e Thailand × SET",
-    description: "Multi-step form platform under the Stock Exchange of Thailand's Corporate Value Up initiative",
-    tech: ["React", "TypeScript", "MUI", "react-hook-form", "Yup"],
+    description:
+      "Multi-step form platform under the Stock Exchange of Thailand's Corporate Value Up initiative",
+    tech: ["React", "TypeScript"],
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
     border: "border border-[#FAB95B]/60",
+    borderColor: "border-[#FAB95B]/60",
     shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
   },
   {
     number: "03",
     title: "LiVE Exchange",
     company: "Odd-e Thailand × SET",
-    description: "Digital fundraising platform supporting SMEs and startups listed on SET",
-    tech: ["React", "TypeScript", "Mantine UI"],
+    description:
+      "Digital fundraising platform supporting SMEs and startups listed on SET",
+    tech: ["Next.js", "TypeScript"],
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
     border: "border border-[#FAB95B]/60",
+    borderColor: "border-[#FAB95B]/60",
     shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
   },
   {
     number: "04",
     title: "SET LiVE Platform",
     company: "Odd-e Thailand × SET",
-    description: "Full UI revamp of the LiVE Platform with mobile-first responsive design",
-    tech: ["React", "TypeScript", "Figma"],
+    description:
+      "Full UI revamp of the LiVE Platform with mobile-first responsive design",
+    tech: ["Next.js", "TypeScript"],
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
     border: "border border-[#FAB95B]/60",
+    borderColor: "border-[#FAB95B]/60",
     shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
   },
   {
     number: "05",
     title: "INSKRU",
     company: "INSKRU.com",
-    description: "Educational community platform for teachers to share classroom ideas and resources",
-    tech: ["React", "TypeScript"],
+    description:
+      "Educational community platform for teachers to share classroom ideas and resources",
+    tech: ["Next.js", "TypeScript"],
     logo: logoINSKRU,
     color: "bg-sky-500/45",
     border: "border border-sky-400/50",
+    borderColor: "border-sky-400/50",
     shadow: "shadow-[0_20px_40px_rgba(14,165,233,0.35)]",
   },
   {
     number: "06",
     title: "SKL สยามคูโบต้า ลีสซิ่ง",
     company: "Dosetech Co., Ltd.",
-    description: "Website for agricultural and construction machinery loans and leasing services",
+    description:
+      "Website for agricultural and construction machinery loans and leasing services",
     tech: ["Vue.js", "LIFF"],
     logo: logoSKL,
     color: "bg-emerald-600/45",
     border: "border border-emerald-500/50",
+    borderColor: "border-emerald-500/50",
     shadow: "shadow-[0_20px_40px_rgba(5,150,105,0.35)]",
   },
 ];
@@ -101,7 +113,11 @@ export default function WorkSection() {
         );
       }
 
-      const panels = workRef.current ? Array.from(workRef.current.querySelectorAll<HTMLElement>(".work-panel")) : [];
+      const panels = workRef.current
+        ? Array.from(
+            workRef.current.querySelectorAll<HTMLElement>(".work-panel"),
+          )
+        : [];
 
       if (!panels.length) return;
 
@@ -137,42 +153,93 @@ export default function WorkSection() {
         className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-16 text-black font-bold"
       >
         <div ref={headingRef} className="flex items-center gap-4">
-          <span className="text-black text-4xl md:text-6xl lg:text-8xl font-bold">My Work</span>
+          <span className="text-black text-4xl md:text-6xl lg:text-8xl font-bold">
+            My Work
+          </span>
         </div>
         {PROJECTS.map((project, i) => (
           <section
             key={i}
-            className={`work-panel w-full md:w-[900px] lg:w-[1200px] max-w-full h-[300px] md:h-[450px] lg:h-[600px] rounded-[32px] md:rounded-[40px] lg:rounded-[56px] flex flex-col justify-between text-white px-6 md:px-12 lg:px-16 py-6 md:py-12 lg:py-16 overflow-hidden backdrop-blur-xl ${project.shadow} ${project.color} ${project.border}`}
+            className={`work-panel w-full md:w-[900px] lg:w-[1200px] max-w-full h-[360px] md:h-[450px] lg:h-[600px] rounded-[32px] md:rounded-[40px] lg:rounded-[56px] flex flex-col overflow-hidden ${project.shadow} ${project.border}`}
           >
-            {/* Top row */}
-            <div className="flex items-start justify-between">
-              <span className="text-4xl md:text-7xl lg:text-9xl font-bold text-white/15 leading-none">
-                {project.number}
-              </span>
-              <div className="flex flex-wrap gap-1.5 md:gap-2 justify-end max-w-[55%]">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-[10px] md:text-sm font-semibold bg-white/20 backdrop-blur-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full"
-                  >
-                    {t}
+            {/* Mobile: ครึ่งบนโลโก้เต็ม, ครึ่งล่างข้อความ */}
+            <div className="flex flex-col flex-1 md:hidden min-h-0">
+              <div className="relative flex-1 min-h-0 flex flex-col bg-white justify-between px-6 pt-6 pb-3 overflow-hidden">
+                <img
+                  src={project.logo}
+                  alt=""
+                  aria-hidden
+                  className="absolute inset-0 w-full h-full p-4 mt-2 object-cover"
+                />
+                <div className="relative z-10 flex items-start justify-between gap-2">
+                  <span className="text-3xl font-bold text-white leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+                    {project.number}
                   </span>
-                ))}
+                  <div className="flex flex-wrap gap-1.5 justify-end min-w-0 max-w-[75%]">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className={`text-xs font-semibold bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-gray-800 drop-shadow-sm border ${project.borderColor}`}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`shrink-0 flex flex-col justify-center px-6 py-4 backdrop-blur-xl text-white ${project.color}`}
+              >
+                <p className="text-sm font-medium text-white/80">
+                  {project.company}
+                </p>
+                <h3 className="text-xl font-bold leading-tight mt-0.5">
+                  {project.title}
+                </h3>
+                <p className="text-sm font-medium text-white/90 leading-snug mt-1">
+                  {project.description}
+                </p>
               </div>
             </div>
 
-            {/* Bottom row */}
-            <div className="flex items-end justify-between gap-2 md:gap-4">
-              {/* Left: text content */}
-              <div className="flex flex-col gap-1 md:gap-3 min-w-0">
-                <p className="text-xs md:text-xl lg:text-2xl font-medium text-white/70">{project.company}</p>
-                <h3 className="text-xl md:text-5xl lg:text-7xl font-bold leading-tight">{project.title}</h3>
-                <p className="text-xs md:text-xl lg:text-2xl font-medium text-white/80">{project.description}</p>
+            {/* Desktop / Tablet: ดีไซน์เดิม — ลูกบอลสีเต็มการ์ด, logo กล่องขวา */}
+            <div
+              className={`hidden md:flex flex-col justify-between text-white px-12 lg:px-16 py-12 lg:py-16 overflow-hidden backdrop-blur-xl h-full min-h-full rounded-[32px] md:rounded-[40px] lg:rounded-[56px] ${project.color}`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <span className="text-7xl lg:text-9xl font-bold text-white/15 leading-none">
+                  {project.number}
+                </span>
+                <div className="flex flex-wrap gap-2 justify-end max-w-[55%]">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className={`text-sm font-semibold bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full border ${project.borderColor}`}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
-
-              {/* Logo */}
-              <div className="shrink-0 w-20 h-20 md:w-48 md:h-48 lg:w-80 lg:h-80 rounded-xl md:rounded-3xl bg-white shadow-2xl flex items-center justify-center p-2.5 md:p-5 lg:p-10">
-                <img src={project.logo} alt={project.company} className="w-full h-full object-contain" />
+              <div className="flex items-end justify-between gap-4">
+                <div className="flex flex-col gap-3 min-w-0">
+                  <p className="text-xl lg:text-2xl font-medium text-white/70">
+                    {project.company}
+                  </p>
+                  <h3 className="text-5xl lg:text-7xl font-bold leading-tight">
+                    {project.title}
+                  </h3>
+                  <p className="text-xl lg:text-2xl font-medium text-white/80">
+                    {project.description}
+                  </p>
+                </div>
+                <div className="shrink-0 w-48 h-48 lg:w-80 lg:h-80 rounded-3xl bg-white shadow-2xl flex items-center justify-center p-5 lg:p-10">
+                  <img
+                    src={project.logo}
+                    alt={project.company}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
             </div>
           </section>
