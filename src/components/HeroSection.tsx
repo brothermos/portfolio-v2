@@ -1,65 +1,28 @@
-import { useRef, useLayoutEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import logo_macbook from "../assets/macbook.png";
 import { NAME, TITLE } from "../data/hero";
-
-gsap.registerPlugin(ScrollTrigger);
+import useHeroSection from "../hooks/useHeroSection";
 
 const HeroSection = () => {
-  const logoRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const hiRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.set(logoRef.current, {
-        x: () => window.innerWidth / 2,
-        y: () => window.innerHeight / 2,
-        xPercent: -50,
-        yPercent: -50,
-        transformOrigin: "top left",
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "+=150%",
-          scrub: 1,
-          pin: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      tl.to(logoRef.current, { x: 20, y: 10, xPercent: 0, yPercent: 0, scale: 0.3 }, 0);
-
-      tl.fromTo(navRef.current, { opacity: 0 }, { opacity: 1 }, 0.4);
-      tl.to(hiRef.current, { opacity: 0, duration: 0.3 }, 0);
-
-      const chars = titleRef.current?.querySelectorAll(".char");
-      if (chars) {
-        tl.fromTo(chars, { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.03, ease: "power2.out" }, 0);
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const { logoRef, navRef, heroRef, titleRef, hiRef } = useHeroSection();
 
   return (
     <>
       <div ref={navRef} className="fixed top-0 inset-x-0 h-16" />
 
-      <div ref={logoRef} className="fixed top-0 left-0 z-10 flex gap-4 items-center will-change-transform">
+      <div
+        ref={logoRef}
+        className="fixed top-0 left-0 z-10 flex gap-4 items-center will-change-transform"
+      >
         <div className="flex flex-col items-center justify-center">
           <img
             src={logo_macbook}
             className="h-48 md:h-72 lg:h-96 pointer-events-none drop-shadow-[0_0_1.5rem_rgba(100,108,255,0.4)]"
             alt="Logo"
           />
-          <div ref={hiRef} className="text-black text-2xl md:text-3xl lg:text-4xl font-bold">
+          <div
+            ref={hiRef}
+            className="text-black text-2xl md:text-3xl lg:text-4xl font-bold"
+          >
             Hi 👋
           </div>
         </div>
@@ -115,7 +78,10 @@ const HeroSection = () => {
                 style={wIdx > 0 ? { marginLeft: "0.3em" } : undefined}
               >
                 {word.split("").map((char, cIdx) => (
-                  <span key={`tc${wIdx}-${cIdx}`} className="char inline-block">
+                  <span
+                    key={`tc${wIdx}-${cIdx}`}
+                    className="char inline-block"
+                  >
                     {char}
                   </span>
                 ))}

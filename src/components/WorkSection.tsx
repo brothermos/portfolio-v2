@@ -1,62 +1,9 @@
-import { useRef, useLayoutEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PROJECTS } from "../data/projects";
+import useWorkSection from "../hooks/useWorkSection";
 import ProjectDetail from "./ProjectDetail";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const WorkSection = () => {
-  const workRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      if (headingRef.current) {
-        gsap.fromTo(
-          headingRef.current,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 80%",
-              end: "top 40%",
-              scrub: 1,
-            },
-          },
-        );
-      }
-
-      const panels = workRef.current ? Array.from(workRef.current.querySelectorAll<HTMLElement>(".work-panel")) : [];
-
-      if (!panels.length) return;
-
-      panels.forEach((panel, i) => {
-        const isLeft = i % 2 === 0;
-        gsap.fromTo(
-          panel,
-          { x: isLeft ? -80 : 80, opacity: 0, rotation: isLeft ? -4 : 4 },
-          {
-            x: 0,
-            opacity: 1,
-            rotation: 0,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: panel,
-              start: "top 82%",
-              end: "top 55%",
-              scrub: 1,
-            },
-          },
-        );
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const { workRef, headingRef } = useWorkSection();
 
   return (
     <>
@@ -66,7 +13,9 @@ const WorkSection = () => {
         className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-24 md:py-32 text-black font-bold"
       >
         <div ref={headingRef} className="flex items-center gap-4">
-          <span className="text-6xl md:text-6xl lg:text-8xl font-bold">My Work</span>
+          <span className="text-6xl md:text-6xl lg:text-8xl font-bold">
+            My Work
+          </span>
         </div>
         {PROJECTS.map((project, i) => (
           <section
@@ -84,7 +33,9 @@ const WorkSection = () => {
                 className={`hidden md:flex flex-col justify-between text-white px-12 lg:px-16 py-12 lg:py-16 overflow-hidden backdrop-blur-xl h-full min-h-full rounded-[32px] md:rounded-[40px] lg:rounded-[56px] ${project.color}`}
               >
                 <div className="flex items-start justify-between gap-2">
-                  <span className="text-7xl lg:text-9xl font-bold text-white/15 leading-none">{project.number}</span>
+                  <span className="text-7xl lg:text-9xl font-bold text-white/15 leading-none">
+                    {project.number}
+                  </span>
                   <div className="flex flex-wrap gap-2 justify-end max-w-[55%]">
                     {project.tech.map((t) => (
                       <span
@@ -98,12 +49,22 @@ const WorkSection = () => {
                 </div>
                 <div className="flex items-end justify-between gap-4">
                   <div className="flex flex-col gap-3 min-w-0">
-                    <p className="text-xl lg:text-2xl font-medium text-white/70">{project.company}</p>
-                    <h3 className="text-5xl lg:text-7xl font-bold leading-tight">{project.title}</h3>
-                    <p className="text-xl lg:text-2xl font-medium text-white/80">{project.description}</p>
+                    <p className="text-xl lg:text-2xl font-medium text-white/70">
+                      {project.company}
+                    </p>
+                    <h3 className="text-5xl lg:text-7xl font-bold leading-tight">
+                      {project.title}
+                    </h3>
+                    <p className="text-xl lg:text-2xl font-medium text-white/80">
+                      {project.description}
+                    </p>
                   </div>
                   <div className="shrink-0 w-48 h-48 lg:w-80 lg:h-80 rounded-3xl bg-white shadow-2xl flex items-center justify-center p-5 lg:p-10">
-                    <img src={project.logo} alt={project.company} className="w-full h-full object-contain" />
+                    <img
+                      src={project.logo}
+                      alt={project.company}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
               </div>
