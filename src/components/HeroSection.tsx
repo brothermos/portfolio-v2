@@ -2,13 +2,11 @@ import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import logo_macbook from "../assets/macbook.png";
+import { NAME, TITLE } from "../data/hero";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const NAME = "Natdanai Kanyakoon";
-const TITLE = "Frontend Developer";
-
-export default function HeroSection() {
+const HeroSection = () => {
   const logoRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -36,23 +34,14 @@ export default function HeroSection() {
         },
       });
 
-      tl.to(
-        logoRef.current,
-        { x: 20, y: 10, xPercent: 0, yPercent: 0, scale: 0.3 },
-        0,
-      );
+      tl.to(logoRef.current, { x: 20, y: 10, xPercent: 0, yPercent: 0, scale: 0.3 }, 0);
 
       tl.fromTo(navRef.current, { opacity: 0 }, { opacity: 1 }, 0.4);
       tl.to(hiRef.current, { opacity: 0, duration: 0.3 }, 0);
 
       const chars = titleRef.current?.querySelectorAll(".char");
       if (chars) {
-        tl.fromTo(
-          chars,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, stagger: 0.03, ease: "power2.out" },
-          0,
-        );
+        tl.fromTo(chars, { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.03, ease: "power2.out" }, 0);
       }
     });
 
@@ -63,20 +52,14 @@ export default function HeroSection() {
     <>
       <div ref={navRef} className="fixed top-0 inset-x-0 h-16" />
 
-      <div
-        ref={logoRef}
-        className="fixed top-0 left-0 z-10 flex gap-4 items-center will-change-transform"
-      >
+      <div ref={logoRef} className="fixed top-0 left-0 z-10 flex gap-4 items-center will-change-transform">
         <div className="flex flex-col items-center justify-center">
           <img
             src={logo_macbook}
             className="h-48 md:h-72 lg:h-96 pointer-events-none drop-shadow-[0_0_1.5rem_rgba(100,108,255,0.4)]"
             alt="Logo"
           />
-          <div
-            ref={hiRef}
-            className="text-black text-2xl md:text-3xl lg:text-4xl font-bold"
-          >
+          <div ref={hiRef} className="text-black text-2xl md:text-3xl lg:text-4xl font-bold">
             Hi 👋
           </div>
         </div>
@@ -89,7 +72,6 @@ export default function HeroSection() {
       >
         <div ref={titleRef} className="z-20 flex flex-col items-center">
           <h1 className="font-bold text-black tracking-tight flex flex-col items-center px-4">
-            {/* Mobile: split first/last name on two lines, very large */}
             <span
               className="flex flex-col items-center leading-none md:hidden"
               style={{ fontSize: "clamp(3.75rem, 13vw, 5.25rem)" }}
@@ -110,7 +92,6 @@ export default function HeroSection() {
               </span>
             </span>
 
-            {/* Tablet / Desktop: original single-line animation */}
             <span
               className="hidden md:flex flex-wrap justify-center leading-none"
               style={{ fontSize: "clamp(3.5rem, 5vw + 1rem, 8rem)" }}
@@ -145,4 +126,6 @@ export default function HeroSection() {
       </section>
     </>
   );
-}
+};
+
+export default HeroSection;

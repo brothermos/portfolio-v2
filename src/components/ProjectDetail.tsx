@@ -8,7 +8,7 @@ type ProjectDetailProps = {
   embedded?: boolean;
 };
 
-function ProjectDetailCard({
+const ProjectDetailCard = ({
   project,
   showBackButton,
   onClose,
@@ -17,15 +17,13 @@ function ProjectDetailCard({
   project: Project;
   showBackButton: boolean;
   onClose: () => void;
-  /** เมื่อ false = อยู่ภายใน wrapper ที่มี shadow/border อยู่แล้ว (embedded ใน WorkSection) */
   standalone?: boolean;
-}) {
+}) => {
   const ringClass = standalone ? `${project.shadow} ${project.border}` : "";
   return (
     <div
       className={`w-full h-full min-h-0 flex flex-col text-white cursor-default rounded-[32px] md:rounded-[40px] overflow-hidden ${ringClass} ${project.color} backdrop-blur-xl`}
     >
-      {/* Header: back (ถ้ามี) + number */}
       <div className="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-10 pb-2">
         {showBackButton ? (
           <button
@@ -39,45 +37,27 @@ function ProjectDetailCard({
         ) : (
           <span />
         )}
-        <span className="text-4xl md:text-6xl font-bold text-white/20 leading-none">
-          {project.number}
-        </span>
+        <span className="text-4xl md:text-6xl font-bold text-white/20 leading-none">{project.number}</span>
       </div>
 
-      {/* Logo + title block */}
       <div className="flex flex-col md:flex-row md:items-center gap-6 px-6 md:px-10 py-4 md:py-6">
         <div className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-white shadow-xl flex items-center justify-center p-3 md:p-4">
-          <img
-            src={project.logo}
-            alt={project.company}
-            className="w-full h-full object-contain"
-          />
+          <img src={project.logo} alt={project.company} className="w-full h-full object-contain" />
         </div>
         <div className="min-w-0">
-          <p className="text-sm md:text-base font-medium text-white/70 uppercase tracking-wide">
-            {project.company}
-          </p>
-          <h1
-            id="project-detail-title"
-            className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mt-1"
-          >
+          <p className="text-sm md:text-base font-medium text-white/70 uppercase tracking-wide">{project.company}</p>
+          <h1 id="project-detail-title" className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mt-1">
             {project.title}
           </h1>
         </div>
       </div>
 
-      {/* Description */}
       <div className="px-6 md:px-10 py-4">
-        <p className="text-base md:text-lg text-white/90 leading-relaxed">
-          {project.description}
-        </p>
+        <p className="text-base md:text-lg text-white/90 leading-relaxed">{project.description}</p>
       </div>
 
-      {/* Tech tags */}
       <div className="px-6 md:px-10 pb-8 md:pb-10 pt-2">
-        <p className="text-xs font-semibold tracking-widest text-white/60 uppercase mb-3">
-          Tech & tools
-        </p>
+        <p className="text-xs font-semibold tracking-widest text-white/60 uppercase mb-3">Tech & tools</p>
         <div className="flex flex-wrap gap-2">
           {project.tech.map((t) => (
             <span
@@ -91,13 +71,9 @@ function ProjectDetailCard({
       </div>
     </div>
   );
-}
+};
 
-export default function ProjectDetail({
-  project,
-  onClose,
-  embedded = false,
-}: ProjectDetailProps) {
+const ProjectDetail = ({ project, onClose, embedded = false }: ProjectDetailProps) => {
   useEffect(() => {
     if (embedded) return;
     const handleEscape = (e: KeyboardEvent) => {
@@ -108,14 +84,7 @@ export default function ProjectDetail({
   }, [embedded, onClose]);
 
   if (embedded) {
-    return (
-      <ProjectDetailCard
-        project={project}
-        showBackButton={false}
-        onClose={onClose}
-        standalone={false}
-      />
-    );
+    return <ProjectDetailCard project={project} showBackButton={false} onClose={onClose} standalone={false} />;
   }
 
   return (
@@ -127,13 +96,10 @@ export default function ProjectDetail({
       aria-labelledby="project-detail-title"
     >
       <div className="w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
-        <ProjectDetailCard
-          project={project}
-          showBackButton
-          onClose={onClose}
-          standalone
-        />
+        <ProjectDetailCard project={project} showBackButton onClose={onClose} standalone />
       </div>
     </div>
   );
-}
+};
+
+export default ProjectDetail;

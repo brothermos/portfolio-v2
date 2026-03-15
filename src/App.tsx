@@ -10,13 +10,13 @@ import ProjectDetail from "./components/ProjectDetail";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { getProjectByNumber } from "./data/projects";
 
-function parseProjectHash(): string | null {
+const parseProjectHash = (): string | null => {
   const hash = window.location.hash.slice(1);
   const m = hash.match(/^project\/(\d{2})$/);
   return m ? m[1] : null;
-}
+};
 
-function App() {
+const App = () => {
   const [projectNumber, setProjectNumber] = useState<string | null>(() =>
     parseProjectHash(),
   );
@@ -52,6 +52,6 @@ function App() {
       {project && <ProjectDetail project={project} onClose={closeDetail} />}
     </div>
   );
-}
+};
 
 export default App;

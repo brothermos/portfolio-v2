@@ -1,36 +1,11 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { EDUCATION } from "../data/education";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const EDUCATION = [
-  {
-    institution: "Generation Thailand",
-    program: "Software Developer Bootcamp",
-    period: "May 2022 - Aug 2022",
-    color: "bg-red-500/45",
-    border: "border border-[#EB6843]/50",
-    dotColor: "bg-coral",
-    shadow: "shadow-[0_20px_40px_rgba(235,104,67,0.35)]",
-    hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(235,104,67,0.5)]",
-    icon: "🚀",
-  },
-  {
-    institution: "Prince of Songkhla University (Hatyai)",
-    program: "Faculty of Management Science",
-    detail: "Major Human Resource Management",
-    period: "2015 - 2019",
-    color: "bg-[#0D8DFF]/45",
-    border: "border border-[#0D8DFF]/50",
-    dotColor: "bg-blue",
-    shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.35)]",
-    hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(13,141,255,0.5)]",
-    icon: "🎓",
-  },
-];
-
-export default function EducationSection() {
+const EducationSection = () => {
   const headingRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
@@ -72,11 +47,7 @@ export default function EducationSection() {
         );
       }
 
-      const cards = cardsRef.current
-        ? Array.from(
-            cardsRef.current.querySelectorAll<HTMLElement>(".edu-card"),
-          )
-        : [];
+      const cards = cardsRef.current ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>(".edu-card")) : [];
 
       cards.forEach((card, i) => {
         const isLeft = i % 2 === 0;
@@ -98,9 +69,7 @@ export default function EducationSection() {
         );
       });
 
-      const dots = cardsRef.current
-        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>(".edu-dot"))
-        : [];
+      const dots = cardsRef.current ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>(".edu-dot")) : [];
 
       dots.forEach((dot) => {
         gsap.fromTo(
@@ -129,13 +98,10 @@ export default function EducationSection() {
       className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-24 md:py-32 text-black font-bold"
     >
       <div ref={headingRef} className="flex items-center gap-4">
-        <span className="text-6xl md:text-6xl lg:text-8xl font-bold">
-          Education
-        </span>
+        <span className="text-6xl md:text-6xl lg:text-8xl font-bold">Education</span>
       </div>
 
       <div ref={cardsRef} className="relative w-full max-w-4xl">
-        {/* Timeline vertical line */}
         <div
           ref={lineRef}
           className="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-black/15 origin-top md:-translate-x-1/2"
@@ -145,16 +111,11 @@ export default function EducationSection() {
           {EDUCATION.map((edu, i) => {
             const isLeft = i % 2 === 0;
             return (
-              <div
-                key={i}
-                className="edu-card relative flex items-start md:items-center"
-              >
-                {/* Dot on the timeline */}
+              <div key={i} className="edu-card relative flex items-start md:items-center">
                 <div
                   className={`edu-dot absolute left-6 md:left-1/2 w-5 h-5 rounded-full border-4 border-black ${edu.dotColor} z-10 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2`}
                 />
 
-                {/* Card */}
                 <div
                   className={`ml-14 md:ml-0 min-w-0 w-[calc(100%-3.5rem)] md:w-[calc(50%-2.5rem)] ${
                     isLeft ? "md:mr-auto md:pr-0" : "md:ml-auto md:pl-0"
@@ -163,19 +124,13 @@ export default function EducationSection() {
                   <div
                     className={`${edu.color} ${edu.border} backdrop-blur-xl rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${edu.shadow} ${edu.hoverShadow} md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out`}
                   >
-                    <span className="text-3xl md:text-4xl lg:text-5xl block mb-3">
-                      {edu.icon}
-                    </span>
+                    <span className="text-3xl md:text-4xl lg:text-5xl block mb-3">{edu.icon}</span>
                     <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-white leading-tight">
                       {edu.institution}
                     </h3>
-                    <p className="text-sm md:text-lg lg:text-xl font-semibold text-white/80 mt-2">
-                      {edu.program}
-                    </p>
+                    <p className="text-sm md:text-lg lg:text-xl font-semibold text-white/80 mt-2">{edu.program}</p>
                     {edu.detail && (
-                      <p className="text-sm md:text-base lg:text-lg font-medium text-white/65 mt-1">
-                        {edu.detail}
-                      </p>
+                      <p className="text-sm md:text-base lg:text-lg font-medium text-white/65 mt-1">{edu.detail}</p>
                     )}
                     <div className="mt-4 inline-block bg-black/20 rounded-full px-4 py-1.5 md:px-5 md:py-2">
                       <span className="text-xs md:text-sm lg:text-base font-bold text-white tracking-wide">
@@ -191,4 +146,6 @@ export default function EducationSection() {
       </div>
     </section>
   );
-}
+};
+
+export default EducationSection;

@@ -104,6 +104,5 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-export function getProjectByNumber(number: string): Project | null {
-  return PROJECTS.find((p) => p.number === number) ?? null;
-}
+export const getProjectByNumber = (number: string): Project | null =>
+  PROJECTS.find((p) => p.number === number) ?? null;

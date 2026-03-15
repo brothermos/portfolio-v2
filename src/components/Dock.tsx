@@ -2,31 +2,16 @@ import { useRef, useLayoutEffect, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import {
+  DOCK_ITEMS,
+  DOCK_MIN_SIZE as MIN_SIZE,
+  DOCK_MAX_SIZE as MAX_SIZE,
+  DOCK_BOUND as BOUND,
+} from "../data/dock";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-interface DockItem {
-  label: string;
-  icon: string;
-  href: string;
-  bubbleBg: string;
-  arrowColor: string;
-}
-
-const DOCK_ITEMS: DockItem[] = [
-  { label: "Home", icon: "🏠", href: "#home", bubbleBg: "bg-red-500", arrowColor: "after:border-t-red-500" },
-  { label: "About", icon: "👤", href: "#about", bubbleBg: "bg-blue-500", arrowColor: "after:border-t-blue-500" },
-  { label: "Skills", icon: "⚡", href: "#skills", bubbleBg: "bg-yellow-500", arrowColor: "after:border-t-yellow-500" },
-  { label: "Work", icon: "💼", href: "#work", bubbleBg: "bg-purple-500", arrowColor: "after:border-t-purple-500" },
-  { label: "Education", icon: "🎓", href: "#education", bubbleBg: "bg-indigo-500", arrowColor: "after:border-t-indigo-500" },
-  { label: "Contact", icon: "✉️", href: "#contact", bubbleBg: "bg-green-500", arrowColor: "after:border-t-green-500" },
-];
-
-const MIN_SIZE = 48;
-const MAX_SIZE = 96;
-const BOUND = MIN_SIZE * Math.PI;
-
-export default function Dock() {
+const Dock = () => {
   const dockRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
@@ -113,4 +98,6 @@ export default function Dock() {
       </ul>
     </div>
   );
-}
+};
+
+export default Dock;
