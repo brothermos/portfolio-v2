@@ -9,9 +9,10 @@ const EDUCATION = [
     institution: "Generation Thailand",
     program: "Software Developer Bootcamp",
     period: "May 2022 - Aug 2022",
-    color: "bg-coral",
+    color: "bg-red-500/45",
+    border: "border border-[#EB6843]/50",
     dotColor: "bg-coral",
-    shadow: "shadow-[0_20px_40px_rgba(235,104,67,0.45)]",
+    shadow: "shadow-[0_20px_40px_rgba(235,104,67,0.35)]",
     icon: "🚀",
   },
   {
@@ -19,9 +20,10 @@ const EDUCATION = [
     program: "Faculty of Management Science",
     detail: "Major Human Resource Management",
     period: "2015 - 2019",
-    color: "bg-blue",
+    color: "bg-[#0D8DFF]/45",
+    border: "border border-[#0D8DFF]/50",
     dotColor: "bg-blue",
-    shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.45)]",
+    shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.35)]",
     icon: "🎓",
   },
 ];
@@ -47,7 +49,7 @@ export default function EducationSection() {
               end: "top 40%",
               scrub: 1,
             },
-          }
+          },
         );
       }
 
@@ -64,13 +66,13 @@ export default function EducationSection() {
               end: "bottom 50%",
               scrub: 1,
             },
-          }
+          },
         );
       }
 
       const cards = cardsRef.current
         ? Array.from(
-            cardsRef.current.querySelectorAll<HTMLElement>(".edu-card")
+            cardsRef.current.querySelectorAll<HTMLElement>(".edu-card"),
           )
         : [];
 
@@ -90,14 +92,12 @@ export default function EducationSection() {
               end: "top 55%",
               scrub: 1,
             },
-          }
+          },
         );
       });
 
       const dots = cardsRef.current
-        ? Array.from(
-            cardsRef.current.querySelectorAll<HTMLElement>(".edu-dot")
-          )
+        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>(".edu-dot"))
         : [];
 
       dots.forEach((dot) => {
@@ -113,7 +113,7 @@ export default function EducationSection() {
               end: "top 60%",
               scrub: 1,
             },
-          }
+          },
         );
       });
     });
@@ -152,12 +152,12 @@ export default function EducationSection() {
 
                 {/* Card */}
                 <div
-                  className={`ml-14 md:ml-0 md:w-[calc(50%-2.5rem)] ${
+                  className={`ml-14 md:ml-0 min-w-0 w-[calc(100%-3.5rem)] md:w-[calc(50%-2.5rem)] ${
                     isLeft ? "md:mr-auto md:pr-0" : "md:ml-auto md:pl-0"
                   }`}
                 >
                   <div
-                    className={`${edu.color} rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${edu.shadow}`}
+                    className={`${edu.color} ${edu.border} backdrop-blur-xl rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${edu.shadow}`}
                   >
                     <span className="text-3xl md:text-4xl lg:text-5xl block mb-3">
                       {edu.icon}

@@ -16,8 +16,9 @@ const PROJECTS = [
     description: "Core banking web app replacing a legacy system for TTB Bank's financial operations",
     tech: ["React", "TypeScript", "Tailwind CSS"],
     logo: logoTTB,
-    color: "bg-blue",
-    shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.45)]",
+    color: "bg-[#0D8DFF]/45",
+    border: "border border-[#0D8DFF]/50",
+    shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.35)]",
   },
   {
     number: "02",
@@ -26,8 +27,9 @@ const PROJECTS = [
     description: "Multi-step form platform under the Stock Exchange of Thailand's Corporate Value Up initiative",
     tech: ["React", "TypeScript", "MUI", "react-hook-form", "Yup"],
     logo: logoSET,
-    color: "bg-[#FF746C]",
-    shadow: "shadow-[0_20px_40px_rgba(255,116,108,0.45)]",
+    color: "bg-[#FAB95B]/55",
+    border: "border border-[#FAB95B]/60",
+    shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
   },
   {
     number: "03",
@@ -36,8 +38,9 @@ const PROJECTS = [
     description: "Digital fundraising platform supporting SMEs and startups listed on SET",
     tech: ["React", "TypeScript", "Mantine UI"],
     logo: logoSET,
-    color: "bg-indigo-500",
-    shadow: "shadow-[0_20px_40px_rgba(99,102,241,0.45)]",
+    color: "bg-[#FAB95B]/55",
+    border: "border border-[#FAB95B]/60",
+    shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
   },
   {
     number: "04",
@@ -46,8 +49,9 @@ const PROJECTS = [
     description: "Full UI revamp of the LiVE Platform with mobile-first responsive design",
     tech: ["React", "TypeScript", "Figma"],
     logo: logoSET,
-    color: "bg-[#FAB95B]",
-    shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.45)]",
+    color: "bg-[#FAB95B]/55",
+    border: "border border-[#FAB95B]/60",
+    shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
   },
   {
     number: "05",
@@ -56,8 +60,9 @@ const PROJECTS = [
     description: "Educational community platform for teachers to share classroom ideas and resources",
     tech: ["React", "TypeScript"],
     logo: logoINSKRU,
-    color: "bg-sky-500",
-    shadow: "shadow-[0_20px_40px_rgba(14,165,233,0.45)]",
+    color: "bg-sky-500/45",
+    border: "border border-sky-400/50",
+    shadow: "shadow-[0_20px_40px_rgba(14,165,233,0.35)]",
   },
   {
     number: "06",
@@ -66,8 +71,9 @@ const PROJECTS = [
     description: "Website for agricultural and construction machinery loans and leasing services",
     tech: ["Vue.js", "LIFF"],
     logo: logoSKL,
-    color: "bg-emerald-600",
-    shadow: "shadow-[0_20px_40px_rgba(5,150,105,0.45)]",
+    color: "bg-emerald-600/45",
+    border: "border border-emerald-500/50",
+    shadow: "shadow-[0_20px_40px_rgba(5,150,105,0.35)]",
   },
 ];
 
@@ -136,7 +142,7 @@ export default function WorkSection() {
         {PROJECTS.map((project, i) => (
           <section
             key={i}
-            className={`work-panel w-full md:w-[900px] lg:w-[1200px] max-w-full h-[300px] md:h-[450px] lg:h-[600px] rounded-[32px] md:rounded-[40px] lg:rounded-[56px] flex flex-col justify-between text-white px-6 md:px-12 lg:px-16 py-6 md:py-12 lg:py-16 overflow-hidden ${project.shadow} ${project.color}`}
+            className={`work-panel w-full md:w-[900px] lg:w-[1200px] max-w-full h-[300px] md:h-[450px] lg:h-[600px] rounded-[32px] md:rounded-[40px] lg:rounded-[56px] flex flex-col justify-between text-white px-6 md:px-12 lg:px-16 py-6 md:py-12 lg:py-16 overflow-hidden backdrop-blur-xl ${project.shadow} ${project.color} ${project.border}`}
           >
             {/* Top row */}
             <div className="flex items-start justify-between">

@@ -181,10 +181,10 @@ export default function AboutSection() {
                   </span>
                   <span className="word-bg absolute inset-0 rounded-md bg-black/15" />
                   {isSkill && (
-                    <span className="word-highlight absolute inset-0 rounded-md bg-blue-400 opacity-0 border-2 border-black" />
+                    <span className="word-highlight absolute inset-0 rounded-md bg-blue-400/45 backdrop-blur-sm border border-blue-400/50 opacity-0" />
                   )}
                   {isDev && (
-                    <span className="word-highlight absolute inset-0 rounded-md bg-green opacity-0 border-2 border-black" />
+                    <span className="word-highlight absolute inset-0 rounded-md bg-[#47be96]/45 backdrop-blur-sm border border-[#47be96]/50 opacity-0" />
                   )}
                 </span>
               );
