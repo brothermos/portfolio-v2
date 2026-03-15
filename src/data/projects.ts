@@ -1,7 +1,7 @@
-import logoINSKRU from "../../public/images/inskru.jpg";
-import logoSET from "../../public/images/set.jpg";
-import logoSKL from "../../public/images/skl.jpg";
-import logoTTB from "../../public/images/ttb.jpg";
+import logoINSKRU from "../images/inskru.jpg";
+import logoSET from "../images/set.jpg";
+import logoSKL from "../images/skl.jpg";
+import logoTTB from "../images/ttb.jpg";
 
 export type Project = {
   number: string;
