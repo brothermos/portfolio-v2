@@ -25,7 +25,7 @@ const DOCK_ICON_MAP: Record<
 };
 
 const Dock = () => {
-  const { dockRef, itemRefs, handleMouseMove, handleMouseLeave, handleClick } = useDock();
+  const { dockRef, itemRefs, activeHref, handleMouseMove, handleMouseLeave, handleClick } = useDock();
 
   return (
     <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 flex justify-center">
@@ -37,6 +37,7 @@ const Dock = () => {
       >
         {DOCK_ITEMS.map((item, i) => {
           const IconComponent = DOCK_ICON_MAP[item.iconKey];
+          const isActive = activeHref === item.href;
           return (
           <li
             key={item.label}
@@ -47,10 +48,13 @@ const Dock = () => {
           >
             <button
               onClick={() => handleClick(item.href)}
-              className="group flex flex-col items-center justify-center w-full h-full rounded-xl bg-white/60 cursor-pointer transition-colors duration-200 p-0 relative hover:bg-white/85"
+              className={`group flex flex-col items-center justify-center w-full h-full rounded-xl cursor-pointer transition-all duration-200 p-0 relative hover:bg-white/85 ${
+                isActive ? "bg-white/90 shadow-md ring-2 ring-black/10" : "bg-white/60"
+              }`}
               aria-label={item.label}
+              aria-current={isActive ? "true" : undefined}
             >
-              <span className="text-[22px] leading-none flex items-center justify-center text-black/80">
+              <span className={`text-[22px] leading-none flex items-center justify-center transition-colors ${isActive ? "text-black" : "text-black/80"}`}>
                 {IconComponent ? <IconComponent className="w-6 h-6" /> : null}
               </span>
               <span
