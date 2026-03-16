@@ -25,7 +25,14 @@ const DOCK_ICON_MAP: Record<
 };
 
 const Dock = () => {
-  const { dockRef, itemRefs, activeHref, handleMouseMove, handleMouseLeave, handleClick } = useDock();
+  const {
+    dockRef,
+    itemRefs,
+    activeHref,
+    handleMouseMove,
+    handleMouseLeave,
+    handleClick,
+  } = useDock();
 
   return (
     <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 flex justify-center">
@@ -39,31 +46,35 @@ const Dock = () => {
           const IconComponent = DOCK_ICON_MAP[item.iconKey];
           const isActive = activeHref === item.href;
           return (
-          <li
-            key={item.label}
-            ref={(el) => {
-              itemRefs.current[i] = el;
-            }}
-            className={`w-14 h-14 mx-[3px] will-change-transform ${item.hideOnMobile ? "hidden md:flex" : ""}`}
-          >
-            <button
-              onClick={() => handleClick(item.href)}
-              className={`group flex flex-col items-center justify-center w-full h-full rounded-xl cursor-pointer transition-all duration-200 p-0 relative hover:bg-white/85 ${
-                isActive ? "bg-white/90 shadow-md ring-2 ring-black/10" : "bg-white/60"
-              }`}
-              aria-label={item.label}
-              aria-current={isActive ? "true" : undefined}
+            <li
+              key={item.label}
+              ref={(el) => {
+                itemRefs.current[i] = el;
+              }}
+              className={`w-14 h-14 mx-[3px] will-change-transform ${item.hideOnMobile ? "hidden md:flex" : ""}`}
             >
-              <span className={`text-[22px] leading-none flex items-center justify-center transition-colors ${isActive ? "text-black" : "text-black/80"}`}>
-                {IconComponent ? <IconComponent className="w-6 h-6" /> : null}
-              </span>
-              <span
-                className={`absolute -top-9 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded-lg whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 shadow-lg group-hover:opacity-100 after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent ${item.bubbleBg} ${item.arrowColor}`}
+              <button
+                onClick={() => handleClick(item.href)}
+                className={`group flex flex-col items-center justify-center w-full h-full rounded-xl cursor-pointer transition-all duration-200 p-0 relative hover:bg-white/85 ${
+                  isActive
+                    ? "bg-white/90 shadow-md ring-2 ring-black"
+                    : "bg-white/60"
+                }`}
+                aria-label={item.label}
+                aria-current={isActive ? "true" : undefined}
               >
-                {item.label}
-              </span>
-            </button>
-          </li>
+                <span
+                  className={`text-[22px] leading-none flex items-center justify-center transition-colors ${isActive ? "text-black" : "text-black/80"}`}
+                >
+                  {IconComponent ? <IconComponent className="w-6 h-6" /> : null}
+                </span>
+                <span
+                  className={`absolute -top-9 left-1/2 -translate-x-1/2 text-[11px] font-semibold text-white px-3 py-1 rounded-lg whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-150 shadow-lg group-hover:opacity-100 after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent ${item.bubbleBg} ${item.arrowColor}`}
+                >
+                  {item.label}
+                </span>
+              </button>
+            </li>
           );
         })}
       </ul>
