@@ -1,6 +1,6 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect, useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,11 +17,11 @@ const useWorkSection = () => {
           {
             y: 0,
             opacity: 1,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: headingRef.current,
-              start: "top 80%",
-              end: "top 40%",
+              start: 'top 80%',
+              end: 'top 40%',
               scrub: 1,
             },
           },
@@ -29,7 +29,7 @@ const useWorkSection = () => {
       }
 
       const panels = workRef.current
-        ? Array.from(workRef.current.querySelectorAll<HTMLElement>(".work-panel"))
+        ? Array.from(workRef.current.querySelectorAll<HTMLElement>('.work-panel'))
         : [];
 
       if (!panels.length) return;
@@ -43,11 +43,11 @@ const useWorkSection = () => {
             x: 0,
             opacity: 1,
             rotation: 0,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: panel,
-              start: "top 82%",
-              end: "top 55%",
+              start: 'top 82%',
+              end: 'top 55%',
               scrub: 1,
             },
           },

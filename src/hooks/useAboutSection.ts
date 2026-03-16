@@ -1,6 +1,6 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect, useRef } from 'react';
 
 const useAboutSection = () => {
   const introRef = useRef<HTMLElement>(null);
@@ -18,25 +18,29 @@ const useAboutSection = () => {
           {
             y: 0,
             opacity: 1,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: headingRef.current,
-              start: "top 80%",
-              end: "top 40%",
+              start: 'top 80%',
+              end: 'top 40%',
               scrub: 1,
             },
           },
         );
       }
 
-      const wordEls = introRef.current ? Array.from(introRef.current.querySelectorAll(".word")) : [];
+      const wordEls = introRef.current
+        ? Array.from(introRef.current.querySelectorAll('.word'))
+        : [];
 
       if (!wordEls.length) return;
 
       const LOOKAHEAD = 7;
-      const textEls = wordEls.map((w) => w.querySelector(".word-text") as HTMLElement);
-      const bgEls = wordEls.map((w) => w.querySelector(".word-bg") as HTMLElement);
-      const highlightEls = wordEls.map((w) => w.querySelector(".word-highlight") as HTMLElement | null);
+      const textEls = wordEls.map((w) => w.querySelector('.word-text') as HTMLElement);
+      const bgEls = wordEls.map((w) => w.querySelector('.word-bg') as HTMLElement);
+      const highlightEls = wordEls.map(
+        (w) => w.querySelector('.word-highlight') as HTMLElement | null,
+      );
 
       gsap.set(textEls, { opacity: 0 });
       gsap.set(bgEls, { opacity: 0 });
@@ -53,7 +57,7 @@ const useAboutSection = () => {
 
       ScrollTrigger.create({
         trigger: introRef.current,
-        start: "top top",
+        start: 'top top',
         end: () => `+=${allSteps * 40}`,
         pin: true,
         onUpdate: (self) => {
@@ -77,7 +81,10 @@ const useAboutSection = () => {
             return;
           }
 
-          const revealProgress = Math.min((self.progress - introPhase) / (revealPhase - introPhase), 1);
+          const revealProgress = Math.min(
+            (self.progress - introPhase) / (revealPhase - introPhase),
+            1,
+          );
           const revealed = Math.round(revealProgress * total);
 
           if (revealed !== prevRevealed) {
@@ -104,7 +111,7 @@ const useAboutSection = () => {
           if (hoorayRef.current) {
             if (self.progress > revealPhase) {
               const hoorayProgress = (self.progress - revealPhase) / (1 - revealPhase);
-              const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+              const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
               const maxW = isMobile ? 75 : 30;
               const w = hoorayProgress * maxW;
               gsap.set(hoorayRef.current, {
@@ -112,7 +119,7 @@ const useAboutSection = () => {
                 opacity: hoorayProgress,
               });
             } else {
-              gsap.set(hoorayRef.current, { width: "0%", opacity: 0 });
+              gsap.set(hoorayRef.current, { width: '0%', opacity: 0 });
             }
           }
         },

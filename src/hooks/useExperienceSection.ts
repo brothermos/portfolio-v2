@@ -1,6 +1,6 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect, useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,11 +18,11 @@ const useExperienceSection = () => {
           {
             y: 0,
             opacity: 1,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: headingRef.current,
-              start: "top 80%",
-              end: "top 40%",
+              start: 'top 80%',
+              end: 'top 40%',
               scrub: 1,
             },
           },
@@ -35,11 +35,11 @@ const useExperienceSection = () => {
           { scaleY: 0 },
           {
             scaleY: 1,
-            ease: "power2.out",
+            ease: 'power2.out',
             scrollTrigger: {
               trigger: lineRef.current,
-              start: "top 75%",
-              end: "bottom 50%",
+              start: 'top 75%',
+              end: 'bottom 50%',
               scrub: 1,
             },
           },
@@ -47,7 +47,7 @@ const useExperienceSection = () => {
       }
 
       const cards = cardsRef.current
-        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>(".exp-card"))
+        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>('.exp-card'))
         : [];
 
       cards.forEach((card, i) => {
@@ -59,11 +59,11 @@ const useExperienceSection = () => {
             x: 0,
             opacity: 1,
             rotation: 0,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: card,
-              start: "top 82%",
-              end: "top 55%",
+              start: 'top 82%',
+              end: 'top 55%',
               scrub: 1,
             },
           },
@@ -71,7 +71,7 @@ const useExperienceSection = () => {
       });
 
       const dots = cardsRef.current
-        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>(".exp-dot"))
+        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>('.exp-dot'))
         : [];
 
       dots.forEach((dot) => {
@@ -80,11 +80,11 @@ const useExperienceSection = () => {
           { scale: 0 },
           {
             scale: 1,
-            ease: "back.out(3)",
+            ease: 'back.out(3)',
             scrollTrigger: {
               trigger: dot,
-              start: "top 75%",
-              end: "top 60%",
+              start: 'top 75%',
+              end: 'top 60%',
               scrub: 1,
             },
           },

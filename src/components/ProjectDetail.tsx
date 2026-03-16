@@ -1,5 +1,5 @@
-import ProjectDetailCard from "./ProjectDetailCard";
-import type { Project } from "../data/projects";
+import ProjectDetailCard from './ProjectDetailCard';
+import type { Project } from '../data/projects';
 
 type ProjectDetailProps = {
   project: Project;
@@ -15,7 +15,8 @@ const ProjectDetail = (props: ProjectDetailProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/30 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4
+        backdrop-blur-sm md:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="project-detail-title"

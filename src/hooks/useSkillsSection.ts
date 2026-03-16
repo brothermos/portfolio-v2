@@ -1,6 +1,6 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect, useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,11 +17,11 @@ const useSkillsSection = () => {
           {
             y: 0,
             opacity: 1,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: headingRef.current,
-              start: "top 80%",
-              end: "top 40%",
+              start: 'top 80%',
+              end: 'top 40%',
               scrub: 1,
             },
           },
@@ -35,11 +35,11 @@ const useSkillsSection = () => {
           {
             y: 0,
             opacity: 1,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: skillsRef.current,
-              start: "top 85%",
-              end: "top 55%",
+              start: 'top 85%',
+              end: 'top 55%',
               scrub: 1,
             },
           },
@@ -47,7 +47,7 @@ const useSkillsSection = () => {
       }
 
       const badges = skillsRef.current
-        ? Array.from(skillsRef.current.querySelectorAll<HTMLElement>(".skill-badge"))
+        ? Array.from(skillsRef.current.querySelectorAll<HTMLElement>('.skill-badge'))
         : [];
 
       badges.forEach((badge, i) => {
@@ -55,7 +55,7 @@ const useSkillsSection = () => {
           y: gsap.utils.random(-12, -20),
           rotation: gsap.utils.random(-3, 3),
           duration: gsap.utils.random(1.8, 2.8),
-          ease: "sine.inOut",
+          ease: 'sine.inOut',
           yoyo: true,
           repeat: -1,
           delay: i * 0.15,

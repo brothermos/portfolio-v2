@@ -1,8 +1,11 @@
-import { HiOutlineBriefcase, HiOutlineComputerDesktop } from "react-icons/hi2";
-import { EXPERIENCE } from "../data/experience";
-import useExperienceSection from "../hooks/useExperienceSection";
+import { HiOutlineBriefcase, HiOutlineComputerDesktop } from 'react-icons/hi2';
+import { EXPERIENCE } from '../data/experience';
+import useExperienceSection from '../hooks/useExperienceSection';
 
-const EXP_ICON_MAP: Record<import("../data/experience").ExperienceIconKey, React.ComponentType<{ className?: string }>> = {
+const EXP_ICON_MAP: Record<
+  import('../data/experience').ExperienceIconKey,
+  React.ComponentType<{ className?: string }>
+> = {
   briefcase: HiOutlineBriefcase,
   laptop: HiOutlineComputerDesktop,
 };
@@ -13,59 +16,70 @@ const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="min-h-screen flex flex-col gap-12 md:gap-20 lg:gap-28 items-center justify-center px-4 md:px-6 py-24 md:py-32 text-black font-bold"
+      className="flex min-h-screen flex-col items-center justify-center gap-12 px-4 py-24 font-bold
+        text-black md:gap-20 md:px-6 md:py-32 lg:gap-28"
     >
       <div ref={headingRef} className="flex items-center gap-4">
-        <span className="text-6xl md:text-6xl lg:text-8xl font-bold">
-          Experience
-        </span>
+        <span className="text-6xl font-bold md:text-6xl lg:text-8xl">Experience</span>
       </div>
 
       <div ref={cardsRef} className="relative w-full max-w-4xl">
         <div
           ref={lineRef}
-          className="absolute left-6 md:left-1/2 top-0 bottom-0 w-1 bg-black/15 origin-top md:-translate-x-1/2"
+          className="absolute top-0 bottom-0 left-6 w-1 origin-top bg-black/15 md:left-1/2
+            md:-translate-x-1/2"
         />
 
         <div className="flex flex-col gap-16 md:gap-24">
           {EXPERIENCE.map((exp, i) => {
             const isLeft = i % 2 === 0;
             return (
-              <div
-                key={i}
-                className="exp-card relative flex items-start md:items-center"
-              >
+              <div key={i} className="exp-card relative flex items-start md:items-center">
                 <div
-                  className={`exp-dot absolute left-6 md:left-1/2 w-5 h-5 rounded-full border-4 border-black ${exp.dotColor} z-10 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2`}
+                  className={`exp-dot absolute left-6 h-5 w-5 rounded-full border-4 border-black
+                  md:left-1/2 ${exp.dotColor} top-8 z-10 -translate-x-1/2 md:top-1/2
+                  md:-translate-y-1/2`}
                 />
 
                 <div
-                  className={`ml-14 md:ml-0 min-w-0 w-[calc(100%-3.5rem)] md:w-[calc(50%-2.5rem)] ${
-                    isLeft ? "md:mr-auto md:pr-0" : "md:ml-auto md:pl-0"
+                  className={`ml-14 w-[calc(100%-3.5rem)] min-w-0 md:ml-0 md:w-[calc(50%-2.5rem)] ${
+                    isLeft ? 'md:mr-auto md:pr-0' : 'md:ml-auto md:pl-0'
                   }`}
                 >
                   <div
-                    className={`${exp.color} ${exp.border} backdrop-blur-xl rounded-[32px] p-6 md:p-8 lg:p-10 text-white ${exp.shadow} ${exp.hoverShadow} md:hover:scale-[1.02] md:hover:-translate-y-2 transition-all duration-300 ease-out`}
+                    className={`${exp.color} ${exp.border} rounded-[32px] p-6 text-white
+                    backdrop-blur-xl md:p-8 lg:p-10 ${exp.shadow} ${exp.hoverShadow} transition-all
+                    duration-300 ease-out md:hover:-translate-y-2 md:hover:scale-[1.02]`}
                   >
-                    <span className="text-3xl md:text-4xl lg:text-5xl block mb-3 text-white">
+                    <span className="mb-3 block text-3xl text-white md:text-4xl lg:text-5xl">
                       {(() => {
                         const Icon = EXP_ICON_MAP[exp.iconKey];
-                        return Icon ? <Icon className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14" /> : null;
+                        return Icon ? (
+                          <Icon className="h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14" />
+                        ) : null;
                       })()}
                     </span>
-                    <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-white leading-tight">
+                    <h3
+                      className="text-lg leading-tight font-bold text-white md:text-2xl lg:text-3xl"
+                    >
                       {exp.company}
                     </h3>
-                    <p className="text-sm md:text-lg lg:text-xl font-semibold text-white/80 mt-2">
+                    <p className="mt-2 text-sm font-semibold text-white/80 md:text-lg lg:text-xl">
                       {exp.role}
                     </p>
                     {exp.description && (
-                      <p className="text-sm md:text-base lg:text-lg font-medium text-white/65 mt-1">
+                      <p className="mt-1 text-sm font-medium text-white/65 md:text-base lg:text-lg">
                         {exp.description}
                       </p>
                     )}
-                    <div className="mt-4 inline-block bg-black/20 rounded-full px-4 py-1.5 md:px-5 md:py-2">
-                      <span className="text-xs md:text-sm lg:text-base font-bold text-white tracking-wide">
+                    <div
+                      className="mt-4 inline-block rounded-full bg-black/20 px-4 py-1.5 md:px-5
+                        md:py-2"
+                    >
+                      <span
+                        className="text-xs font-bold tracking-wide text-white md:text-sm
+                          lg:text-base"
+                      >
                         {exp.period}
                       </span>
                     </div>

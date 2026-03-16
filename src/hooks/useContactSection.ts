@@ -1,6 +1,6 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLayoutEffect, useRef } from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,11 +18,11 @@ const useContactSection = () => {
           {
             y: 0,
             opacity: 1,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: headingRef.current,
-              start: "top 80%",
-              end: "top 40%",
+              start: 'top 80%',
+              end: 'top 40%',
               scrub: 1,
             },
           },
@@ -30,7 +30,7 @@ const useContactSection = () => {
       }
 
       const cards = cardsRef.current
-        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>(".contact-card"))
+        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>('.contact-card'))
         : [];
 
       cards.forEach((card, i) => {
@@ -42,11 +42,11 @@ const useContactSection = () => {
             x: 0,
             opacity: 1,
             rotation: 0,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: card,
-              start: "top 82%",
-              end: "top 55%",
+              start: 'top 82%',
+              end: 'top 55%',
               scrub: 1,
             },
           },
