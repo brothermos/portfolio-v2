@@ -92,8 +92,8 @@ const HeroSection = () => {
               ref={cvButtonRef}
               href="/Natdanai_Kanyakoon_CV.pdf"
               download
-              className={`skill-badge rounded-full border border-yellow-300/60 bg-yellow-400/55 px-4
-                py-2 text-base font-semibold text-white shadow-[0_20px_40px_rgba(250,204,21,0.35)]
+              className={`skill-badge rounded-full border border-red-400/50 bg-red-500/45 px-4
+                py-2 text-base font-semibold text-white shadow-[0_20px_40px_rgba(239,68,68,0.35)]
                 backdrop-blur-xl will-change-transform md:px-6 md:py-3 md:text-2xl lg:px-8 lg:py-4
                 lg:text-5xl`}
             >

@@ -51,7 +51,7 @@ const Dock = () => {
                 onClick={() => handleClick(item.href)}
                 className={`group relative flex h-full w-full cursor-pointer flex-col items-center
                 justify-center rounded-xl p-0 transition-all duration-200 hover:bg-white/85 ${
-                  isActive ? 'bg-white/90 shadow-md ring-2 ring-black' : 'bg-white/60'
+                  isActive ? 'bg-white/90 shadow-md ring-2 ring-black/10' : 'bg-white/60'
                 }`}
                 aria-label={item.label}
                 aria-current={isActive ? 'true' : undefined}
