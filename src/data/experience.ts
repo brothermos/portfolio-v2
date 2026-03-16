@@ -30,7 +30,7 @@ export const EXPERIENCE: Array<{
     role: "Frontend Developer (Intern)",
     period: "Oct 2022 - Dec 2022",
     description:
-      "Developed SKL (สยามคูโบต้า ลีสซิ่ง) for agricultural and construction machinery loans, leasing services, and online loan applications. Vue.js, Line LIFF.",
+      "Developed SKL (Siam Kubota Leasing) for agricultural and construction machinery loans, leasing services, and online loan applications. Vue.js, Line LIFF.",
     color: "bg-emerald-500/45",
     border: "border border-emerald-400/50",
     dotColor: "bg-green",

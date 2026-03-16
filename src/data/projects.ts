@@ -100,7 +100,7 @@ export const PROJECTS: Project[] = [
   },
   {
     number: "07",
-    title: "SKL สยามคูโบต้า ลีสซิ่ง",
+    title: "SKL (Siam Kubota Leasing)",
     company: "Dosetech Co., Ltd.",
     description: "Website for agricultural and construction machinery loans and leasing services",
     tech: ["Vue.js", "LIFF"],
