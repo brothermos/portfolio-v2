@@ -2,6 +2,7 @@ import logoINSKRU from "../images/inskru.jpg";
 import logoSET from "../images/set.jpg";
 import logoSKL from "../images/skl.jpg";
 import logoTTB from "../images/ttb.jpg";
+import logoFoodBank from "../images/food_bank.png";
 
 export type Project = {
   number: string;
@@ -27,7 +28,7 @@ export const PROJECTS: Project[] = [
     logo: logoTTB,
     color: "bg-[#0D8DFF]/45",
     border: "border border-[#0D8DFF]/50",
-    borderColor: "border-blue",
+    borderColor: "border-blue/60",
     shadow: "shadow-[0_20px_40px_rgba(13,141,255,0.35)]",
     hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(13,141,255,0.5)]",
   },
@@ -40,7 +41,7 @@ export const PROJECTS: Project[] = [
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
     border: "border border-[#FAB95B]/60",
-    borderColor: "border-yellow",
+    borderColor: "border-yellow/60",
     shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
     hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(250,185,91,0.5)]",
   },
@@ -53,7 +54,7 @@ export const PROJECTS: Project[] = [
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
     border: "border border-[#FAB95B]/60",
-    borderColor: "border-yellow",
+    borderColor: "border-yellow/60",
     shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
     hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(250,185,91,0.5)]",
   },
@@ -66,12 +67,26 @@ export const PROJECTS: Project[] = [
     logo: logoSET,
     color: "bg-[#FAB95B]/55",
     border: "border border-[#FAB95B]/60",
-    borderColor: "border-yellow",
+    borderColor: "border-yellow/60",
     shadow: "shadow-[0_20px_40px_rgba(250,185,91,0.35)]",
     hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(250,185,91,0.5)]",
   },
   {
     number: "05",
+    title: "BKK FOOD BANK",
+    company: "BKK FOOD BANK",
+    description:
+      "Developed a web application for managing food donations and distributions to underprivileged communities, using React, Typescript",
+    tech: ["React", "TypeScript"],
+    logo: logoFoodBank,
+    color: "bg-lime-500/45",
+    border: "border border-lime-400/50",
+    borderColor: "border-lime-400",
+    shadow: "shadow-[0_20px_40px_rgba(132,204,22,0.35)]",
+    hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(132,204,22,0.5)]",
+  },
+  {
+    number: "06",
     title: "INSKRU",
     company: "INSKRU.com",
     description: "Educational community platform for teachers to share classroom ideas and resources",
@@ -79,12 +94,12 @@ export const PROJECTS: Project[] = [
     logo: logoINSKRU,
     color: "bg-sky-500/45",
     border: "border border-sky-400/50",
-    borderColor: "border-blue",
+    borderColor: "border-sky-400/60",
     shadow: "shadow-[0_20px_40px_rgba(14,165,233,0.35)]",
     hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(14,165,233,0.5)]",
   },
   {
-    number: "06",
+    number: "07",
     title: "SKL สยามคูโบต้า ลีสซิ่ง",
     company: "Dosetech Co., Ltd.",
     description: "Website for agricultural and construction machinery loans and leasing services",
@@ -92,7 +107,7 @@ export const PROJECTS: Project[] = [
     logo: logoSKL,
     color: "bg-emerald-600/45",
     border: "border border-emerald-500/50",
-    borderColor: "border-emerald-500",
+    borderColor: "border-emerald-500/60",
     shadow: "shadow-[0_20px_40px_rgba(5,150,105,0.35)]",
     hoverShadow: "md:hover:shadow-[0_28px_56px_rgba(5,150,105,0.5)]",
   },
