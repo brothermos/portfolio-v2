@@ -1,11 +1,11 @@
-import HeroSection from './components/HeroSection';
+import HeroSection from '@/components/HeroSection';
 import AboutSection from './components/AboutSection';
-import SkillsSection from './components/SkillsSection';
-import ExperienceSection from './components/ExperienceSection';
-import WorkSection from './components/WorkSection';
-import EducationSection from './components/EducationSection';
-import ContactSection from './components/ContactSection';
-import Dock from './components/Dock';
+import SkillsSection from '@/components/SkillsSection';
+import ExperienceSection from '@/components/ExperienceSection';
+import WorkSection from '@/components/WorkSection';
+import EducationSection from '@/components/EducationSection';
+import ContactSection from '@/components/ContactSection';
+import Dock from '@/components/Dock';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const App = () => {
