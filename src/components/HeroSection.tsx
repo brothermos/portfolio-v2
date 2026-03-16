@@ -1,6 +1,6 @@
-import logoMacbook from '../images/macbook.png';
-import { NAME, TITLE } from '../data/hero';
-import useHeroSection from '../hooks/useHeroSection';
+import logoMacbook from '@/images/macbook.png';
+import { NAME, TITLE } from '@/data/hero';
+import useHeroSection from '@/hooks/useHeroSection';
 
 const HeroSection = () => {
   const { logoRef, navRef, heroRef, titleRef, hiRef, cvButtonRef } = useHeroSection();

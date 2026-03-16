@@ -1,5 +1,5 @@
-import { SKILLS } from '../data/skills';
-import useSkillsSection from '../hooks/useSkillsSection';
+import { SKILLS } from '@/data/skills';
+import useSkillsSection from '@/hooks/useSkillsSection';
 
 const SkillsSection = () => {
   const { skillsRef, headingRef } = useSkillsSection();

@@ -5,8 +5,8 @@ import {
   HiOutlineCodeBracketSquare,
   HiOutlineBriefcase,
 } from 'react-icons/hi2';
-import { CONTACT_INFO } from '../data/contact';
-import useContactSection from '../hooks/useContactSection';
+import useContactSection from '@/hooks/useContactSection';
+import { CONTACT_INFO } from '@/data/contact';
 
 const ContactSection = () => {
   const { sectionRef, headingRef, cardsRef } = useContactSection();

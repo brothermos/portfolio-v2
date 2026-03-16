@@ -1,6 +1,6 @@
 import { HiOutlineBriefcase, HiOutlineComputerDesktop } from 'react-icons/hi2';
-import { EXPERIENCE } from '../data/experience';
-import useExperienceSection from '../hooks/useExperienceSection';
+import { EXPERIENCE } from '@/data/experience';
+import useExperienceSection from '@/hooks/useExperienceSection';
 
 const EXP_ICON_MAP: Record<
   import('../data/experience').ExperienceIconKey,

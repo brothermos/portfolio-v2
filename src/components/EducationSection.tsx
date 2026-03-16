@@ -1,9 +1,9 @@
 import { HiOutlineAcademicCap, HiOutlineRocketLaunch } from 'react-icons/hi2';
-import { EDUCATION } from '../data/education';
-import useEducationSection from '../hooks/useEducationSection';
+import { EDUCATION } from '@/data/education';
+import useEducationSection from '@/hooks/useEducationSection';
 
 const EDU_ICON_MAP: Record<
-  import('../data/education').EducationIconKey,
+  import('@/data/education').EducationIconKey,
   React.ComponentType<{ className?: string }>
 > = {
   rocket: HiOutlineRocketLaunch,

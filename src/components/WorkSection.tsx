@@ -1,5 +1,5 @@
-import { PROJECTS } from '../data/projects';
-import useWorkSection from '../hooks/useWorkSection';
+import { PROJECTS } from '@/data/projects';
+import useWorkSection from '@/hooks/useWorkSection';
 import ProjectDetail from './ProjectDetail';
 
 const WorkSection = () => {

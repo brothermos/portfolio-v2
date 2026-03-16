@@ -7,9 +7,9 @@ import {
   HiOutlineAcademicCap,
   HiOutlineEnvelope,
 } from 'react-icons/hi2';
-import type { DockIconKey } from '../data/dock';
-import { DOCK_ITEMS } from '../data/dock';
-import useDock from '../hooks/useDock';
+import type { DockIconKey } from '@/data/dock';
+import { DOCK_ITEMS } from '@/data/dock';
+import useDock from '@/hooks/useDock';
 
 const DOCK_ICON_MAP: Record<DockIconKey, React.ComponentType<{ className?: string }>> = {
   home: HiOutlineHome,

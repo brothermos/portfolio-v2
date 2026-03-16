@@ -13,7 +13,6 @@ export interface DockItem {
   href: string;
   bubbleBg: string;
   arrowColor: string;
-  /** Hidden on mobile to keep dock compact (5 icons); shown from md up */
   hideOnMobile?: boolean;
 }
 
