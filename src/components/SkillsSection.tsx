@@ -52,7 +52,6 @@ const SkillsSection = () => {
             ))}
           </div>
         </div>
-        {/* Desktop: 4 - 4 */}
         <div className="hidden w-full flex-col items-center gap-4 md:flex md:gap-8 lg:gap-12">
           <div className="flex flex-wrap justify-center gap-3 md:gap-4 lg:gap-6">
             {SKILLS.slice(0, 4).map((skill) => (

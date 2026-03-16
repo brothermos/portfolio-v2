@@ -48,7 +48,6 @@ const useHeroSection = () => {
           0,
         );
       }
-      // Start CV button right after last char (Frontend Developer) finishes
       const titleEnd = chars ? (chars.length - 1) * stagger + charDuration : 0.35;
       tl.fromTo(
         cvButtonRef.current,
