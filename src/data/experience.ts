@@ -27,7 +27,7 @@ export const EXPERIENCE: Array<{
   },
   {
     company: 'Dosetech Co., Ltd.',
-    role: 'Frontend Developer (Intern)',
+    role: 'Frontend Developer',
     period: 'Oct 2022 - Dec 2022',
     description:
       'Developed SKL (Siam Kubota Leasing) for agricultural and construction machinery loans, leasing services, and online loan applications. Vue.js, Line LIFF.',
