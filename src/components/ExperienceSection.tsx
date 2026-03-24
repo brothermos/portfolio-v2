@@ -67,11 +67,16 @@ const ExperienceSection = () => {
                     <p className="mt-2 text-sm font-semibold text-white/80 md:text-lg lg:text-xl">
                       {exp.role}
                     </p>
-                    {exp.description && (
-                      <p className="mt-1 text-sm font-medium text-white/65 md:text-base lg:text-lg">
-                        {exp.description}
-                      </p>
-                    )}
+                    {exp.description?.length ? (
+                      <ul
+                        className="mt-2 list-disc space-y-1 pl-5 text-sm font-medium text-white/65
+                          marker:text-white/70 md:text-base lg:text-lg"
+                      >
+                        {exp.description.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    ) : null}
                     <div
                       className="mt-4 inline-block rounded-full bg-black/20 px-4 py-1.5 md:px-5
                         md:py-2"

@@ -4,7 +4,7 @@ export const EXPERIENCE: Array<{
   company: string;
   role: string;
   period: string;
-  description?: string;
+  description?: string[];
   color: string;
   border: string;
   dotColor: string;
@@ -16,8 +16,10 @@ export const EXPERIENCE: Array<{
     company: 'Odd-e Thailand',
     role: 'Software Developer (Focus on Front End)',
     period: 'Jan 2023 - Present',
-    description:
-      'Frontend development for FINOVA (TTB Bank), SET Corporate Value Up, SET LiVE Platform, and INSKRU. React, TypeScript, micro-frontend architecture.',
+    description: [
+      'Frontend development for FINOVA (TTB Bank), SET Corporate Value Up, SET LiVE Platform, and INSKRU.',
+      'React, TypeScript, micro-frontend architecture.',
+    ],
     color: 'bg-[#0D8DFF]/45',
     border: 'border border-[#0D8DFF]/50',
     dotColor: 'bg-blue',
@@ -29,8 +31,10 @@ export const EXPERIENCE: Array<{
     company: 'Dosetech Co., Ltd.',
     role: 'Frontend Developer',
     period: 'Oct 2022 - Dec 2022',
-    description:
-      'Developed SKL (Siam Kubota Leasing) for agricultural and construction machinery loans, leasing services, and online loan applications. Vue.js, Line LIFF.',
+    description: [
+      'Developed SKL (Siam Kubota Leasing) for agricultural and construction machinery loans, leasing services, and online loan applications.',
+      'Vue.js, Line LIFF.',
+    ],
     color: 'bg-emerald-500/45',
     border: 'border border-emerald-400/50',
     dotColor: 'bg-green',
