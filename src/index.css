@@ -16,9 +16,9 @@
   --dock-button-hover: rgba(255, 255, 255, 0.85);
   --dock-button-active: rgba(255, 255, 255, 0.9);
   --dock-ring: rgba(0, 0, 0, 0.1);
-  --toggle-bg: rgba(255, 255, 255, 0.75);
+  --toggle-bg: rgba(255, 255, 255, 0.32);
   --toggle-border: rgba(0, 0, 0, 0.08);
-  --toggle-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+  --toggle-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 [data-theme='dark'] {
@@ -37,9 +37,9 @@
   --dock-button-hover: rgba(255, 255, 255, 0.16);
   --dock-button-active: rgba(255, 255, 255, 0.2);
   --dock-ring: rgba(255, 255, 255, 0.08);
-  --toggle-bg: rgba(15, 20, 28, 0.82);
-  --toggle-border: rgba(255, 255, 255, 0.12);
-  --toggle-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  --toggle-bg: rgba(15, 20, 28, 0.34);
+  --toggle-border: rgba(255, 255, 255, 0.14);
+  --toggle-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
 }
 
 html,
