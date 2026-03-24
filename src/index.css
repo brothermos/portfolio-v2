@@ -1,16 +1,133 @@
 @import 'tailwindcss';
 
+:root {
+  --page-bg: #faf4ec;
+  --page-bg-elevated: rgba(255, 255, 255, 0.52);
+  --page-bg-soft: rgba(0, 0, 0, 0.05);
+  --page-bg-soft-hover: rgba(0, 0, 0, 0.1);
+  --page-text: #111111;
+  --page-text-muted: rgba(17, 17, 17, 0.7);
+  --page-line: rgba(0, 0, 0, 0.15);
+  --page-overlay: rgba(0, 0, 0, 0.3);
+  --page-highlight: rgba(0, 0, 0, 0.15);
+  --dock-bg: rgba(255, 255, 255, 0.1);
+  --dock-border: rgba(255, 255, 255, 0.2);
+  --dock-button: rgba(255, 255, 255, 0.6);
+  --dock-button-hover: rgba(255, 255, 255, 0.85);
+  --dock-button-active: rgba(255, 255, 255, 0.9);
+  --dock-ring: rgba(0, 0, 0, 0.1);
+  --toggle-bg: rgba(255, 255, 255, 0.75);
+  --toggle-border: rgba(0, 0, 0, 0.08);
+  --toggle-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme='dark'] {
+  --page-bg: #0f141c;
+  --page-bg-elevated: rgba(24, 31, 43, 0.78);
+  --page-bg-soft: rgba(255, 255, 255, 0.08);
+  --page-bg-soft-hover: rgba(255, 255, 255, 0.14);
+  --page-text: #f6efe6;
+  --page-text-muted: rgba(246, 239, 230, 0.72);
+  --page-line: rgba(255, 255, 255, 0.16);
+  --page-overlay: rgba(3, 6, 12, 0.72);
+  --page-highlight: rgba(255, 255, 255, 0.12);
+  --dock-bg: rgba(15, 20, 28, 0.65);
+  --dock-border: rgba(255, 255, 255, 0.12);
+  --dock-button: rgba(255, 255, 255, 0.08);
+  --dock-button-hover: rgba(255, 255, 255, 0.16);
+  --dock-button-active: rgba(255, 255, 255, 0.2);
+  --dock-ring: rgba(255, 255, 255, 0.08);
+  --toggle-bg: rgba(15, 20, 28, 0.82);
+  --toggle-border: rgba(255, 255, 255, 0.12);
+  --toggle-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
 html,
 body {
   overflow-x: hidden;
 }
 
 body {
-  background-color: #faf4ec;
+  background:
+    radial-gradient(circle at top, rgba(250, 185, 91, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 24%),
+    var(--page-bg);
+  color: var(--page-text);
   font-family: 'JetBrains Mono', monospace;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
   cursor:
     url('./assets/arrowhead-rounded-outline.svg') 0 0,
     auto;
+}
+
+* {
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.theme-text {
+  color: var(--page-text);
+}
+
+.theme-text-muted {
+  color: var(--page-text-muted);
+}
+
+.theme-line {
+  background-color: var(--page-line);
+}
+
+.theme-border {
+  border-color: var(--page-line);
+}
+
+.theme-surface {
+  background-color: var(--page-bg-elevated);
+}
+
+.theme-soft {
+  background-color: var(--page-bg-soft);
+}
+
+.theme-soft-hover:hover {
+  background-color: var(--page-bg-soft-hover);
+}
+
+.theme-highlight {
+  background-color: var(--page-highlight);
+}
+
+.theme-overlay {
+  background-color: var(--page-overlay);
+}
+
+.theme-dock {
+  background-color: var(--dock-bg);
+  border-color: var(--dock-border);
+}
+
+.theme-dock-button {
+  background-color: var(--dock-button);
+}
+
+.theme-dock-button:hover {
+  background-color: var(--dock-button-hover);
+}
+
+.theme-dock-button-active {
+  background-color: var(--dock-button-active);
+  box-shadow: inset 0 0 0 1px var(--dock-ring);
+}
+
+.theme-toggle-surface {
+  background-color: var(--toggle-bg);
+  border-color: var(--toggle-border);
+  box-shadow: var(--toggle-shadow);
 }
 
 a,

@@ -20,7 +20,7 @@ const HeroSection = () => {
               md:h-72 lg:h-96"
             alt="Logo"
           />
-          <div ref={hiRef} className="text-2xl font-bold text-black md:text-3xl lg:text-4xl">
+          <div ref={hiRef} className="theme-text text-2xl font-bold md:text-3xl lg:text-4xl">
             Hi 👋
           </div>
         </div>
@@ -32,7 +32,7 @@ const HeroSection = () => {
         className="relative flex h-screen flex-col items-center justify-center overflow-hidden"
       >
         <div ref={titleRef} className="z-20 flex flex-col items-center">
-          <h1 className="flex flex-col items-center px-4 font-bold tracking-tight text-black">
+          <h1 className="theme-text flex flex-col items-center px-4 font-bold tracking-tight">
             <span
               className="flex flex-col items-center leading-none md:hidden"
               style={{ fontSize: 'clamp(3.75rem, 13vw, 5.25rem)' }}
@@ -69,8 +69,8 @@ const HeroSection = () => {
             </span>
           </h1>
           <h2
-            className="mt-2 flex flex-wrap justify-center text-2xl font-bold tracking-widest
-              text-black md:mt-4 md:text-4xl lg:text-6xl"
+            className="theme-text mt-2 flex flex-wrap justify-center text-2xl font-bold
+              tracking-widest md:mt-4 md:text-4xl lg:text-6xl"
           >
             {TITLE.split(' ').map((word, wIdx) => (
               <span

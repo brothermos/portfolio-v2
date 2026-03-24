@@ -15,7 +15,7 @@ const ContactSection = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="flex min-h-screen items-center justify-center px-4 py-24 text-black md:px-6
+      className="theme-text flex min-h-screen items-center justify-center px-4 py-24 md:px-6
         md:py-32"
     >
       <div className="w-full max-w-5xl">
@@ -37,7 +37,7 @@ const ContactSection = () => {
             >
               <div className="space-y-4">
                 <div
-                  className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1
+                  className="theme-soft inline-flex items-center gap-2 rounded-full px-3 py-1
                     text-xs font-medium tracking-wide"
                 >
                   <HiOutlineMapPin className="h-5 w-5 shrink-0" aria-hidden />
@@ -97,8 +97,8 @@ const ContactSection = () => {
                   href={CONTACT_INFO.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between rounded-2xl bg-black/5 px-3.5
-                    py-2.5 transition-colors hover:bg-black/10"
+                  className="theme-soft theme-soft-hover group flex items-center justify-between
+                    rounded-2xl px-3.5 py-2.5 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <HiOutlineCodeBracketSquare className="h-6 w-6 shrink-0" aria-hidden />
@@ -119,8 +119,8 @@ const ContactSection = () => {
                   href={CONTACT_INFO.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between rounded-2xl bg-black/5 px-3.5
-                    py-2.5 transition-colors hover:bg-black/10"
+                  className="theme-soft theme-soft-hover group flex items-center justify-between
+                    rounded-2xl px-3.5 py-2.5 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <HiOutlineBriefcase className="h-6 w-6 shrink-0" aria-hidden />

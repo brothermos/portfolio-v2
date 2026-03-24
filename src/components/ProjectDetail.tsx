@@ -15,7 +15,7 @@ const ProjectDetail = (props: ProjectDetailProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4
+      className="theme-overlay fixed inset-0 z-50 flex items-center justify-center p-4
         backdrop-blur-sm md:p-6"
       role="dialog"
       aria-modal="true"

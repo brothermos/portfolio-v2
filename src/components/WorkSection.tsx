@@ -10,8 +10,8 @@ const WorkSection = () => {
       <section
         id="work"
         ref={workRef}
-        className="flex min-h-screen flex-col items-center justify-center gap-12 px-4 py-24
-          font-bold text-black md:gap-20 md:px-6 md:py-32 lg:gap-28"
+        className="theme-text flex min-h-screen flex-col items-center justify-center gap-12 px-4
+          py-24 font-bold md:gap-20 md:px-6 md:py-32 lg:gap-28"
       >
         <div ref={headingRef} className="flex items-center gap-4">
           <span className="text-6xl font-bold md:text-6xl lg:text-8xl">My Work</span>

@@ -16,8 +16,8 @@ const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="flex min-h-screen flex-col items-center justify-center gap-12 px-4 py-24 font-bold
-        text-black md:gap-20 md:px-6 md:py-32 lg:gap-28"
+      className="theme-text flex min-h-screen flex-col items-center justify-center gap-12 px-4
+        py-24 font-bold md:gap-20 md:px-6 md:py-32 lg:gap-28"
     >
       <div ref={headingRef} className="flex items-center gap-4">
         <span className="text-6xl font-bold md:text-6xl lg:text-8xl">Experience</span>
@@ -26,7 +26,7 @@ const ExperienceSection = () => {
       <div ref={cardsRef} className="relative w-full max-w-4xl">
         <div
           ref={lineRef}
-          className="absolute top-0 bottom-0 left-6 w-1 origin-top bg-black/15 md:left-1/2
+          className="theme-line absolute top-0 bottom-0 left-6 w-1 origin-top md:left-1/2
             md:-translate-x-1/2"
         />
 
@@ -36,7 +36,7 @@ const ExperienceSection = () => {
             return (
               <div key={i} className="exp-card relative flex items-start md:items-center">
                 <div
-                  className={`exp-dot absolute left-6 h-5 w-5 rounded-full border-4 border-black
+                  className={`exp-dot theme-border absolute left-6 h-5 w-5 rounded-full border-4
                   md:left-1/2 ${exp.dotColor} top-8 z-10 -translate-x-1/2 md:top-1/2
                   md:-translate-y-1/2`}
                 />

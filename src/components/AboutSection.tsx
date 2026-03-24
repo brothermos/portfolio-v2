@@ -22,8 +22,8 @@ const AboutSection = () => {
         <span>About me</span>
       </div>
       <div
-        className="max-w-5xl space-y-4 text-xl leading-relaxed font-semibold tracking-tight
-          text-black md:space-y-8 md:text-2xl lg:text-3xl"
+        className="theme-text max-w-5xl space-y-4 text-xl leading-relaxed font-semibold
+          tracking-tight md:space-y-8 md:text-2xl lg:text-3xl"
       >
         {INTRO_PARAGRAPHS.map((paragraph, pIdx) => (
           <p key={pIdx} className="flex flex-wrap gap-y-2">
@@ -40,7 +40,7 @@ const AboutSection = () => {
                   <span className={`word-text opacity-0 ${hasHighlight ? 'relative z-10' : ''}`}>
                     {word}
                   </span>
-                  <span className="word-bg absolute inset-0 rounded-md bg-black/15" />
+                  <span className="word-bg theme-highlight absolute inset-0 rounded-md" />
                   {isSkill && (
                     <span
                       className="word-highlight absolute inset-0 rounded-md border

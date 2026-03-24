@@ -29,8 +29,8 @@ const Dock = () => {
     <div className="fixed bottom-3 left-1/2 z-50 flex -translate-x-1/2 justify-center">
       <ul
         ref={dockRef}
-        className="m-0 inline-flex h-full list-none items-end justify-center rounded-2xl border
-          border-white/20 bg-white/10 px-3 py-2
+        className="theme-dock m-0 inline-flex h-full list-none items-end justify-center rounded-2xl
+          border px-3 py-2
           shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)] backdrop-blur-md"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
@@ -50,15 +50,15 @@ const Dock = () => {
               <button
                 onClick={() => handleClick(item.href)}
                 className={`group relative flex h-full w-full cursor-pointer flex-col items-center
-                justify-center rounded-xl p-0 transition-all duration-200 hover:bg-white/85 ${
-                  isActive ? 'bg-white/90 shadow-md ring-2 ring-black/10' : 'bg-white/60'
+                justify-center rounded-xl p-0 transition-all duration-200 ${
+                  isActive ? 'theme-dock-button-active shadow-md' : 'theme-dock-button'
                 }`}
                 aria-label={item.label}
                 aria-current={isActive ? 'true' : undefined}
               >
                 <span
-                  className={`flex items-center justify-center text-[22px] leading-none
-                  transition-colors ${isActive ? 'text-black' : 'text-black/80'}`}
+                  className={`theme-text flex items-center justify-center text-[22px] leading-none
+                  transition-colors ${isActive ? '' : 'opacity-80'}`}
                 >
                   {IconComponent ? <IconComponent className="h-6 w-6" /> : null}
                 </span>

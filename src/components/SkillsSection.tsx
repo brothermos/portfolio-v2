@@ -7,8 +7,8 @@ const SkillsSection = () => {
   return (
     <section
       id="skills"
-      className="flex h-screen flex-col items-center justify-center gap-12 px-4 py-16 font-bold
-        text-black md:gap-20 md:px-6 lg:gap-28"
+      className="theme-text flex h-screen flex-col items-center justify-center gap-12 px-4 py-16
+        font-bold md:gap-20 md:px-6 lg:gap-28"
     >
       <div ref={headingRef} className="flex items-center gap-4">
         <span className="text-6xl font-bold md:text-6xl lg:text-8xl">Skills</span>
