@@ -50,8 +50,7 @@ body {
 body {
   background:
     radial-gradient(circle at top, rgba(250, 185, 91, 0.08), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 24%),
-    var(--page-bg);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 24%), var(--page-bg);
   color: var(--page-text);
   font-family: 'JetBrains Mono', monospace;
   transition:
@@ -142,17 +141,13 @@ button,
 @theme {
   --animate-spin-slow: spin-slow 20s linear infinite;
 
-  --color-navy: #1a3263;
-  --color-navy-light: #547792;
-  --color-yellow: #fab95b;
+  --color-blue: #99b7f5;
+  --color-green: #3cbf96;
+  --color-coral: #f5793b;
+  --color-pink: #f296bd;
+  --color-yellow: #fcca59;
+  --color-red: #ff9292;
   --color-yellow-light: #e8e2db;
-  --color-yellow-neon: #cfff04;
-  --color-yellow-bright: #ffff00;
-
-  --color-coral: #eb6843;
-  --color-blue: #0d8dff;
-  --color-green: #47be96;
-  --color-purple: #7c3aed;
 
   --font-display: 'Google Sans', sans-serif;
 }

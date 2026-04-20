@@ -43,14 +43,14 @@ const AboutSection = () => {
                   <span className="word-bg theme-highlight absolute inset-0 rounded-md" />
                   {isSkill && (
                     <span
-                      className="word-highlight absolute inset-0 rounded-md border
-                        border-blue-400/50 bg-blue-400/45 opacity-0 backdrop-blur-sm"
+                      className="word-highlight border-blue bg-blue absolute inset-0 rounded-md
+                        border opacity-0"
                     />
                   )}
                   {isDev && (
                     <span
-                      className="word-highlight bg-green/45 border-green/50 absolute inset-0
-                        rounded-md border opacity-0 backdrop-blur-sm"
+                      className="word-highlight bg-green border-green absolute inset-0 rounded-md
+                        border opacity-0"
                     />
                   )}
                 </span>

@@ -20,7 +20,7 @@ const ContactSection = () => {
     >
       <div className="w-full max-w-5xl">
         <div ref={headingRef} className="mb-12 flex justify-center text-center md:mb-12">
-          <span className="text-6xl font-bold md:text-6xl lg:text-8xl">Get in touch</span>
+          <span className="text-6xl font-bold md:text-6xl lg:text-8xl">Contact me</span>
         </div>
 
         <div
@@ -29,11 +29,11 @@ const ContactSection = () => {
         >
           <div className="contact-card min-h-0 w-full">
             <div
-              className="contact-item flex h-full min-h-[200px] w-full flex-col justify-between
-                rounded-[32px] border border-teal-400/50 bg-teal-500/45 px-5 py-6 text-white
-                shadow-[0_20px_40px_rgba(20,184,166,0.35)] backdrop-blur-xl transition-all
-                duration-300 ease-out md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.02]
-                md:hover:shadow-[0_28px_56px_rgba(20,184,166,0.5)]"
+              className="contact-item border-blue bg-blue flex h-full min-h-[200px] w-full flex-col
+                justify-between rounded-[32px] border px-5 py-6 text-white
+                shadow-[0_20px_40px_rgba(153,183,245,0.35)] transition-all duration-300 ease-out
+                md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.02]
+                md:hover:shadow-[0_28px_56px_rgba(153,183,245,0.5)]"
             >
               <div className="space-y-4">
                 <div
@@ -82,11 +82,11 @@ const ContactSection = () => {
 
           <div className="contact-card min-h-0 w-full">
             <div
-              className="contact-item flex h-full min-h-[200px] w-full flex-col gap-4 rounded-[32px]
-                border border-[#FAB95B]/60 bg-[#FAB95B]/55 px-5 py-6 text-black
-                shadow-[0_20px_40px_rgba(250,185,91,0.35)] backdrop-blur-xl transition-all
-                duration-300 ease-out md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.02]
-                md:hover:shadow-[0_28px_56px_rgba(250,185,91,0.5)]"
+              className="contact-item border-yellow bg-yellow flex h-full min-h-[200px] w-full
+                flex-col gap-4 rounded-[32px] border px-5 py-6 text-black
+                shadow-[0_20px_40px_rgba(252,202,89,0.35)] transition-all duration-300 ease-out
+                md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.02]
+                md:hover:shadow-[0_28px_56px_rgba(252,202,89,0.5)]"
             >
               <div className="text-xs font-semibold tracking-[0.22em] text-black/70 uppercase">
                 Find me online
