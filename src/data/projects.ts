@@ -12,6 +12,7 @@ export type Project = {
   tech: string[];
   logo: string;
   color: string;
+  tint: string;
   border: string;
   borderColor: string;
   shadow: string;
@@ -28,6 +29,7 @@ export const PROJECTS: Project[] = [
     tech: ['React', 'TypeScript'],
     logo: logoTTB,
     color: 'bg-blue',
+    tint: 'bg-blue',
     border: 'border border-blue',
     borderColor: 'border-blue/60',
     shadow: 'shadow-[0_20px_40px_rgba(153,183,245,0.35)]',
@@ -42,6 +44,7 @@ export const PROJECTS: Project[] = [
     tech: ['React', 'TypeScript'],
     logo: logoSET,
     color: 'bg-yellow',
+    tint: 'bg-yellow',
     border: 'border border-yellow',
     borderColor: 'border-yellow/60',
     shadow: 'shadow-[0_20px_40px_rgba(252,202,89,0.35)]',
@@ -55,6 +58,7 @@ export const PROJECTS: Project[] = [
     tech: ['Next.js', 'TypeScript'],
     logo: logoSET,
     color: 'bg-yellow',
+    tint: 'bg-yellow',
     border: 'border border-yellow',
     borderColor: 'border-yellow/60',
     shadow: 'shadow-[0_20px_40px_rgba(252,202,89,0.35)]',
@@ -68,6 +72,7 @@ export const PROJECTS: Project[] = [
     tech: ['Next.js', 'TypeScript'],
     logo: logoSET,
     color: 'bg-yellow',
+    tint: 'bg-yellow',
     border: 'border border-yellow',
     borderColor: 'border-yellow/60',
     shadow: 'shadow-[0_20px_40px_rgba(252,202,89,0.35)]',
@@ -82,6 +87,7 @@ export const PROJECTS: Project[] = [
     tech: ['React', 'TypeScript'],
     logo: logoFoodBank,
     color: 'bg-green',
+    tint: 'bg-green',
     border: 'border border-green',
     borderColor: 'border-green/60',
     shadow: 'shadow-[0_20px_40px_rgba(38,127,83,0.35)]',
@@ -96,6 +102,7 @@ export const PROJECTS: Project[] = [
     tech: ['Next.js', 'TypeScript'],
     logo: logoINSKRU,
     color: 'bg-pink',
+    tint: 'bg-pink',
     border: 'border border-pink',
     borderColor: 'border-pink/60',
     shadow: 'shadow-[0_20px_40px_rgba(242,150,189,0.35)]',
@@ -109,6 +116,7 @@ export const PROJECTS: Project[] = [
     tech: ['Vue.js', 'LIFF'],
     logo: logoSKL,
     color: 'bg-coral',
+    tint: 'bg-coral',
     border: 'border border-coral',
     borderColor: 'border-coral/60',
     shadow: 'shadow-[0_20px_40px_rgba(245,121,59,0.35)]',

@@ -83,12 +83,12 @@ const ContactSection = () => {
           <div className="contact-card min-h-0 w-full">
             <div
               className="contact-item border-yellow bg-yellow flex h-full min-h-[200px] w-full
-                flex-col gap-4 rounded-[32px] border px-5 py-6 text-black
+                flex-col gap-4 rounded-[32px] border px-5 py-6 text-white
                 shadow-[0_20px_40px_rgba(252,202,89,0.35)] transition-all duration-300 ease-out
                 md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.02]
                 md:hover:shadow-[0_28px_56px_rgba(252,202,89,0.5)]"
             >
-              <div className="text-xs font-semibold tracking-[0.22em] text-black/70 uppercase">
+              <div className="text-xs font-semibold tracking-[0.22em] text-white/70 uppercase">
                 Find me online
               </div>
 
@@ -104,11 +104,11 @@ const ContactSection = () => {
                     <HiOutlineCodeBracketSquare className="h-6 w-6 shrink-0" aria-hidden />
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold">GitHub</span>
-                      <span className="truncate text-xs text-black/65">brothermos</span>
+                      <span className="truncate text-xs text-white/65">brothermos</span>
                     </div>
                   </div>
                   <span
-                    className="text-xs font-medium text-black/70 transition-transform
+                    className="text-xs font-medium text-white/70 transition-transform
                       group-hover:translate-x-0.5"
                   >
                     View projects →
@@ -126,11 +126,11 @@ const ContactSection = () => {
                     <HiOutlineBriefcase className="h-6 w-6 shrink-0" aria-hidden />
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold">LinkedIn</span>
-                      <span className="truncate text-xs text-black/65">Natdanai Kanyakoon</span>
+                      <span className="truncate text-xs text-white/65">Natdanai Kanyakoon</span>
                     </div>
                   </div>
                   <span
-                    className="text-xs font-medium text-black/70 transition-transform
+                    className="text-xs font-medium text-white/70 transition-transform
                       group-hover:translate-x-0.5"
                   >
                     View profile →
