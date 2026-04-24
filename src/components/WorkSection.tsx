@@ -61,9 +61,6 @@ const WorkSection = () => {
                 {project.company}
               </p>
               <h3 className="text-2xl leading-tight font-bold md:text-[28px]">{project.title}</h3>
-              <p className="theme-text-muted text-sm leading-relaxed font-normal md:text-base">
-                {project.description}
-              </p>
             </div>
 
             <div
