@@ -37,7 +37,7 @@ const useContactSection = () => {
         const isLeft = i % 2 === 0;
         gsap.fromTo(
           card,
-          { x: isLeft ? -80 : 80, opacity: 0, rotation: isLeft ? -4 : 4 },
+          { x: isLeft ? -70 : 70, opacity: 0, rotation: isLeft ? -3 : 3 },
           {
             x: 0,
             opacity: 1,
@@ -46,9 +46,32 @@ const useContactSection = () => {
             scrollTrigger: {
               trigger: card,
               start: 'top 82%',
-              end: 'top 55%',
+              end: 'top 56%',
               scrub: 1,
             },
+          },
+        );
+      });
+
+      const items = cardsRef.current
+        ? Array.from(cardsRef.current.querySelectorAll<HTMLElement>('.contact-item'))
+        : [];
+
+      items.forEach((item, i) => {
+        gsap.fromTo(
+          item,
+          { y: 28, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 86%',
+              end: 'top 64%',
+              scrub: 1,
+            },
+            delay: i * 0.03,
           },
         );
       });

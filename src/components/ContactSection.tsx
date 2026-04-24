@@ -4,6 +4,7 @@ import {
   HiOutlinePhone,
   HiOutlineCodeBracketSquare,
   HiOutlineBriefcase,
+  HiOutlineArrowTopRightOnSquare,
 } from 'react-icons/hi2';
 import useContactSection from '@/hooks/useContactSection';
 import { CONTACT_INFO } from '@/data/contact';
@@ -23,19 +24,25 @@ const ContactSection = () => {
           <span className="text-6xl font-bold md:text-6xl lg:text-8xl">Contact me</span>
         </div>
 
-        <div
-          ref={cardsRef}
-          className="grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.1fr)] md:gap-8"
-        >
-          <div className="contact-card min-h-0 w-full">
+        <div ref={cardsRef} className="grid gap-6 md:grid-cols-12 md:gap-7">
+          <div className="contact-card min-h-0 w-full md:col-span-7">
             <div
-              className="contact-item border-blue bg-blue flex h-full min-h-[200px] w-full flex-col
-                justify-between rounded-[32px] border px-5 py-6 text-white
+              className="contact-item border-blue bg-blue relative flex h-full min-h-[300px] w-full
+                flex-col justify-between overflow-hidden rounded-[32px] border px-5 py-6 text-white
                 shadow-[0_20px_40px_rgba(153,183,245,0.35)] transition-all duration-300 ease-out
-                md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.02]
+                md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.01]
                 md:hover:shadow-[0_28px_56px_rgba(153,183,245,0.5)]"
             >
-              <div className="space-y-4">
+              <div
+                className="pointer-events-none absolute -top-20 -right-16 h-48 w-48 rounded-full
+                  bg-white/15 blur-2xl"
+              />
+              <div
+                className="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40 rounded-full
+                  bg-white/10 blur-2xl"
+              />
+
+              <div className="relative space-y-4">
                 <div
                   className="theme-soft inline-flex items-center gap-2 rounded-full px-3 py-1
                     text-xs font-medium tracking-wide"
@@ -49,94 +56,137 @@ const ContactSection = () => {
                     className="mb-1.5 text-xs font-semibold tracking-[0.22em] text-white/70
                       uppercase"
                   >
-                    Primary contact
+                    Let&apos;s collaborate
                   </div>
+                  <h3 className="max-w-[16ch] text-3xl leading-tight font-bold md:text-4xl">
+                    Build something meaningful together.
+                  </h3>
+                </div>
+                <div>
                   <a
                     href={`mailto:${CONTACT_INFO.email}`}
-                    className="hover:text-yellow-light inline-flex items-center gap-2 text-base
-                      font-semibold transition-colors md:text-lg"
+                    className="hover:text-yellow-light inline-flex items-center gap-2 text-sm
+                      font-semibold tracking-wide uppercase transition-colors"
                   >
                     <HiOutlineEnvelope className="h-5 w-5 shrink-0" aria-hidden />
-                    <span>{CONTACT_INFO.email}</span>
+                    <span>Primary contact</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="relative mt-6 grid gap-3 border-t border-white/20 pt-4 md:grid-cols-2">
+                <a
+                  href={`mailto:${CONTACT_INFO.email}`}
+                  className="theme-soft theme-soft-hover flex min-h-[70px] items-center gap-3
+                    rounded-2xl px-3.5 py-3 transition-colors"
+                >
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl
+                      bg-white/15"
+                  >
+                    <HiOutlineEnvelope className="h-5 w-5 shrink-0" aria-hidden />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-white/70">Email</p>
+                    <p className="truncate text-sm font-semibold">{CONTACT_INFO.email}</p>
+                  </div>
+                </a>
+                <a
+                  href="tel:+66836536262"
+                  className="theme-soft theme-soft-hover flex min-h-[70px] items-center gap-3
+                    rounded-2xl px-3.5 py-3 transition-colors"
+                >
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl
+                      bg-white/15"
+                  >
+                    <HiOutlinePhone className="h-5 w-5 shrink-0" aria-hidden />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-white/70">Phone</p>
+                    <p className="truncate text-sm font-semibold">{CONTACT_INFO.phone}</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="contact-card min-h-0 w-full md:col-span-5">
+            <div className="grid h-full gap-6">
+              <div
+                className="contact-item border-yellow bg-yellow flex min-h-[164px] flex-col
+                  justify-between rounded-[32px] border px-5 py-6 text-white
+                  shadow-[0_20px_40px_rgba(252,202,89,0.35)] transition-all duration-300 ease-out
+                  md:px-7 md:py-7 md:hover:-translate-y-1.5 md:hover:scale-[1.01]
+                  md:hover:shadow-[0_28px_56px_rgba(252,202,89,0.5)]"
+              >
+                <div className="space-y-3">
+                  <a
+                    href={CONTACT_INFO.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="theme-soft theme-soft-hover group flex items-center justify-between
+                      rounded-2xl px-3.5 py-2.5 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <HiOutlineCodeBracketSquare className="h-6 w-6 shrink-0" aria-hidden />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold">GitHub</span>
+                        <span className="truncate text-xs text-white/65">brothermos</span>
+                      </div>
+                    </div>
+                    <HiOutlineArrowTopRightOnSquare className="h-4 w-4 text-white/80" aria-hidden />
+                  </a>
+
+                  <a
+                    href={CONTACT_INFO.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="theme-soft theme-soft-hover group flex items-center justify-between
+                      rounded-2xl px-3.5 py-2.5 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <HiOutlineBriefcase className="h-6 w-6 shrink-0" aria-hidden />
+                      <div className="flex flex-col">
+                        <span className="text-sm font-semibold">LinkedIn</span>
+                        <span className="truncate text-xs text-white/65">Natdanai Kanyakoon</span>
+                      </div>
+                    </div>
+                    <HiOutlineArrowTopRightOnSquare className="h-4 w-4 text-white/80" aria-hidden />
                   </a>
                 </div>
               </div>
 
               <div
-                className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t
-                  border-white/20 pt-4"
+                className="contact-item theme-panel theme-border flex min-h-[130px] items-center
+                  justify-between rounded-[28px] border px-5 py-5 backdrop-blur-xl transition-all
+                  duration-300 ease-out md:px-6 md:hover:-translate-y-1.5 bg-green text-white"
               >
-                <div className="flex items-center gap-2 text-sm text-white/80">
-                  <HiOutlinePhone className="h-5 w-5 shrink-0" aria-hidden />
-                  <a
-                    href="tel:+66836536262"
-                    className="hover:text-yellow-light font-medium transition-colors"
-                  >
-                    {CONTACT_INFO.phone}
-                  </a>
+                <div>
+                  <p className=" text-xs tracking-[0.18em] uppercase">Based in</p>
+                  <p className="mt-1 text-lg font-bold">{CONTACT_INFO.location}</p>
+                  <p className="text-sm">Local time: Bangkok (UTC+7)</p>
                 </div>
-                <div className="text-xs text-white/70">Local time: Bangkok (UTC+7)</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="contact-card min-h-0 w-full">
-            <div
-              className="contact-item border-yellow bg-yellow flex h-full min-h-[200px] w-full
-                flex-col gap-4 rounded-[32px] border px-5 py-6 text-white
-                shadow-[0_20px_40px_rgba(252,202,89,0.35)] transition-all duration-300 ease-out
-                md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.02]
-                md:hover:shadow-[0_28px_56px_rgba(252,202,89,0.5)]"
-            >
-              <div className="text-xs font-semibold tracking-[0.22em] text-white/70 uppercase">
-                Find me online
+                <div className="theme-soft flex h-12 w-12 items-center justify-center rounded-xl">
+                  <HiOutlineMapPin className="h-6 w-6" aria-hidden />
+                </div>
               </div>
 
-              <div className="space-y-3">
-                <a
-                  href={CONTACT_INFO.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="theme-soft theme-soft-hover group flex items-center justify-between
-                    rounded-2xl px-3.5 py-2.5 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <HiOutlineCodeBracketSquare className="h-6 w-6 shrink-0" aria-hidden />
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold">GitHub</span>
-                      <span className="truncate text-xs text-white/65">brothermos</span>
-                    </div>
-                  </div>
-                  <span
-                    className="text-xs font-medium text-white/70 transition-transform
-                      group-hover:translate-x-0.5"
-                  >
-                    View projects →
-                  </span>
-                </a>
-
-                <a
-                  href={CONTACT_INFO.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="theme-soft theme-soft-hover group flex items-center justify-between
-                    rounded-2xl px-3.5 py-2.5 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <HiOutlineBriefcase className="h-6 w-6 shrink-0" aria-hidden />
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold">LinkedIn</span>
-                      <span className="truncate text-xs text-white/65">Natdanai Kanyakoon</span>
-                    </div>
-                  </div>
-                  <span
-                    className="text-xs font-medium text-white/70 transition-transform
-                      group-hover:translate-x-0.5"
-                  >
-                    View profile →
-                  </span>
-                </a>
-              </div>
+              <a
+                href={`mailto:${CONTACT_INFO.email}`}
+                className="contact-item theme-panel theme-border theme-soft-hover flex min-h-[110px]
+                  items-center justify-between rounded-[28px] border px-5 py-5 backdrop-blur-xl
+                  transition-all duration-300 ease-out md:px-6 md:hover:-translate-y-1.5 bg-coral
+                  text-white"
+              >
+                <div>
+                  <p className="text-xs tracking-[0.18em] uppercase">Quick CTA</p>
+                  <p className="mt-1 text-base font-semibold">Start a project with me</p>
+                </div>
+                <div className="theme-soft flex h-10 w-10 items-center justify-center rounded-full">
+                  <HiOutlineArrowTopRightOnSquare className="h-5 w-5" aria-hidden />
+                </div>
+              </a>
             </div>
           </div>
         </div>
