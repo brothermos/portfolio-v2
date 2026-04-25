@@ -12,8 +12,11 @@ const ThemeToggle = ({ theme, onToggle }: ThemeToggleProps) => {
     <button
       type="button"
       onClick={onToggle}
-      className="theme-toggle-surface fixed top-5 right-5 z-50 inline-flex items-center gap-2
-        rounded-full border px-4 py-2 text-sm font-semibold backdrop-blur-xl"
+      className={`theme-dock fixed top-5 right-20 z-50 flex h-12 w-12 items-center justify-center
+        rounded-2xl border shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)]
+        backdrop-blur-md transition-all duration-200 md:right-5 ${
+          isDark ? 'theme-dock-button-active' : 'theme-dock-button'
+        }`}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       aria-pressed={isDark}
     >
