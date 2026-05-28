@@ -76,6 +76,7 @@ const CarouselBanner = ({ project }: CarouselBannerProps) => {
                   src={src}
                   alt={`${project.title} preview ${i + 1}`}
                   className="h-full w-full object-contain"
+                  loading={i === 0 ? 'eager' : 'lazy'}
                   draggable={false}
                 />
               </div>
@@ -144,6 +145,7 @@ const CarouselBanner = ({ project }: CarouselBannerProps) => {
                   alt=""
                   aria-hidden="true"
                   className="h-full w-full object-cover"
+                  loading="lazy"
                   draggable={false}
                 />
               </button>
