@@ -140,6 +140,8 @@ button,
 
 @theme {
   --animate-spin-slow: spin-slow 20s linear infinite;
+  --animate-modal-backdrop: modal-backdrop-in 350ms ease-out both;
+  --animate-modal-slide-up: modal-slide-up 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
 
   --color-blue: #99b7f5;
   --color-green: #3cbf96;
@@ -158,5 +160,24 @@ button,
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modal-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.93);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

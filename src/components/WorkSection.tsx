@@ -1,10 +1,21 @@
-import { PROJECTS } from '@/data/projects';
+import { useState } from 'react';
+import { PROJECTS, type Project } from '@/data/projects';
 import useWorkSection from '@/hooks/useWorkSection';
+import NetflixProjectModal from './NetflixProjectModal';
+
+type ActiveModal = { project: Project; originRect: DOMRect };
 
 const WorkSection = () => {
   const { workRef, headingRef } = useWorkSection();
+  const [activeModal, setActiveModal] = useState<ActiveModal | null>(null);
+
+  const openModal = (e: React.MouseEvent<HTMLElement>, project: Project) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setActiveModal({ project, originRect: rect });
+  };
 
   return (
+    <>
     <section
       id="work"
       ref={workRef}
@@ -21,10 +32,11 @@ const WorkSection = () => {
         {PROJECTS.map((project) => (
           <article
             key={project.number}
-            className={`work-panel group relative flex flex-col overflow-hidden rounded-[28px]
-            border border-white/30 backdrop-blur-xl transition-all duration-300 ease-out
-            md:rounded-[32px] md:hover:-translate-y-1.5 md:hover:scale-[1.01] ${project.tint}
-            ${project.shadow} ${project.hoverShadow}`}
+            onClick={(e) => openModal(e, project)}
+            className={`work-panel group relative flex cursor-pointer flex-col overflow-hidden
+            rounded-[28px] border border-white/30 backdrop-blur-xl transition-all duration-300
+            ease-out md:rounded-[32px] md:hover:-translate-y-1.5 md:hover:scale-[1.01]
+            ${project.tint} ${project.shadow} ${project.hoverShadow}`}
           >
             <div
               className="relative flex h-60 w-full items-center justify-center overflow-hidden
@@ -84,6 +96,7 @@ const WorkSection = () => {
               <button
                 type="button"
                 aria-label={`View ${project.title} case study`}
+                onClick={(e) => { e.stopPropagation(); openModal(e, project); }}
                 className="theme-soft theme-soft-hover flex h-10 w-10 shrink-0 items-center
                   justify-center rounded-full transition-transform duration-200 hover:scale-110"
               >
@@ -106,6 +119,15 @@ const WorkSection = () => {
         ))}
       </div>
     </section>
+
+    {activeModal && (
+      <NetflixProjectModal
+        project={activeModal.project}
+        originRect={activeModal.originRect}
+        onClose={() => setActiveModal(null)}
+      />
+    )}
+    </>
   );
 };
 
