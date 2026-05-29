@@ -163,54 +163,58 @@ const NetflixProjectModal = ({ project, originRect, onClose }: Props) => {
   const hasPreviews = project.previews.length > 0;
   const gradient = colorMap[project.color] ?? 'from-zinc-700/40 via-zinc-700/20 to-zinc-900';
 
-  // Expand-from-card: start collapsed at card position, animate to full size
   const modalRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
+  const [closing, setClosing] = useState(false);
 
   useEffect(() => {
-    // Let browser paint the initial (collapsed) state, then trigger transition
     const raf = requestAnimationFrame(() => setReady(true));
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const getInitialStyle = (): React.CSSProperties => {
+  const getCollapsedStyle = (): React.CSSProperties => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     const padding = vw < 768 ? 16 : 24;
     const modalW = Math.min(vw - padding * 2, 1024);
     const modalH = Math.min(vh * 0.92, vh - padding * 2);
-
     const cardCX = originRect.left + originRect.width / 2;
     const cardCY = originRect.top + originRect.height / 2;
-    const modalCX = vw / 2;
-    const modalCY = vh / 2;
-
-    const dx = cardCX - modalCX;
-    const dy = cardCY - modalCY;
+    const dx = cardCX - vw / 2;
+    const dy = cardCY - vh / 2;
     const scale = Math.min(originRect.width / modalW, originRect.height / modalH);
-
     return { transform: `translate(${dx}px, ${dy}px) scale(${scale})`, opacity: 0 };
+  };
+
+  const handleClose = () => {
+    setClosing(true);
+  };
+
+  const handleTransitionEnd = (e: React.TransitionEvent) => {
+    if (closing && e.propertyName === 'transform') onClose();
   };
 
   useEffect(() => {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };
     window.addEventListener('keydown', handleKey);
     return () => {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener('keydown', handleKey);
     };
-  }, [onClose]);
+  }, []);
+
+  const isOpen = ready && !closing;
 
   return (
     <div
       className="fixed inset-0 z-60 flex items-center justify-center p-4 md:p-6"
       style={{
-        backgroundColor: ready ? 'rgba(0,0,0,0.75)' : 'transparent',
-        transition: 'background-color 400ms ease',
+        backgroundColor: isOpen ? 'rgba(0,0,0,0.75)' : 'transparent',
+        transition: 'background-color 350ms ease',
       }}
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         ref={modalRef}
@@ -222,12 +226,16 @@ const NetflixProjectModal = ({ project, originRect, onClose }: Props) => {
         style={{
           maxHeight: '92dvh',
           overflowY: 'auto',
-          ...(ready
+          ...(isOpen
             ? { transform: 'translate(0,0) scale(1)', opacity: 1,
                 transition: 'transform 500ms cubic-bezier(0.22,1,0.36,1), opacity 300ms ease' }
-            : getInitialStyle()),
+            : { ...getCollapsedStyle(),
+                transition: ready
+                  ? 'transform 380ms cubic-bezier(0.4,0,1,1), opacity 250ms ease'
+                  : 'none' }),
         }}
         onClick={(e) => e.stopPropagation()}
+        onTransitionEnd={handleTransitionEnd}
       >
         {/* ── Banner ──────────────────────────── */}
         {hasPreviews ? (
@@ -248,7 +256,7 @@ const NetflixProjectModal = ({ project, originRect, onClose }: Props) => {
         <button
           type="button"
           aria-label="Close"
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-3 right-3 z-30 flex h-9 w-9 items-center justify-center
             rounded-full bg-zinc-900/80 text-white ring-1 ring-white/15 backdrop-blur-sm
             transition-colors hover:bg-zinc-700 md:top-4 md:right-4 md:h-10 md:w-10"

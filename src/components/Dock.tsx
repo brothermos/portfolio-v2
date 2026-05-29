@@ -41,49 +41,68 @@ const Dock = () => {
   }, []);
 
   return (
-    <div className="fixed top-5 right-5 z-50 flex justify-center md:top-auto md:right-auto md:bottom-3 md:left-1/2 md:-translate-x-1/2">
+    <div
+      className="fixed top-5 right-5 z-50 flex justify-center md:top-auto md:right-auto md:bottom-3
+        md:left-1/2 md:-translate-x-1/2"
+    >
       <div className="relative self-start md:hidden">
-        {isMobileMenuOpen ? (
-          <div
-            id="mobile-dock-menu"
-            className="theme-dock absolute top-14 right-0 flex w-[220px] flex-col gap-1 rounded-2xl
-              border p-2 shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)]
-              backdrop-blur-md"
-          >
-            {DOCK_ITEMS.map((item) => {
-              const IconComponent = DOCK_ICON_MAP[item.iconKey];
-              const isActive = activeHref === item.href;
+        <div
+          id="mobile-dock-menu"
+          aria-hidden={!isMobileMenuOpen}
+          className="theme-dock absolute top-14 right-0 flex w-[220px] flex-col gap-1 rounded-2xl
+            border p-2 shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)]
+            backdrop-blur-md origin-top-right"
+          style={{
+            opacity: isMobileMenuOpen ? 1 : 0,
+            transform: isMobileMenuOpen
+              ? 'scale(1) translateY(0)'
+              : 'scale(0.94) translateY(-6px)',
+            pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+            transition: 'opacity 280ms cubic-bezier(0.32,0.72,0,1), transform 320ms cubic-bezier(0.32,0.72,0,1)',
+          }}
+        >
+          {DOCK_ITEMS.map((item, idx) => {
+            const IconComponent = DOCK_ICON_MAP[item.iconKey];
+            const isActive = activeHref === item.href;
 
-              return (
-                <button
-                  key={item.label}
-                  onClick={() => {
-                    handleClick(item.href);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all
-                    duration-200 ${
-                      isActive ? 'theme-dock-button-active shadow-sm' : 'theme-dock-button'
-                    }`}
-                  aria-label={item.label}
-                  aria-current={isActive ? 'true' : undefined}
-                >
-                  <span className={`theme-text ${isActive ? '' : 'opacity-80'}`}>
-                    {IconComponent ? <IconComponent className="h-5 w-5" /> : null}
-                  </span>
-                  <span className="text-sm font-medium">{item.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        ) : null}
+            return (
+              <button
+                key={item.label}
+                onClick={() => {
+                  handleClick(item.href);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left
+                  transition-colors duration-150 ${
+                    isActive ? 'theme-dock-button-active shadow-sm' : 'theme-dock-button'
+                  }`}
+                style={{
+                  opacity: isMobileMenuOpen ? 1 : 0,
+                  transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-6px)',
+                  transition: isMobileMenuOpen
+                    ? `opacity 220ms ease ${idx * 30}ms, transform 280ms cubic-bezier(0.32,0.72,0,1) ${idx * 30}ms`
+                    : 'opacity 150ms ease, transform 150ms ease',
+                }}
+                aria-label={item.label}
+                aria-current={isActive ? 'true' : undefined}
+              >
+                <span className={`theme-text ${isActive ? '' : 'opacity-80'}`}>
+                  {IconComponent ? <IconComponent className="h-5 w-5" /> : null}
+                </span>
+                <span className="text-sm font-medium">{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
 
         <button
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           className={`theme-dock ${
             isMobileMenuOpen ? 'theme-dock-button-active' : 'theme-dock-button'
-          } flex h-12 w-12 items-center justify-center rounded-2xl border shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)]
-            backdrop-blur-md transition-all duration-200`}
+          } flex h-12 w-12
+            items-center justify-center rounded-2xl border
+            shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)] backdrop-blur-md
+            transition-all duration-200`}
           aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-dock-menu"
@@ -95,9 +114,8 @@ const Dock = () => {
       <ul
         ref={dockRef}
         className="theme-dock m-0 hidden h-full list-none items-end justify-center rounded-2xl
-          border px-3 py-2
-          shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)] backdrop-blur-md
-          md:inline-flex"
+          border px-3 py-2 shadow-[0_4px_30px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.06)]
+          backdrop-blur-md md:inline-flex"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >

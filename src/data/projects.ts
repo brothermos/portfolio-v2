@@ -37,6 +37,11 @@ import inskru7 from '../images/inskru/inskru_7.png';
 import inskru8 from '../images/inskru/inskru_8.png';
 import inskru9 from '../images/inskru/inskru_9.png';
 
+import foodbank1 from '../images/foodbank/foodbank_1.png';
+import foodbank2 from '../images/foodbank/foodbank_2.png';
+import foodbank3 from '../images/foodbank/foodbank_3.png';
+import foodbank4 from '../images/foodbank/foodbank_4.png';
+
 import skl1 from '../images/skl/skl.png';
 
 export type Project = {
@@ -127,7 +132,7 @@ export const PROJECTS: Project[] = [
       'Developed a web application for managing food donations and distributions to underprivileged communities, using React, Typescript',
     tech: ['React', 'TypeScript'],
     logo: logoFoodBank,
-    previews: [],
+    previews: [foodbank1, foodbank2, foodbank3, foodbank4],
     color: 'bg-green',
     tint: 'bg-green',
     border: 'border border-green',
