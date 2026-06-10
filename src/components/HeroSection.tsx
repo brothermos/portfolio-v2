@@ -90,7 +90,7 @@ const HeroSection = () => {
           <div className="mt-8 flex flex-wrap justify-center gap-3 md:mt-12 md:gap-4 lg:gap-6">
             <a
               ref={cvButtonRef}
-              href="/Natdanai_Kanyakoon_Resume.pdf"
+              href="/Natdanai_Kanyakoon_CV.pdf"
               download
               className={`skill-badge border-coral bg-coral rounded-full border px-4 py-2 text-base
                 font-semibold text-white shadow-[0_20px_40px_rgba(245,121,59,0.35)]
