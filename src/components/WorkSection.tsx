@@ -12,8 +12,8 @@ type ActiveModal = { project: Project; originRect: DOMRect };
 
 const PlusIcon = () => (
   <div
-    className="absolute right-4 bottom-4 aspect-square w-8 transition-transform duration-200
-      group-hover:rotate-90 sm:w-7 xl:w-9"
+    className="absolute right-4 bottom-4 aspect-square w-8 transition-transform duration-300
+      ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-90 sm:w-7 xl:w-9"
     aria-hidden="true"
   >
     <svg
@@ -125,64 +125,67 @@ const WorkSection = () => {
             pagination={{ clickable: true }}
             navigation={{}}
             onBeforeInit={handleBeforeInit}
-            className="order-1 w-full overflow-visible! xl:overflow-hidden!"
+            className="order-1 w-full overflow-visible!"
           >
             {PROJECTS.map((project) => (
-              <SwiperSlide key={project.number} className="w-auto!">
+              <SwiperSlide key={project.number} className="w-auto! py-3">
                 <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => openModal(e, project)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      (e.currentTarget as HTMLElement).click();
-                    }
-                  }}
-                  className="work-card group relative flex aspect-848/866 w-[78vw] max-w-[400px]
-                    cursor-pointer flex-col overflow-hidden rounded-3xl sm:w-[340px] lg:w-[400px]"
+                  className={`work-card-hover rounded-3xl ${project.shadow} ${project.hoverShadow}`}
                 >
                   <div
-                    className="relative flex min-h-0 flex-1 items-center justify-center
-                      overflow-hidden bg-white"
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => openModal(e, project)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        (e.currentTarget as HTMLElement).click();
+                      }
+                    }}
+                    className="work-card group relative flex aspect-848/866 w-[78vw] max-w-[400px]
+                      cursor-pointer flex-col overflow-hidden rounded-3xl sm:w-[340px] lg:w-[400px]"
                   >
-                    <div className="absolute top-5 right-5 z-10 flex flex-wrap justify-end gap-2">
-                      {project.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full border border-black/10 bg-black/5 px-3 py-1
-                            text-xs font-semibold text-neutral-900 backdrop-blur-md"
-                        >
-                          {t}
-                        </span>
-                      ))}
+                    <div
+                      className="relative flex min-h-0 flex-1 items-center justify-center
+                        overflow-hidden bg-white"
+                    >
+                      <div className="absolute top-5 right-5 z-10 flex flex-wrap justify-end gap-2">
+                        {project.tech.map((t) => (
+                          <span
+                            key={t}
+                            className="rounded-full border border-black/10 bg-black/5 px-3 py-1
+                              text-xs font-semibold text-neutral-900 backdrop-blur-md"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+
+                      <img
+                        src={project.logo}
+                        alt={project.company}
+                        loading="lazy"
+                        className="h-28 w-28 object-contain md:h-32 md:w-32"
+                      />
                     </div>
 
-                    <img
-                      src={project.logo}
-                      alt={project.company}
-                      loading="lazy"
-                      className="h-28 w-28 object-contain transition-transform duration-500 ease-out
-                        group-hover:scale-105 md:h-32 md:w-32"
-                    />
-                  </div>
-
-                  <div
-                    className={`flex shrink-0 flex-col gap-1 p-5 py-8 text-neutral-900
-                    ${project.tint}`}
-                  >
-                    <p
-                      className="text-xs font-semibold tracking-[0.2em] uppercase opacity-80
-                        md:text-sm"
+                    <div
+                      className={`flex shrink-0 flex-col gap-1 p-5 py-8 text-neutral-900
+                        ${project.tint}`}
                     >
-                      {project.company}
-                    </p>
-                    <h3 className="pr-12 text-xl leading-snug font-bold md:text-2xl">
-                      {project.title}
-                    </h3>
-                  </div>
+                      <p
+                        className="text-xs font-semibold tracking-[0.2em] uppercase opacity-80
+                          md:text-sm"
+                      >
+                        {project.company}
+                      </p>
+                      <h3 className="pr-12 text-xl leading-snug font-bold md:text-2xl">
+                        {project.title}
+                      </h3>
+                    </div>
 
-                  <PlusIcon />
+                    <PlusIcon />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}

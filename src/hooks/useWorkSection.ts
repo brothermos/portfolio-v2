@@ -9,6 +9,8 @@ const useWorkSection = () => {
   const headingRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    const hoverCleanups: (() => void)[] = [];
+
     const ctx = gsap.context(() => {
       if (headingRef.current) {
         gsap.fromTo(
@@ -30,15 +32,16 @@ const useWorkSection = () => {
 
       if (!workRef.current) return;
 
-      const cards = workRef.current.querySelectorAll<HTMLElement>('.work-card');
-      if (cards.length) {
+      const cardHovers =
+        workRef.current.querySelectorAll<HTMLElement>('.work-card-hover');
+
+      if (cardHovers.length) {
         gsap.fromTo(
-          cards,
-          { x: 120, opacity: 0, scale: 0.94 },
+          cardHovers,
+          { x: 120, opacity: 0 },
           {
             x: 0,
             opacity: 1,
-            scale: 1,
             duration: 0.9,
             ease: 'power3.out',
             stagger: 0.12,
@@ -49,6 +52,35 @@ const useWorkSection = () => {
             },
           },
         );
+
+        const canHover = window.matchMedia('(hover: hover)').matches;
+        if (canHover) {
+          cardHovers.forEach((card) => {
+            gsap.set(card, { transformOrigin: 'center center', force3D: true });
+
+            const yTo = gsap.quickTo(card, 'y', { duration: 0.55, ease: 'power3.out' });
+            const scaleTo = gsap.quickTo(card, 'scale', {
+              duration: 0.55,
+              ease: 'power3.out',
+            });
+
+            const onEnter = () => {
+              yTo(-8);
+              scaleTo(1.02);
+            };
+            const onLeave = () => {
+              yTo(0);
+              scaleTo(1);
+            };
+
+            card.addEventListener('mouseenter', onEnter);
+            card.addEventListener('mouseleave', onLeave);
+            hoverCleanups.push(() => {
+              card.removeEventListener('mouseenter', onEnter);
+              card.removeEventListener('mouseleave', onLeave);
+            });
+          });
+        }
       }
 
       const controls = workRef.current.querySelector<HTMLElement>('.work-controls');
@@ -73,6 +105,7 @@ const useWorkSection = () => {
     });
 
     return () => {
+      hoverCleanups.forEach((cleanup) => cleanup());
       ctx.revert();
     };
   }, []);
