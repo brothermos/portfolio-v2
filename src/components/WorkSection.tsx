@@ -139,11 +139,11 @@ const WorkSection = () => {
                       (e.currentTarget as HTMLElement).click();
                     }
                   }}
-                  className={`work-card group relative block w-[78vw] max-w-[400px] cursor-pointer
-                  overflow-hidden rounded-3xl sm:w-[340px] lg:w-[400px] ${project.tint}`}
+                  className="work-card group relative flex aspect-848/866 w-[78vw] max-w-[400px]
+                    cursor-pointer flex-col overflow-hidden rounded-3xl sm:w-[340px] lg:w-[400px]"
                 >
                   <div
-                    className="relative flex aspect-848/866 w-full items-center justify-center
+                    className="relative flex min-h-0 flex-1 items-center justify-center
                       overflow-hidden bg-white"
                   >
                     <div className="absolute top-5 right-5 z-10 flex flex-wrap justify-end gap-2">
@@ -168,8 +168,8 @@ const WorkSection = () => {
                   </div>
 
                   <div
-                    className="from-yellow absolute inset-x-0 bottom-0 flex flex-col justify-end
-                      gap-1 bg-linear-to-t to-transparent p-5 pt-10 text-neutral-900"
+                    className={`flex shrink-0 flex-col gap-1 p-5 py-8 text-neutral-900
+                    ${project.tint}`}
                   >
                     <p
                       className="text-xs font-semibold tracking-[0.2em] uppercase opacity-80
