@@ -138,6 +138,29 @@ button,
     pointer;
 }
 
+.work-pagination.swiper-pagination {
+  position: static;
+  width: auto;
+  text-align: left;
+  transform: none;
+}
+
+.work-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  margin: 0;
+  background-color: var(--page-text);
+  opacity: 0.25;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.work-pagination .swiper-pagination-bullet-active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
 @theme {
   --animate-spin-slow: spin-slow 20s linear infinite;
   --animate-modal-backdrop: modal-backdrop-in 350ms ease-out both;

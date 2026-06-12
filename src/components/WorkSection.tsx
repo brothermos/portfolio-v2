@@ -1,132 +1,202 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import type { Swiper as SwiperType } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { PROJECTS, type Project } from '@/data/projects';
 import useWorkSection from '@/hooks/useWorkSection';
 import NetflixProjectModal from './NetflixProjectModal';
 
 type ActiveModal = { project: Project; originRect: DOMRect };
 
+const PlusIcon = () => (
+  <div
+    className="absolute right-4 bottom-4 aspect-square w-8 transition-transform duration-200
+      group-hover:rotate-90 sm:w-7 xl:w-9"
+    aria-hidden="true"
+  >
+    <svg
+      className="h-full w-full"
+      viewBox="0 0 36 36"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0 18C0 8.05888 8.05888 0 18 0C27.9411 0 36 8.05888 36 18C36 27.9411 27.9411 36 18 36C8.05888 36 0 27.9411 0 18Z"
+        fill="white"
+      />
+      <path d="M19.5 16.5H27V19.5H19.5V27H16.5V19.5H9V16.5H16.5V9H19.5V16.5Z" fill="black" />
+    </svg>
+  </div>
+);
+
+const ArrowIcon = () => (
+  <svg
+    className="h-4 w-auto"
+    width="11"
+    height="20"
+    viewBox="0 0 11 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M0.38296 20.0762C0.111788 19.805 0.111788 19.3654 0.38296 19.0942L9.19758 10.2796L0.38296 1.46497C0.111788 1.19379 0.111788 0.754138 0.38296 0.482966C0.654131 0.211794 1.09379 0.211794 1.36496 0.482966L10.4341 9.55214C10.8359 9.9539 10.8359 10.6053 10.4341 11.007L1.36496 20.0762C1.09379 20.3474 0.654131 20.3474 0.38296 20.0762Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 const WorkSection = () => {
   const { workRef, headingRef } = useWorkSection();
   const [activeModal, setActiveModal] = useState<ActiveModal | null>(null);
+
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
+  const paginationRef = useRef<HTMLDivElement>(null);
 
   const openModal = (e: React.MouseEvent<HTMLElement>, project: Project) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setActiveModal({ project, originRect: rect });
   };
 
+  const handleBeforeInit = (swiper: SwiperType) => {
+    if (typeof swiper.params.navigation === 'object' && swiper.params.navigation) {
+      swiper.params.navigation.prevEl = prevRef.current;
+      swiper.params.navigation.nextEl = nextRef.current;
+    }
+    if (typeof swiper.params.pagination === 'object' && swiper.params.pagination) {
+      swiper.params.pagination.el = paginationRef.current;
+    }
+  };
+
   return (
     <>
-    <section
-      id="work"
-      ref={workRef}
-      className="theme-text flex min-h-screen flex-col items-center justify-center gap-12 px-4 py-24
-        font-bold md:gap-20 md:px-6 md:py-32 lg:gap-28"
-    >
-      <div ref={headingRef} className="flex items-center gap-4">
-        <span className="text-6xl font-bold md:text-6xl lg:text-8xl">My Work</span>
-      </div>
-
-      <div
-        className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
+      <section
+        id="work"
+        ref={workRef}
+        className="theme-text flex min-h-screen flex-col items-center justify-center overflow-hidden
+          px-4 py-10 font-bold sm:py-16 md:px-6 xl:py-20"
       >
-        {PROJECTS.map((project) => (
-          <article
-            key={project.number}
-            onClick={(e) => openModal(e, project)}
-            className={`work-panel group relative flex cursor-pointer flex-col overflow-hidden
-            rounded-[28px] border border-white/30 backdrop-blur-xl transition-all duration-300
-            ease-out md:rounded-[32px] md:hover:-translate-y-1.5 md:hover:scale-[1.01]
-            ${project.tint} ${project.shadow} ${project.hoverShadow}`}
-          >
-            <div
-              className="relative flex h-60 w-full items-center justify-center overflow-hidden
-                bg-white md:h-60 lg:h-72"
-            >
-              <img
-                src={project.logo}
-                alt={project.company}
-                className="h-28 w-28 object-contain transition-transform duration-500 ease-out
-                  group-hover:scale-105 md:h-32 md:w-32"
-              />
+        <div ref={headingRef} className="mb-6 flex items-center gap-4 sm:mb-8 md:mb-12">
+          <span className="text-[34px] leading-snug font-bold md:text-[50px] xl:text-[64px]">
+            My Work
+          </span>
+        </div>
 
-              <div
-                className="absolute top-5 right-5 flex flex-wrap justify-end gap-2 md:top-6
-                  md:right-6"
-              >
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-xs
-                      font-semibold text-neutral-900 backdrop-blur-md"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
+        <div className="flex w-full max-w-6xl flex-col">
+          <div className="work-controls order-2 mt-6 flex items-center justify-between gap-4">
+            <div ref={paginationRef} className="work-pagination flex items-center gap-1" />
 
-            <div className="flex flex-1 flex-col gap-3 px-6 pt-6 pb-5 md:px-8 md:pt-8 md:pb-6">
-              <p
-                className="theme-text-muted text-[11px] font-semibold tracking-[0.24em] uppercase
-                  md:text-xs"
-              >
-                {project.company}
-              </p>
-              <h3 className="text-2xl leading-tight font-bold md:text-[28px]">{project.title}</h3>
-            </div>
-
-            <div
-              className="theme-border flex items-center justify-between gap-4 border-t px-6 py-4
-                md:px-8 md:py-5"
-            >
-              <div className="flex min-w-0 items-center gap-3">
-                <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white
-                    p-1.5 shadow-md ring-1 ring-black/5"
-                >
-                  <img src={project.logo} alt="" className="h-full w-full object-contain" />
-                </div>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-bold">{project.company}</p>
-                  <p className="theme-text-muted truncate text-xs font-medium">
-                    {project.tech.join(' · ')}
-                  </p>
-                </div>
-              </div>
+            <div className="flex items-center justify-end gap-3">
               <button
+                ref={prevRef}
                 type="button"
-                aria-label={`View ${project.title} case study`}
-                onClick={(e) => { e.stopPropagation(); openModal(e, project); }}
-                className="theme-soft theme-soft-hover flex h-10 w-10 shrink-0 items-center
-                  justify-center rounded-full transition-transform duration-200 hover:scale-110"
+                aria-label="Previous slide"
+                className="theme-soft theme-soft-hover flex h-10 w-10 items-center justify-center
+                  rounded-full transition-opacity duration-200
+                  [&.swiper-button-disabled]:pointer-events-none
+                  [&.swiper-button-disabled]:opacity-30"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-4 w-4"
-                  aria-hidden="true"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M13 5l7 7-7 7" />
-                </svg>
+                <span className="rotate-180">
+                  <ArrowIcon />
+                </span>
+              </button>
+              <button
+                ref={nextRef}
+                type="button"
+                aria-label="Next slide"
+                className="theme-soft theme-soft-hover flex h-10 w-10 items-center justify-center
+                  rounded-full transition-opacity duration-200
+                  [&.swiper-button-disabled]:pointer-events-none
+                  [&.swiper-button-disabled]:opacity-30"
+              >
+                <ArrowIcon />
               </button>
             </div>
-          </article>
-        ))}
-      </div>
-    </section>
+          </div>
 
-    {activeModal && (
-      <NetflixProjectModal
-        project={activeModal.project}
-        originRect={activeModal.originRect}
-        onClose={() => setActiveModal(null)}
-      />
-    )}
+          <Swiper
+            modules={[Navigation, Pagination]}
+            slidesPerView="auto"
+            spaceBetween={20}
+            grabCursor
+            pagination={{ clickable: true }}
+            navigation={{}}
+            onBeforeInit={handleBeforeInit}
+            className="order-1 w-full overflow-visible! xl:overflow-hidden!"
+          >
+            {PROJECTS.map((project) => (
+              <SwiperSlide key={project.number} className="w-auto!">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => openModal(e, project)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      (e.currentTarget as HTMLElement).click();
+                    }
+                  }}
+                  className={`work-card group relative block w-[78vw] max-w-[400px] cursor-pointer
+                  overflow-hidden rounded-3xl sm:w-[340px] lg:w-[400px] ${project.tint}`}
+                >
+                  <div
+                    className="relative flex aspect-848/866 w-full items-center justify-center
+                      overflow-hidden bg-white"
+                  >
+                    <div className="absolute top-5 right-5 z-10 flex flex-wrap justify-end gap-2">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full border border-black/10 bg-black/5 px-3 py-1
+                            text-xs font-semibold text-neutral-900 backdrop-blur-md"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <img
+                      src={project.logo}
+                      alt={project.company}
+                      loading="lazy"
+                      className="h-28 w-28 object-contain transition-transform duration-500 ease-out
+                        group-hover:scale-105 md:h-32 md:w-32"
+                    />
+                  </div>
+
+                  <div
+                    className="from-yellow absolute inset-x-0 bottom-0 flex flex-col justify-end
+                      gap-1 bg-linear-to-t to-transparent p-5 pt-10 text-neutral-900"
+                  >
+                    <p
+                      className="text-xs font-semibold tracking-[0.2em] uppercase opacity-80
+                        md:text-sm"
+                    >
+                      {project.company}
+                    </p>
+                    <h3 className="pr-12 text-xl leading-snug font-bold md:text-2xl">
+                      {project.title}
+                    </h3>
+                  </div>
+
+                  <PlusIcon />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </section>
+
+      {activeModal && (
+        <NetflixProjectModal
+          project={activeModal.project}
+          originRect={activeModal.originRect}
+          onClose={() => setActiveModal(null)}
+        />
+      )}
     </>
   );
 };

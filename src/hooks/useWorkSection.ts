@@ -9,7 +9,6 @@ const useWorkSection = () => {
   const headingRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       if (headingRef.current) {
         gsap.fromTo(
@@ -29,73 +28,52 @@ const useWorkSection = () => {
         );
       }
 
-      const panels = workRef.current
-        ? Array.from(workRef.current.querySelectorAll<HTMLElement>('.work-panel'))
-        : [];
+      if (!workRef.current) return;
 
-      if (!panels.length) return;
+      const cards = workRef.current.querySelectorAll<HTMLElement>('.work-card');
+      if (cards.length) {
+        gsap.fromTo(
+          cards,
+          { x: 120, opacity: 0, scale: 0.94 },
+          {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            stagger: 0.12,
+            scrollTrigger: {
+              trigger: workRef.current,
+              start: 'top 65%',
+              toggleActions: 'play none none reverse',
+            },
+          },
+        );
+      }
 
-      mm.add(
-        {
-          isMobile: '(max-width: 767px)',
-          isTablet: '(min-width: 768px) and (max-width: 1023px)',
-          isDesktop: '(min-width: 1024px)',
-        },
-        (context) => {
-          const { isMobile, isTablet } = context.conditions as {
-            isMobile?: boolean;
-            isTablet?: boolean;
-          };
-
-          panels.forEach((panel, i) => {
-            let fromX = 0;
-            let fromY = 0;
-            let fromRotation = 0;
-
-            if (isMobile) {
-              fromY = 44;
-            } else if (isTablet) {
-              const isLeft = i % 2 === 0;
-              fromX = isLeft ? -80 : 80;
-              fromRotation = isLeft ? -4 : 4;
-            } else {
-              const column = i % 3;
-              if (column === 0) {
-                fromX = -90;
-                fromRotation = -4;
-              } else if (column === 2) {
-                fromX = 90;
-                fromRotation = 4;
-              } else {
-                fromY = 44;
-              }
-            }
-
-            gsap.fromTo(
-              panel,
-              { x: fromX, y: fromY, opacity: 0, rotation: fromRotation },
-              {
-                x: 0,
-                y: 0,
-                opacity: 1,
-                rotation: 0,
-                ease: 'power3.out',
-                scrollTrigger: {
-                  trigger: panel,
-                  start: 'top 82%',
-                  end: 'top 55%',
-                  scrub: 1,
-                },
-              },
-            );
-          });
-        },
-      );
+      const controls = workRef.current.querySelector<HTMLElement>('.work-controls');
+      if (controls) {
+        gsap.fromTo(
+          controls,
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            delay: 0.45,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: workRef.current,
+              start: 'top 65%',
+              toggleActions: 'play none none reverse',
+            },
+          },
+        );
+      }
     });
 
     return () => {
       ctx.revert();
-      mm.revert();
     };
   }, []);
 
