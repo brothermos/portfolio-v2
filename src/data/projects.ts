@@ -175,3 +175,41 @@ export const PROJECTS: Project[] = [
 
 export const getProjectByNumber = (number: string): Project | null =>
   PROJECTS.find((p) => p.number === number) ?? null;
+
+export type ProjectContent = Pick<Project, 'number' | 'title' | 'company' | 'description' | 'tech'> & {
+  sortOrder?: number;
+  published?: boolean;
+};
+
+export const PROJECT_CONTENT_FALLBACK: ProjectContent[] = PROJECTS.map((project, index) => ({
+  number: project.number,
+  title: project.title,
+  company: project.company,
+  description: project.description,
+  tech: project.tech,
+  sortOrder: index + 1,
+  published: true,
+}));
+
+export const mergeProjectsWithContent = (content: ProjectContent[]): Project[] => {
+  const byNumber = new Map(PROJECTS.map((project) => [project.number, project]));
+
+  return content
+    .filter((item) => item.published !== false)
+    .sort((a, b) => (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER))
+    .flatMap((item) => {
+      const baseProject = byNumber.get(item.number);
+      if (!baseProject) {
+        return [];
+      }
+
+      return [{
+        ...baseProject,
+        number: item.number,
+        title: item.title,
+        company: item.company,
+        description: item.description,
+        tech: item.tech,
+      }];
+    });
+};

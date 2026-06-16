@@ -4,8 +4,9 @@ import { Navigation, Pagination } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { PROJECTS, type Project } from '@/data/projects';
+import type { Project } from '@/data/projects';
 import useWorkSection from '@/hooks/useWorkSection';
+import useProjectsData from '@/hooks/useProjectsData';
 import NetflixProjectModal from './NetflixProjectModal';
 
 type ActiveModal = { project: Project; originRect: DOMRect };
@@ -50,6 +51,7 @@ const ArrowIcon = () => (
 
 const WorkSection = () => {
   const { workRef, headingRef } = useWorkSection();
+  const { projects, loading } = useProjectsData();
   const [activeModal, setActiveModal] = useState<ActiveModal | null>(null);
 
   const prevRef = useRef<HTMLButtonElement>(null);
@@ -85,7 +87,7 @@ const WorkSection = () => {
           </span>
         </div>
 
-        <div className="flex w-full max-w-6xl flex-col">
+        <div className="flex w-full max-w-6xl flex-col" aria-busy={loading}>
           <div className="work-controls order-2 mt-6 flex items-center justify-between gap-4">
             <div ref={paginationRef} className="work-pagination flex items-center gap-1" />
 
@@ -127,7 +129,7 @@ const WorkSection = () => {
             onBeforeInit={handleBeforeInit}
             className="order-1 w-full overflow-visible!"
           >
-            {PROJECTS.map((project) => (
+            {projects.map((project) => (
               <SwiperSlide key={project.number} className="w-auto! py-3">
                 <div
                   className={`work-card-hover rounded-3xl ${project.shadow} ${project.hoverShadow}`}
