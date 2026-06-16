@@ -1,5 +1,5 @@
-import { getWorksContent } from '../services/works.service';
-import type { ApiRequest, ApiResponse } from '../types/http.types';
+import { getWorksContent } from '../services/works.service.js';
+import type { ApiRequest, ApiResponse } from '../types/http.types.js';
 
 export const worksHandler = async (req: ApiRequest, res: ApiResponse): Promise<void> => {
   if (req.method !== 'GET') {

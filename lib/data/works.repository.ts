@@ -1,5 +1,5 @@
-import { getPool } from '../config/database';
-import type { WorkContent } from '../models/works.types';
+import { getPool } from '../config/database.js';
+import type { WorkContent } from '../models/works.types.js';
 
 export const getPublishedWorksFromDatabase = async (): Promise<WorkContent[] | null> => {
   const client = getPool();

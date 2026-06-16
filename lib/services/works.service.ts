@@ -1,6 +1,6 @@
-import { fallbackWorks } from '../data/works.fallback';
-import { getPublishedWorksFromDatabase } from '../data/works.repository';
-import type { WorksResult } from '../models/works.types';
+import { fallbackWorks } from '../data/works.fallback.js';
+import { getPublishedWorksFromDatabase } from '../data/works.repository.js';
+import type { WorksResult } from '../models/works.types.js';
 
 export const getWorksContent = async (): Promise<WorksResult> => {
   try {

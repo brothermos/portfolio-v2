@@ -1,3 +1,3 @@
-import { worksHandler } from './src/controllers/works.controller';
+import { worksHandler } from '../lib/controllers/works.controller.js';
 
 export default worksHandler;

@@ -1,4 +1,4 @@
-import type { WorkContent } from '../models/works.types';
+import type { WorkContent } from '../models/works.types.js';
 
 export const fallbackWorks: WorkContent[] = [
   {
