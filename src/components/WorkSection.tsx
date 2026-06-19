@@ -131,9 +131,7 @@ const WorkSection = () => {
           >
             {projects.map((project) => (
               <SwiperSlide key={project.number} className="w-auto! py-3">
-                <div
-                  className={`work-card-hover rounded-3xl ${project.shadow} ${project.hoverShadow}`}
-                >
+                <div className={`work-card-hover rounded-3xl ${project.hoverShadow}`}>
                   <div
                     role="button"
                     tabIndex={0}
@@ -173,7 +171,7 @@ const WorkSection = () => {
 
                     <div
                       className={`flex shrink-0 flex-col gap-1 p-5 py-8 text-neutral-900
-                        ${project.tint}`}
+                      ${project.tint}`}
                     >
                       <p
                         className="text-xs font-semibold tracking-[0.2em] uppercase opacity-80
