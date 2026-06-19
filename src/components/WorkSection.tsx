@@ -142,39 +142,46 @@ const WorkSection = () => {
                         (e.currentTarget as HTMLElement).click();
                       }
                     }}
-                    className="work-card group relative flex aspect-848/866 w-[78vw] max-w-[400px]
-                      cursor-pointer flex-col overflow-hidden rounded-3xl sm:w-[340px] lg:w-[400px]"
+                    className={`work-card group relative flex aspect-848/866 w-[78vw] max-w-[400px]
+                    cursor-pointer flex-col overflow-hidden rounded-3xl text-white sm:w-[340px]
+                    lg:w-[400px] ${project.tint} ${project.border}`}
                   >
                     <div
-                      className="relative flex min-h-0 flex-1 items-center justify-center
-                        overflow-hidden bg-white"
-                    >
-                      <div className="absolute top-5 right-5 z-10 flex flex-wrap justify-end gap-2">
-                        {project.tech.map((t) => (
-                          <span
-                            key={t}
-                            className="rounded-full border border-black/10 bg-black/5 px-3 py-1
-                              text-xs font-semibold text-neutral-900 backdrop-blur-md"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
+                      className="pointer-events-none absolute -top-20 -right-16 h-48 w-48
+                        rounded-full bg-white/15 blur-2xl"
+                    />
+                    <div
+                      className="pointer-events-none absolute -bottom-16 -left-12 h-40 w-40
+                        rounded-full bg-white/10 blur-2xl"
+                    />
 
+                    <div className="absolute top-5 right-5 z-10 flex flex-wrap justify-end gap-2">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-full border border-white/25 bg-white/15 px-3 py-1
+                            text-xs font-semibold text-white backdrop-blur-md"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div
+                      className="relative flex min-h-0 flex-1 items-center justify-center px-6 pt-10
+                        pb-4"
+                    >
                       <img
                         src={project.logo}
                         alt={project.company}
                         loading="lazy"
-                        className="h-28 w-28 object-contain md:h-32 md:w-32"
+                        className="h-32 w-auto max-w-[80%] object-contain drop-shadow-sm md:h-40"
                       />
                     </div>
 
-                    <div
-                      className={`flex shrink-0 flex-col gap-1 p-5 py-8 text-neutral-900
-                      ${project.tint}`}
-                    >
+                    <div className="relative flex shrink-0 flex-col gap-1 p-5 pb-8">
                       <p
-                        className="text-xs font-semibold tracking-[0.2em] uppercase opacity-80
+                        className="text-xs font-semibold tracking-[0.2em] text-white/75 uppercase
                           md:text-sm"
                       >
                         {project.company}

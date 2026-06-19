@@ -1,7 +1,7 @@
-import logoINSKRU from '../images/inskru.jpg';
-import logoSET from '../images/set.jpg';
-import logoSKL from '../images/skl.jpg';
-import logoTTB from '../images/ttb.jpg';
+import logoINSKRU from '../images/logo-without-bg/inskru-removebg-preview.png';
+import logoSET from '../images/logo-without-bg/set-removebg-preview.png';
+import logoSKL from '../images/logo-without-bg/skl-removebg-preview.png';
+import logoTTB from '../images/logo-without-bg/ttb-removebg-preview.png';
 import logoFoodBank from '../images/food_bank.png';
 
 import ttb1 from '../images/ttb/ttb.png';
@@ -115,8 +115,19 @@ export const PROJECTS: Project[] = [
     description: 'Full UI revamp of the LiVE Platform with mobile-first responsive design',
     tech: ['Next.js', 'TypeScript'],
     logo: logoSET,
-    previews: [livePlatform1, livePlatform2, livePlatform3, livePlatform4, livePlatform5,
-      livePlatform6, livePlatform7, livePlatform8, livePlatform9, livePlatform10, livePlatform11],
+    previews: [
+      livePlatform1,
+      livePlatform2,
+      livePlatform3,
+      livePlatform4,
+      livePlatform5,
+      livePlatform6,
+      livePlatform7,
+      livePlatform8,
+      livePlatform9,
+      livePlatform10,
+      livePlatform11,
+    ],
     color: 'bg-yellow',
     tint: 'bg-yellow',
     border: 'border border-yellow',
@@ -165,8 +176,8 @@ export const PROJECTS: Project[] = [
     logo: logoSKL,
     previews: [skl1],
     color: 'bg-coral',
-    tint: 'bg-coral',
-    border: 'border border-coral',
+    tint: 'bg-yellow',
+    border: 'border border-yellow',
     borderColor: 'border-coral/60',
     shadow: 'shadow-[0_20px_40px_rgba(245,121,59,0.35)]',
     hoverShadow: 'md:hover:shadow-[0_28px_56px_rgba(245,121,59,0.5)]',
@@ -176,7 +187,10 @@ export const PROJECTS: Project[] = [
 export const getProjectByNumber = (number: string): Project | null =>
   PROJECTS.find((p) => p.number === number) ?? null;
 
-export type ProjectContent = Pick<Project, 'number' | 'title' | 'company' | 'description' | 'tech'> & {
+export type ProjectContent = Pick<
+  Project,
+  'number' | 'title' | 'company' | 'description' | 'tech'
+> & {
   sortOrder?: number;
   published?: boolean;
 };
@@ -196,20 +210,24 @@ export const mergeProjectsWithContent = (content: ProjectContent[]): Project[] =
 
   return content
     .filter((item) => item.published !== false)
-    .sort((a, b) => (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER))
+    .sort(
+      (a, b) => (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER),
+    )
     .flatMap((item) => {
       const baseProject = byNumber.get(item.number);
       if (!baseProject) {
         return [];
       }
 
-      return [{
-        ...baseProject,
-        number: item.number,
-        title: item.title,
-        company: item.company,
-        description: item.description,
-        tech: item.tech,
-      }];
+      return [
+        {
+          ...baseProject,
+          number: item.number,
+          title: item.title,
+          company: item.company,
+          description: item.description,
+          tech: item.tech,
+        },
+      ];
     });
 };
