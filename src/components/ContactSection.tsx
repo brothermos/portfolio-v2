@@ -6,6 +6,7 @@ import {
   HiOutlineBriefcase,
   HiOutlineArrowTopRightOnSquare,
 } from 'react-icons/hi2';
+import starAvatar from '@/images/star.png';
 import useContactSection from '@/hooks/useContactSection';
 import { CONTACT_INFO } from '@/data/contact';
 
@@ -25,7 +26,7 @@ const ContactSection = () => {
         </div>
 
         <div ref={cardsRef} className="grid gap-6 md:grid-cols-12 md:gap-7">
-          <div className="contact-card min-h-0 w-full md:col-span-7">
+          <div className="contact-card min-h-0 w-full min-w-0 md:col-span-7">
             <div
               className="contact-item border-blue bg-blue relative flex h-full min-h-[300px] w-full
                 flex-col justify-between overflow-hidden rounded-[32px] border px-5 py-6 text-white
@@ -42,36 +43,49 @@ const ContactSection = () => {
                   bg-white/10 blur-2xl"
               />
 
-              <div className="relative space-y-4">
-                <div
-                  className="theme-soft inline-flex items-center gap-2 rounded-full px-3 py-1
-                    text-xs font-medium tracking-wide"
-                >
-                  <HiOutlineMapPin className="h-5 w-5 shrink-0" aria-hidden />
-                  <span className="text-white/80 uppercase">{CONTACT_INFO.location}</span>
+              <div
+                className="relative flex w-full min-w-0 flex-col gap-4 md:flex-row md:items-center
+                  md:justify-between"
+              >
+                <div className="min-w-0 space-y-4">
+                  <div
+                    className="theme-soft inline-flex items-center gap-2 rounded-full px-3 py-1
+                      text-xs font-medium tracking-wide"
+                  >
+                    <HiOutlineMapPin className="h-5 w-5 shrink-0" aria-hidden />
+                    <span className="text-white/80 uppercase">{CONTACT_INFO.location}</span>
+                  </div>
+
+                  <div>
+                    <div
+                      className="mb-1.5 text-xs font-semibold tracking-[0.22em] text-white/70
+                        uppercase"
+                    >
+                      Let&apos;s collaborate
+                    </div>
+                    <h3 className="text-2xl leading-tight font-bold sm:text-3xl md:text-4xl">
+                      Build something meaningful together.
+                    </h3>
+                  </div>
+                  <div>
+                    <a
+                      href={`mailto:${CONTACT_INFO.email}`}
+                      className="hover:text-yellow-light inline-flex items-center gap-2 text-sm
+                        font-semibold tracking-wide uppercase transition-colors"
+                    >
+                      <HiOutlineEnvelope className="h-5 w-5 shrink-0" aria-hidden />
+                      <span>Primary contact</span>
+                    </a>
+                  </div>
                 </div>
 
-                <div>
-                  <div
-                    className="mb-1.5 text-xs font-semibold tracking-[0.22em] text-white/70
-                      uppercase"
-                  >
-                    Let&apos;s collaborate
-                  </div>
-                  <h3 className="max-w-[16ch] text-3xl leading-tight font-bold md:text-4xl">
-                    Build something meaningful together.
-                  </h3>
-                </div>
-                <div>
-                  <a
-                    href={`mailto:${CONTACT_INFO.email}`}
-                    className="hover:text-yellow-light inline-flex items-center gap-2 text-sm
-                      font-semibold tracking-wide uppercase transition-colors"
-                  >
-                    <HiOutlineEnvelope className="h-5 w-5 shrink-0" aria-hidden />
-                    <span>Primary contact</span>
-                  </a>
-                </div>
+                <img
+                  src={starAvatar}
+                  alt=""
+                  aria-hidden="true"
+                  className="pointer-events-none mx-auto h-36 w-36 shrink-0 object-contain md:mx-0
+                    md:h-72 md:w-72"
+                />
               </div>
 
               <div className="relative mt-6 grid gap-3 border-t border-white/20 pt-4 md:grid-cols-2">
@@ -158,12 +172,13 @@ const ContactSection = () => {
               </div>
 
               <div
-                className="contact-item theme-panel theme-border flex min-h-[130px] items-center
-                  justify-between rounded-[28px] border px-5 py-5 backdrop-blur-xl transition-all
-                  duration-300 ease-out md:px-6 md:hover:-translate-y-1.5 bg-green text-white"
+                className="contact-item theme-panel theme-border bg-green flex min-h-[130px]
+                  items-center justify-between rounded-[28px] border px-5 py-5 text-white
+                  backdrop-blur-xl transition-all duration-300 ease-out md:px-6
+                  md:hover:-translate-y-1.5"
               >
                 <div>
-                  <p className=" text-xs tracking-[0.18em] uppercase">Based in</p>
+                  <p className="text-xs tracking-[0.18em] uppercase">Based in</p>
                   <p className="mt-1 text-lg font-bold">{CONTACT_INFO.location}</p>
                   <p className="text-sm">Local time: Bangkok (UTC+7)</p>
                 </div>
@@ -174,10 +189,10 @@ const ContactSection = () => {
 
               <a
                 href={`mailto:${CONTACT_INFO.email}`}
-                className="contact-item theme-panel theme-border theme-soft-hover flex min-h-[110px]
-                  items-center justify-between rounded-[28px] border px-5 py-5 backdrop-blur-xl
-                  transition-all duration-300 ease-out md:px-6 md:hover:-translate-y-1.5 bg-coral
-                  text-white"
+                className="contact-item theme-panel theme-border theme-soft-hover bg-coral flex
+                  min-h-[110px] items-center justify-between rounded-[28px] border px-5 py-5
+                  text-white backdrop-blur-xl transition-all duration-300 ease-out md:px-6
+                  md:hover:-translate-y-1.5"
               >
                 <div>
                   <p className="text-xs tracking-[0.18em] uppercase">Quick CTA</p>
