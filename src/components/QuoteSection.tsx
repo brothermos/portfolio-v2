@@ -183,9 +183,9 @@ const QuoteSection = () => {
       <div className="flex flex-col items-center gap-8 md:gap-10">
         <div
           ref={titleRef}
-          className="theme-text flex max-w-5xl flex-wrap items-center justify-center gap-x-3 gap-y-2
-            text-center font-bold tracking-tight"
-          style={{ fontSize: 'clamp(2rem, 4vw + 1rem, 4.5rem)', lineHeight: 1.15 }}
+          className="theme-text flex w-full max-w-[1100px] flex-wrap items-center justify-center
+            gap-x-4 gap-y-2 text-center font-bold"
+          style={{ fontSize: 'clamp(2.75rem, 6vw, 6.5rem)', lineHeight: 1.1 }}
         >
           {QUOTE_SEGMENTS.map((segment, sIdx) => {
             const Icon = ICONS[segment.icon];
