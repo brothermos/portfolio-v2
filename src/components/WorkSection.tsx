@@ -82,9 +82,7 @@ const WorkSection = () => {
           px-4 py-10 font-bold sm:py-16 md:px-6 xl:py-20"
       >
         <div ref={headingRef} className="mb-6 flex items-center gap-4 sm:mb-8 md:mb-12">
-          <span className="text-[34px] leading-snug font-bold md:text-[50px] xl:text-[64px]">
-            My Work
-          </span>
+          <span className="text-6xl font-bold md:text-6xl lg:text-8xl">My Work</span>
         </div>
 
         <div className="flex w-full max-w-6xl flex-col" aria-busy={loading}>
