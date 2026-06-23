@@ -28,10 +28,10 @@ const ContactSection = () => {
         <div ref={cardsRef} className="grid gap-6 md:grid-cols-12 md:gap-7">
           <div className="contact-card min-h-0 w-full min-w-0 md:col-span-7">
             <div
-              className="contact-item border-blue bg-blue relative flex h-full min-h-[300px] w-full
-                flex-col justify-between overflow-hidden rounded-[32px] border px-5 py-6 text-white
-                shadow-[0_20px_40px_rgba(153,183,245,0.35)] transition-all duration-300 ease-out
-                md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.01]
+              className="contact-item bg-blue relative flex h-full min-h-[300px] w-full flex-col
+                justify-between overflow-hidden rounded-[32px] border-4 border-black px-5 py-6
+                text-white shadow-[0_20px_40px_rgba(153,183,245,0.35)] transition-all duration-300
+                ease-out md:px-7 md:py-8 md:hover:-translate-y-2 md:hover:scale-[1.01]
                 md:hover:shadow-[0_28px_56px_rgba(153,183,245,0.5)]"
             >
               <div
@@ -128,8 +128,8 @@ const ContactSection = () => {
           <div className="contact-card min-h-0 w-full md:col-span-5">
             <div className="grid h-full gap-6">
               <div
-                className="contact-item border-yellow bg-yellow flex min-h-[164px] flex-col
-                  justify-between rounded-[32px] border px-5 py-6 text-white
+                className="contact-item bg-yellow flex min-h-[164px] flex-col justify-between
+                  rounded-[32px] border-4 border-black px-5 py-6 text-white
                   shadow-[0_20px_40px_rgba(252,202,89,0.35)] transition-all duration-300 ease-out
                   md:px-7 md:py-7 md:hover:-translate-y-1.5 md:hover:scale-[1.01]
                   md:hover:shadow-[0_28px_56px_rgba(252,202,89,0.5)]"
@@ -172,8 +172,8 @@ const ContactSection = () => {
               </div>
 
               <div
-                className="contact-item theme-panel theme-border bg-green flex min-h-[130px]
-                  items-center justify-between rounded-[28px] border px-5 py-5 text-white
+                className="contact-item theme-panel bg-green flex min-h-[130px] items-center
+                  justify-between rounded-[28px] border-4 border-black px-5 py-5 text-white
                   backdrop-blur-xl transition-all duration-300 ease-out md:px-6
                   md:hover:-translate-y-1.5"
               >
@@ -189,8 +189,8 @@ const ContactSection = () => {
 
               <a
                 href={`mailto:${CONTACT_INFO.email}`}
-                className="contact-item theme-panel theme-border theme-soft-hover bg-coral flex
-                  min-h-[110px] items-center justify-between rounded-[28px] border px-5 py-5
+                className="contact-item theme-panel theme-soft-hover bg-coral flex min-h-[110px]
+                  items-center justify-between rounded-[28px] border-4 border-black px-5 py-5
                   text-white backdrop-blur-xl transition-all duration-300 ease-out md:px-6
                   md:hover:-translate-y-1.5"
               >

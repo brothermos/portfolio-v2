@@ -47,7 +47,7 @@ const ExperienceSection = () => {
                   }`}
                 >
                   <div
-                    className={`${exp.color} ${exp.border} rounded-[32px] p-6 text-white
+                    className={`${exp.color} rounded-[32px] border-4 border-black p-6 text-white
                     backdrop-blur-xl md:p-8 lg:p-10 ${exp.shadow} ${exp.hoverShadow} transition-all
                     duration-300 ease-out md:hover:-translate-y-2 md:hover:scale-[1.02]`}
                   >

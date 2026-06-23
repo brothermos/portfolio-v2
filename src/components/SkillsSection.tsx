@@ -19,8 +19,8 @@ const SkillsSection = () => {
             {SKILLS.slice(0, 3).map((skill) => (
               <span
                 key={skill.name}
-                className={`skill-badge rounded-full px-5 py-2.5 backdrop-blur-xl ${skill.color}
-                ${skill.border} ${skill.shadow} text-lg font-semibold text-white
+                className={`skill-badge rounded-full border-4 border-black px-5 py-2.5
+                backdrop-blur-xl ${skill.color} ${skill.shadow} text-lg font-semibold text-white
                 will-change-transform`}
               >
                 {skill.name}
@@ -31,8 +31,8 @@ const SkillsSection = () => {
             {SKILLS.slice(3, 5).map((skill) => (
               <span
                 key={skill.name}
-                className={`skill-badge rounded-full px-5 py-2.5 backdrop-blur-xl ${skill.color}
-                ${skill.border} ${skill.shadow} text-lg font-semibold text-white
+                className={`skill-badge rounded-full border-4 border-black px-5 py-2.5
+                backdrop-blur-xl ${skill.color} ${skill.shadow} text-lg font-semibold text-white
                 will-change-transform`}
               >
                 {skill.name}
@@ -43,8 +43,8 @@ const SkillsSection = () => {
             {SKILLS.slice(5, 8).map((skill) => (
               <span
                 key={skill.name}
-                className={`skill-badge rounded-full px-5 py-2.5 backdrop-blur-xl ${skill.color}
-                ${skill.border} ${skill.shadow} text-lg font-semibold text-white
+                className={`skill-badge rounded-full border-4 border-black px-5 py-2.5
+                backdrop-blur-xl ${skill.color} ${skill.shadow} text-lg font-semibold text-white
                 will-change-transform`}
               >
                 {skill.name}
@@ -57,9 +57,9 @@ const SkillsSection = () => {
             {SKILLS.slice(0, 4).map((skill) => (
               <span
                 key={skill.name}
-                className={`skill-badge rounded-full px-5 py-2.5 backdrop-blur-xl md:px-6 md:py-3
-                lg:px-8 lg:py-4 ${skill.color} ${skill.border} ${skill.shadow} text-lg font-semibold
-                text-white will-change-transform md:text-2xl lg:text-5xl`}
+                className={`skill-badge rounded-full border-4 border-black px-5 py-2.5
+                backdrop-blur-xl md:px-6 md:py-3 lg:px-8 lg:py-4 ${skill.color} ${skill.shadow}
+                text-lg font-semibold text-white will-change-transform md:text-2xl lg:text-5xl`}
               >
                 {skill.name}
               </span>
@@ -69,9 +69,9 @@ const SkillsSection = () => {
             {SKILLS.slice(4, 8).map((skill) => (
               <span
                 key={skill.name}
-                className={`skill-badge rounded-full px-5 py-2.5 backdrop-blur-xl md:px-6 md:py-3
-                lg:px-8 lg:py-4 ${skill.color} ${skill.border} ${skill.shadow} text-lg font-semibold
-                text-white will-change-transform md:text-2xl lg:text-5xl`}
+                className={`skill-badge rounded-full border-4 border-black px-5 py-2.5
+                backdrop-blur-xl md:px-6 md:py-3 lg:px-8 lg:py-4 ${skill.color} ${skill.shadow}
+                text-lg font-semibold text-white will-change-transform md:text-2xl lg:text-5xl`}
               >
                 {skill.name}
               </span>

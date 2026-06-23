@@ -143,8 +143,8 @@ const WorkSection = () => {
                       }
                     }}
                     className={`work-card group relative flex aspect-848/866 w-[78vw] max-w-[400px]
-                    cursor-pointer flex-col overflow-hidden rounded-3xl text-white sm:w-[340px]
-                    lg:w-[400px] ${project.tint} ${project.border}`}
+                    cursor-pointer flex-col overflow-hidden rounded-3xl border-4 border-black
+                    text-white sm:w-[340px] lg:w-[400px] ${project.tint}`}
                   >
                     <div
                       className="pointer-events-none absolute -top-20 -right-16 h-48 w-48

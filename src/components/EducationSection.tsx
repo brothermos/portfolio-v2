@@ -47,7 +47,7 @@ const EducationSection = () => {
                   }`}
                 >
                   <div
-                    className={`${edu.color} ${edu.border} rounded-[32px] p-6 text-white
+                    className={`${edu.color} rounded-[32px] border-4 border-black p-6 text-white
                     backdrop-blur-xl md:p-8 lg:p-10 ${edu.shadow} ${edu.hoverShadow} transition-all
                     duration-300 ease-out md:hover:-translate-y-2 md:hover:scale-[1.02]`}
                   >
