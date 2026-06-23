@@ -30,12 +30,7 @@ const useQuoteSection = () => {
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, stagger: 0.04, ease: 'power3.out' },
       )
-        .fromTo(
-          icons,
-          { scale: 0 },
-          { scale: 1, stagger: 0.12, ease: 'back.out(2)' },
-          '<',
-        )
+        .fromTo(icons, { scale: 0 }, { scale: 1, stagger: 0.12, ease: 'back.out(2)' }, '<')
         .fromTo(
           descRef.current,
           { y: 24, opacity: 0 },
@@ -63,14 +58,14 @@ const useQuoteSection = () => {
       icons.forEach((icon, i) => {
         gsap.fromTo(
           icon,
-          { rotate: -10 },
+          { rotate: -2 },
           {
-            rotate: 10,
+            rotate: 4,
             transformOrigin: 'center center',
-            duration: 0.45,
+            duration: 0.3,
             repeat: -1,
             yoyo: true,
-            ease: 'sine.inOut',
+            ease: 'power3.inOut',
             delay: i * 0.12,
           },
         );
