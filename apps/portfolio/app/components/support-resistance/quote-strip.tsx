@@ -3,6 +3,8 @@
 import { marketStateLabel } from "@/lib/stocks/labels";
 import type { StockQuote } from "@/lib/stocks/types";
 
+import { StockLogo } from "./stock-logo";
+
 type QuoteStripProps = {
   quote: StockQuote | null;
   loading: boolean;
@@ -53,7 +55,7 @@ export function QuoteStrip({
   const up = quote.change >= 0;
 
   return (
-    <div className="flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-border bg-white px-4 py-4">
+    <div className="relative flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-border bg-white px-4 py-4 pr-16 sm:pr-20">
       <div>
         <p className="text-xs tracking-wide text-stone-500">
           <span className="font-mono uppercase">{quote.symbol}</span>
@@ -84,6 +86,12 @@ export function QuoteStrip({
         <span>อัปเดตล่าสุด {formatTime(quote.updatedAt)}</span>
         {error ? <span className="text-amber-600">{error}</span> : null}
       </div>
+
+      <StockLogo
+        symbol={quote.symbol}
+        size={44}
+        className="absolute top-4 right-4"
+      />
     </div>
   );
 }
