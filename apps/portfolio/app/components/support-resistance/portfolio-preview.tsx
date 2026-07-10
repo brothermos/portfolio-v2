@@ -96,7 +96,7 @@ export function PortfolioPreview({
   return (
     <section className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-sm font-medium text-stone-800">พอร์ตตัวอย่าง</h2>
+        <h2 className="text-sm font-medium text-stone-800">หุ้นรายตัว</h2>
         <p className="text-xs text-stone-500">
           {items.length > 0
             ? `${items.length} ตัว`
