@@ -6,6 +6,20 @@ Served on the main bromos domain at **`/portfolio`** via `basePath` + root `verc
 
 ## Local development
 
+`basePath` is `/portfolio`, so the app is **not** at `/`.
+
+### From the monorepo root (recommended)
+
+```bash
+npm install
+npm install --prefix apps/portfolio
+npm run dev:all
+```
+
+Open [http://localhost:5173/portfolio](http://localhost:5173/portfolio) — Vite proxies to Next.js.
+
+### This app only
+
 ```bash
 cd apps/portfolio
 cp .env.example .env.local   # fill Logo.dev keys if needed

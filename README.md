@@ -20,11 +20,29 @@ npm run dev
 
 ### Run Wealth Portfolio (`/portfolio`)
 
+`vercel.json` rewrites only apply on Vercel. Locally you need the Next.js app running.
+
+**Option A — both apps (recommended)**
+
+```bash
+npm install
+npm install --prefix apps/portfolio
+npm run dev:all
+```
+
+Then open:
+- Main site: [http://localhost:5173](http://localhost:5173)
+- Wealth app: [http://localhost:5173/portfolio](http://localhost:5173/portfolio) (proxied)  
+  or directly [http://localhost:3000/portfolio](http://localhost:3000/portfolio)
+
+**Option B — wealth app only**
+
 ```bash
 npm run dev:portfolio
 ```
 
-Open [http://localhost:3000/portfolio](http://localhost:3000/portfolio).
+Open [http://localhost:3000/portfolio](http://localhost:3000/portfolio)  
+(Note: `http://localhost:3000/` without `/portfolio` will 404 because of `basePath`.)
 
 ## My Work API (Vercel + Postgres)
 
