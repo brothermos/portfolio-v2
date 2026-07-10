@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
 import type { StockQuote, SupportResistanceLevels } from '@/lib/stocks/types';
-import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
 import { FundPreview } from './fund-preview';
 import { LevelsPanel } from './levels-panel';
@@ -36,7 +35,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [symbol, setSymbol] = useState<string>(
     initialSymbol && /^[A-Z][A-Z0-9.\-]{0,9}$/.test(initialSymbol)
       ? initialSymbol
-      : SEED_WATCHLIST[0],
+      : 'SPY',
   );
   const [quote, setQuote] = useState<StockQuote | null>(null);
   const [levels, setLevels] = useState<SupportResistanceLevels | null>(null);
