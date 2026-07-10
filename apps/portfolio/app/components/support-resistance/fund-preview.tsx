@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { appPath } from "@/lib/base-path";
-import type { FundPreviewItem } from "@/lib/funds/settrade";
-import { SEED_FUNDS } from "@/lib/funds/watchlist";
+import { appPath } from '@/lib/base-path';
+import type { FundPreviewItem } from '@/lib/funds/settrade';
+import { SEED_FUNDS } from '@/lib/funds/watchlist';
 
 const POLL_MS = 60_000;
 
@@ -14,7 +14,7 @@ type FundPreviewProps = {
 };
 
 function formatNav(nav: number) {
-  return nav.toLocaleString("en-US", {
+  return nav.toLocaleString('en-US', {
     minimumFractionDigits: 4,
     maximumFractionDigits: 4,
   });
@@ -30,11 +30,11 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
     let timer: ReturnType<typeof setInterval> | null = null;
 
     async function load() {
-      if (typeof document !== "undefined" && document.visibilityState === "hidden") {
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
         return;
       }
       try {
-        const response = await fetch(appPath("/api/funds/preview"));
+        const response = await fetch(appPath('/api/funds/preview'));
         const body = (await response.json()) as {
           items?: FundPreviewItem[];
           error?: string;
@@ -43,15 +43,13 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
           throw new Error(body.error ?? `คำขอล้มเหลว (${response.status})`);
         }
         if (!cancelled) {
-          const sorted = [...(body.items ?? [])].sort(
-            (a, b) => b.changePercent - a.changePercent,
-          );
+          const sorted = [...(body.items ?? [])].sort((a, b) => b.changePercent - a.changePercent);
           setItems(sorted);
           setError(null);
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "โหลดกองทุนไม่สำเร็จ");
+          setError(err instanceof Error ? err.message : 'โหลดกองทุนไม่สำเร็จ');
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -67,7 +65,7 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
     }
 
     function onVisibility() {
-      if (document.visibilityState === "visible") start();
+      if (document.visibilityState === 'visible') start();
       else if (timer) {
         clearInterval(timer);
         timer = null;
@@ -75,18 +73,23 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
     }
 
     start();
-    document.addEventListener("visibilitychange", onVisibility);
+    document.addEventListener('visibilitychange', onVisibility);
     return () => {
       cancelled = true;
       if (timer) clearInterval(timer);
-      document.removeEventListener("visibilitychange", onVisibility);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, []);
 
   return (
     <section className="flex flex-col gap-2">
-      <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-sm font-medium text-stone-800">กองทุน</h2>
+      <div className="flex flex-wrap items-center gap-2">
+        <h2
+          className="border-border inline-flex items-center rounded-full border bg-emerald-700 px-3
+            py-1 text-sm font-medium text-white"
+        >
+          กองทุน
+        </h2>
         <p className="text-xs text-stone-500">
           {items.length > 0 ? `${items.length} กอง` : `${SEED_FUNDS.length} กอง`} ·
           คลิกเพื่อดูแนวรับแนวต้าน
@@ -94,7 +97,9 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
       </div>
 
       {error && items.length === 0 ? (
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div
+          className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+        >
           {error}
         </div>
       ) : loading && items.length === 0 ? (
@@ -117,14 +122,18 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
                 type="button"
                 onClick={() => onSelectSymbol(item.symbol)}
                 title={item.name}
-                className={`flex min-w-[160px] shrink-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3 text-left transition-colors ${
-                  active
-                    ? "border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30"
-                    : "border-border bg-white hover:bg-stone-50"
-                }`}
+                className={`flex min-w-[160px] shrink-0 cursor-pointer flex-col gap-1.5 rounded-2xl
+                  border px-4 py-3 text-left transition-colors ${
+                    active
+                      ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
+                      : 'border-border bg-white hover:bg-stone-50'
+                  }`}
               >
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex h-5 w-5 items-center justify-center overflow-hidden rounded-full bg-stone-200 text-[9px] leading-none">
+                  <span
+                    className="inline-flex h-5 w-5 items-center justify-center overflow-hidden
+                      rounded-full bg-stone-200 text-[9px] leading-none"
+                  >
                     🇹🇭
                   </span>
                   <span className="truncate text-sm font-semibold text-stone-900">
@@ -133,21 +142,19 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
                 </div>
                 <span
                   className={`flex items-center gap-1.5 text-base font-semibold ${
-                    up ? "text-emerald-700" : "text-rose-600"
+                    up ? 'text-emerald-700' : 'text-rose-600'
                   }`}
                 >
-                  <span aria-hidden>{up ? "↗" : "↘"}</span>
+                  <span aria-hidden>{up ? '↗' : '↘'}</span>
                   <span>
-                    {Math.abs(item.changePercent).toLocaleString("en-US", {
+                    {Math.abs(item.changePercent).toLocaleString('en-US', {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
                     %
                   </span>
                 </span>
-                <span className="font-mono text-sm text-stone-600">
-                  {formatNav(item.nav)} THB
-                </span>
+                <span className="font-mono text-sm text-stone-600">{formatNav(item.nav)} THB</span>
                 <span className="truncate text-[10px] text-stone-500">
                   {item.symbol} · {item.asOfDate}
                 </span>
