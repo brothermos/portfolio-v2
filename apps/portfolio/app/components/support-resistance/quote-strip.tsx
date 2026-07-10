@@ -55,7 +55,7 @@ export function QuoteStrip({
   const up = quote.change >= 0;
 
   return (
-    <div className="relative flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-border bg-white px-4 py-4 pr-16 sm:pr-20">
+    <div className="flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-border bg-white px-4 py-4">
       <div>
         <p className="text-xs tracking-wide text-stone-500">
           <span className="font-mono uppercase">{quote.symbol}</span>
@@ -74,7 +74,8 @@ export function QuoteStrip({
         </p>
       </div>
 
-      <div className="flex flex-col items-end gap-1 text-right text-xs text-stone-500">
+      <div className="flex flex-col items-end gap-2 text-right text-xs text-stone-500">
+        <StockLogo symbol={quote.symbol} size={40} />
         <span className="inline-flex items-center gap-2">
           <span
             className={`h-1.5 w-1.5 rounded-full ${
@@ -86,12 +87,6 @@ export function QuoteStrip({
         <span>อัปเดตล่าสุด {formatTime(quote.updatedAt)}</span>
         {error ? <span className="text-amber-600">{error}</span> : null}
       </div>
-
-      <StockLogo
-        symbol={quote.symbol}
-        size={44}
-        className="absolute top-4 right-4"
-      />
     </div>
   );
 }
