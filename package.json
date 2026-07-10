@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "format": "prettier --write .",
     "dev:portfolio": "npm run dev --prefix apps/portfolio",
+    "dev:all": "concurrently -k -n web,portfolio -c cyan,magenta \"npm run dev\" \"npm run dev:portfolio\"",
+    "build": "tsc -b && vite build",
     "build:portfolio": "npm run build --prefix apps/portfolio",
-    "lint:portfolio": "npm run lint --prefix apps/portfolio"
+    "lint": "eslint .",
+    "lint:portfolio": "npm run lint --prefix apps/portfolio",
+    "preview": "vite preview",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",
@@ -32,6 +33,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "concurrently": "^10.0.3",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
