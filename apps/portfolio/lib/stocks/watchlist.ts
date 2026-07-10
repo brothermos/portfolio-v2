@@ -32,6 +32,7 @@ export const SEED_WATCHLIST = [
   'SKYE',
   'CRWV',
   'PEP',
+  'ORCL',
 ] as const;
 
 export type SeedSymbol = (typeof SEED_WATCHLIST)[number];
