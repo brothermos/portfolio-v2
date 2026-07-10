@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import gsap from 'gsap';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
 import type { StockQuote, SupportResistanceLevels } from '@/lib/stocks/types';
@@ -46,6 +47,11 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [levelsError, setLevelsError] = useState<string | null>(null);
   const [polling, setPolling] = useState(true);
   const [boot, setBoot] = useState({ market: false, fund: false, portfolio: false });
+  const [showLoader, setShowLoader] = useState(true);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const revealedRef = useRef(false);
 
   const pageLoading = !boot.market || !boot.fund || !boot.portfolio;
 
@@ -70,6 +76,49 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
     setQuoteError(null);
     setLevelsError(null);
   }
+
+  useLayoutEffect(() => {
+    const root = contentRef.current;
+    if (!root) return;
+    const targets = root.querySelectorAll<HTMLElement>('[data-reveal]');
+    gsap.set(targets, { opacity: 0, y: 24 });
+  }, []);
+
+  useEffect(() => {
+    if (pageLoading || revealedRef.current) return;
+    revealedRef.current = true;
+
+    const root = contentRef.current;
+    if (!root) {
+      setShowLoader(false);
+      return;
+    }
+
+    const targets = root.querySelectorAll<HTMLElement>('[data-reveal]');
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+        onComplete: () => setShowLoader(false),
+      });
+
+      if (loaderRef.current) {
+        tl.to(loaderRef.current, { opacity: 0, duration: 0.25, ease: 'power2.out' });
+      }
+
+      tl.to(
+        targets,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.55,
+          stagger: 0.1,
+        },
+        '-=0.05',
+      );
+    }, root);
+
+    return () => ctx.revert();
+  }, [pageLoading]);
 
   useEffect(() => {
     let cancelled = false;
@@ -165,15 +214,14 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
 
   return (
     <>
-      {pageLoading ? <PageLoader /> : null}
+      {showLoader ? <PageLoader ref={loaderRef} /> : null}
 
       <div
-        className={`mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8 ${
-          pageLoading ? 'invisible' : ''
-        }`}
-        aria-hidden={pageLoading}
+        ref={contentRef}
+        className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8"
+        aria-hidden={showLoader}
       >
-        <header className="flex items-start justify-between gap-4">
+        <header data-reveal className="flex items-start justify-between gap-4">
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-semibold tracking-tight text-emerald-700 sm:text-3xl">
               My Wealth Stocks Portfolio
@@ -197,31 +245,43 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
           </a>
         </header>
 
-        <MarketPreview
-          selectedSymbol={assetKind === 'stock' ? symbol : null}
-          onSelectSymbol={(next) => selectAsset('stock', next)}
-          onReady={markMarketReady}
-        />
+        <div data-reveal>
+          <MarketPreview
+            selectedSymbol={assetKind === 'stock' ? symbol : null}
+            onSelectSymbol={(next) => selectAsset('stock', next)}
+            onReady={markMarketReady}
+          />
+        </div>
 
-        <FundPreview
-          selectedSymbol={assetKind === 'fund' ? symbol : null}
-          onSelectSymbol={(next) => selectAsset('fund', next)}
-          onReady={markFundReady}
-        />
+        <div data-reveal>
+          <FundPreview
+            selectedSymbol={assetKind === 'fund' ? symbol : null}
+            onSelectSymbol={(next) => selectAsset('fund', next)}
+            onReady={markFundReady}
+          />
+        </div>
 
-        <PortfolioPreview
-          selectedSymbol={assetKind === 'stock' ? symbol : ''}
-          onSelectSymbol={(next) => selectAsset('stock', next)}
-          onReady={markPortfolioReady}
-        />
+        <div data-reveal>
+          <PortfolioPreview
+            selectedSymbol={assetKind === 'stock' ? symbol : ''}
+            onSelectSymbol={(next) => selectAsset('stock', next)}
+            onReady={markPortfolioReady}
+          />
+        </div>
 
-        <SymbolPicker onSymbolChange={(next) => selectAsset('stock', next)} />
+        <div data-reveal>
+          <SymbolPicker onSymbolChange={(next) => selectAsset('stock', next)} />
+        </div>
 
-        <QuoteStrip quote={quote} loading={quoteLoading} polling={polling} error={quoteError} />
+        <div data-reveal>
+          <QuoteStrip quote={quote} loading={quoteLoading} polling={polling} error={quoteError} />
+        </div>
 
-        <PriceChart key={`${assetKind}-${symbol}`} symbol={symbol} assetKind={assetKind} />
+        <div data-reveal>
+          <PriceChart key={`${assetKind}-${symbol}`} symbol={symbol} assetKind={assetKind} />
+        </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div data-reveal className="grid gap-6 lg:grid-cols-2">
           <LevelsPanel
             data={levels}
             quote={quote}

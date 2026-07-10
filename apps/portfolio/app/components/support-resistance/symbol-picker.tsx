@@ -152,9 +152,24 @@ export function SymbolPicker({ onSymbolChange }: SymbolPickerProps) {
         />
         <button
           type="submit"
-          className="rounded-xl bg-stone-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-800"
+          className="inline-flex items-center justify-center rounded-xl bg-stone-900 px-3 py-2 text-white transition-colors hover:bg-stone-800"
+          aria-label="ค้นหา"
+          title="ค้นหา"
         >
-          ไป
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-5 w-5"
+            aria-hidden
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
         </button>
       </form>
 
