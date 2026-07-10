@@ -153,7 +153,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+        <h1 className="text-2xl font-semibold tracking-tight  text-emerald-700 sm:text-3xl">
           My Wealth Stocks Portfolio
         </h1>
         <p className="max-w-xl text-sm text-stone-500">
