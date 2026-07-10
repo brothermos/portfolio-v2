@@ -59,11 +59,13 @@ function isSelectableMarketItem(item: MarketPreviewItem) {
 type MarketPreviewProps = {
   selectedSymbol?: string | null;
   onSelectSymbol?: (symbol: string) => void;
+  onReady?: () => void;
 };
 
 export function MarketPreview({
   selectedSymbol = null,
   onSelectSymbol,
+  onReady,
 }: MarketPreviewProps) {
   const [items, setItems] = useState<MarketPreviewItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,6 +74,13 @@ export function MarketPreview({
   useEffect(() => {
     let cancelled = false;
     let timer: ReturnType<typeof setInterval> | null = null;
+    let signaledReady = false;
+
+    function signalReady() {
+      if (signaledReady) return;
+      signaledReady = true;
+      onReady?.();
+    }
 
     async function load() {
       if (
@@ -98,7 +107,10 @@ export function MarketPreview({
           setError(err instanceof Error ? err.message : "โหลดตลาดไม่สำเร็จ");
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          signalReady();
+        }
       }
     }
 
@@ -125,7 +137,7 @@ export function MarketPreview({
       if (timer) clearInterval(timer);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, []);
+  }, [onReady]);
 
   if (error && items.length === 0) {
     return (

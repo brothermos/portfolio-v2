@@ -13,6 +13,7 @@ const POLL_MS = 30_000;
 type PortfolioPreviewProps = {
   selectedSymbol: string;
   onSelectSymbol: (symbol: string) => void;
+  onReady?: () => void;
 };
 
 function formatPrice(price: number, currency: string) {
@@ -24,7 +25,7 @@ function formatPrice(price: number, currency: string) {
   }).format(price);
 }
 
-export function PortfolioPreview({ selectedSymbol, onSelectSymbol }: PortfolioPreviewProps) {
+export function PortfolioPreview({ selectedSymbol, onSelectSymbol, onReady }: PortfolioPreviewProps) {
   const [items, setItems] = useState<PortfolioPreviewItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,6 +33,13 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol }: PortfolioPr
   useEffect(() => {
     let cancelled = false;
     let timer: ReturnType<typeof setInterval> | null = null;
+    let signaledReady = false;
+
+    function signalReady() {
+      if (signaledReady) return;
+      signaledReady = true;
+      onReady?.();
+    }
 
     async function load() {
       if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
@@ -56,7 +64,10 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol }: PortfolioPr
           setError(err instanceof Error ? err.message : 'โหลดพอร์ตไม่สำเร็จ');
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          signalReady();
+        }
       }
     }
 
@@ -83,7 +94,7 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol }: PortfolioPr
       if (timer) clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, []);
+  }, [onReady]);
 
   return (
     <section className="flex flex-col gap-2">

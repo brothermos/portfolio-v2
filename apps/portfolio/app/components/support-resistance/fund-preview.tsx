@@ -11,6 +11,7 @@ const POLL_MS = 60_000;
 type FundPreviewProps = {
   selectedSymbol: string | null;
   onSelectSymbol: (symbol: string) => void;
+  onReady?: () => void;
 };
 
 function formatNav(nav: number) {
@@ -20,7 +21,7 @@ function formatNav(nav: number) {
   });
 }
 
-export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps) {
+export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPreviewProps) {
   const [items, setItems] = useState<FundPreviewItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,6 +29,13 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
   useEffect(() => {
     let cancelled = false;
     let timer: ReturnType<typeof setInterval> | null = null;
+    let signaledReady = false;
+
+    function signalReady() {
+      if (signaledReady) return;
+      signaledReady = true;
+      onReady?.();
+    }
 
     async function load() {
       if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
@@ -52,7 +60,10 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
           setError(err instanceof Error ? err.message : 'โหลดกองทุนไม่สำเร็จ');
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          signalReady();
+        }
       }
     }
 
@@ -79,7 +90,7 @@ export function FundPreview({ selectedSymbol, onSelectSymbol }: FundPreviewProps
       if (timer) clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, []);
+  }, [onReady]);
 
   return (
     <section className="flex flex-col gap-2">

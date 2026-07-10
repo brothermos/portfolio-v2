@@ -35,3 +35,25 @@ button,
 .cursor-pointer {
   cursor: url("/portfolio/svg/hand-pointer.svg") 0 0, pointer;
 }
+
+@keyframes pig-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-14px) rotate(-8deg) scale(1.08);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  75% {
+    transform: translateY(-10px) rotate(8deg) scale(1.06);
+  }
+}
+
+.animate-pig-bounce {
+  animation: pig-bounce 0.9s ease-in-out infinite;
+  transform-origin: center bottom;
+  will-change: transform;
+}

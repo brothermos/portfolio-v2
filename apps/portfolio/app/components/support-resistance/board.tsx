@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
 import type { StockQuote, SupportResistanceLevels } from '@/lib/stocks/types';
@@ -8,6 +8,7 @@ import type { StockQuote, SupportResistanceLevels } from '@/lib/stocks/types';
 import { FundPreview } from './fund-preview';
 import { LevelsPanel } from './levels-panel';
 import { MarketPreview } from './market-preview';
+import { PageLoader } from './page-loader';
 import { PortfolioPreview } from './portfolio-preview';
 import { PriceChart } from './price-chart';
 import { PriceContext } from './price-context';
@@ -44,6 +45,19 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [quoteError, setQuoteError] = useState<string | null>(null);
   const [levelsError, setLevelsError] = useState<string | null>(null);
   const [polling, setPolling] = useState(true);
+  const [boot, setBoot] = useState({ market: false, fund: false, portfolio: false });
+
+  const pageLoading = !boot.market || !boot.fund || !boot.portfolio;
+
+  const markMarketReady = useCallback(() => {
+    setBoot((prev) => (prev.market ? prev : { ...prev, market: true }));
+  }, []);
+  const markFundReady = useCallback(() => {
+    setBoot((prev) => (prev.fund ? prev : { ...prev, fund: true }));
+  }, []);
+  const markPortfolioReady = useCallback(() => {
+    setBoot((prev) => (prev.portfolio ? prev : { ...prev, portfolio: true }));
+  }, []);
 
   function selectAsset(nextKind: AssetKind, nextSymbol: string) {
     if (nextKind === assetKind && nextSymbol === symbol) return;
@@ -150,62 +164,74 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   }, [symbol, assetKind]);
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
-      <header className="flex items-start justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-semibold tracking-tight text-emerald-700 sm:text-3xl">
-            My Wealth Stocks Portfolio
-          </h1>
-          <p className="max-w-xl text-sm text-stone-500">รวมหุ้นและกองทุกที่ผมถือ</p>
-        </div>
-        <a
-          href="/"
-          className="mt-0.5 flex h-16 w-16 shrink-0 items-center justify-center transition-transform duration-200 ease-out hover:scale-110 sm:mt-1 sm:h-20 sm:w-20"
-          aria-label="กลับหน้าหลัก"
-          title="กลับหน้าหลัก"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={appPath('/images/macbook.png')}
-            alt=""
-            width={80}
-            height={80}
-            className="h-16 w-16 object-contain sm:h-20 sm:w-20"
-          />
-        </a>
-      </header>
+    <>
+      {pageLoading ? <PageLoader /> : null}
 
-      <MarketPreview
-        selectedSymbol={assetKind === 'stock' ? symbol : null}
-        onSelectSymbol={(next) => selectAsset('stock', next)}
-      />
+      <div
+        className={`mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8 ${
+          pageLoading ? 'invisible' : ''
+        }`}
+        aria-hidden={pageLoading}
+      >
+        <header className="flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-semibold tracking-tight text-emerald-700 sm:text-3xl">
+              My Wealth Stocks Portfolio
+            </h1>
+            <p className="max-w-xl text-sm text-stone-500">รวมหุ้นและกองทุกที่ผมถือ</p>
+          </div>
+          <a
+            href="/"
+            className="mt-0.5 flex h-16 w-16 shrink-0 items-center justify-center transition-transform duration-200 ease-out hover:scale-110 sm:mt-1 sm:h-20 sm:w-20"
+            aria-label="กลับหน้าหลัก"
+            title="กลับหน้าหลัก"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={appPath('/images/macbook.png')}
+              alt=""
+              width={80}
+              height={80}
+              className="h-16 w-16 object-contain sm:h-20 sm:w-20"
+            />
+          </a>
+        </header>
 
-      <FundPreview
-        selectedSymbol={assetKind === 'fund' ? symbol : null}
-        onSelectSymbol={(next) => selectAsset('fund', next)}
-      />
-
-      <PortfolioPreview
-        selectedSymbol={assetKind === 'stock' ? symbol : ''}
-        onSelectSymbol={(next) => selectAsset('stock', next)}
-      />
-
-      <SymbolPicker onSymbolChange={(next) => selectAsset('stock', next)} />
-
-      <QuoteStrip quote={quote} loading={quoteLoading} polling={polling} error={quoteError} />
-
-      <PriceChart key={`${assetKind}-${symbol}`} symbol={symbol} assetKind={assetKind} />
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <LevelsPanel
-          data={levels}
-          quote={quote}
-          loading={levelsLoading}
-          error={levelsError}
-          assetKind={assetKind}
+        <MarketPreview
+          selectedSymbol={assetKind === 'stock' ? symbol : null}
+          onSelectSymbol={(next) => selectAsset('stock', next)}
+          onReady={markMarketReady}
         />
-        <PriceContext data={levels} quote={quote} />
+
+        <FundPreview
+          selectedSymbol={assetKind === 'fund' ? symbol : null}
+          onSelectSymbol={(next) => selectAsset('fund', next)}
+          onReady={markFundReady}
+        />
+
+        <PortfolioPreview
+          selectedSymbol={assetKind === 'stock' ? symbol : ''}
+          onSelectSymbol={(next) => selectAsset('stock', next)}
+          onReady={markPortfolioReady}
+        />
+
+        <SymbolPicker onSymbolChange={(next) => selectAsset('stock', next)} />
+
+        <QuoteStrip quote={quote} loading={quoteLoading} polling={polling} error={quoteError} />
+
+        <PriceChart key={`${assetKind}-${symbol}`} symbol={symbol} assetKind={assetKind} />
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          <LevelsPanel
+            data={levels}
+            quote={quote}
+            loading={levelsLoading}
+            error={levelsError}
+            assetKind={assetKind}
+          />
+          <PriceContext data={levels} quote={quote} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
