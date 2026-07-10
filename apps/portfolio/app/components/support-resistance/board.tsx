@@ -7,6 +7,7 @@ import type { StockQuote, SupportResistanceLevels } from '@/lib/stocks/types';
 import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
 import { FundPreview } from './fund-preview';
+import { HomeShortcut } from '../home-shortcut';
 import { LevelsPanel } from './levels-panel';
 import { MarketPreview } from './market-preview';
 import { PortfolioPreview } from './portfolio-preview';
@@ -152,8 +153,9 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
-      <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold tracking-tight  text-emerald-700 sm:text-3xl">
+      <HomeShortcut />
+      <header className="flex flex-col gap-1 pr-14">
+        <h1 className="text-2xl font-semibold tracking-tight text-emerald-700 sm:text-3xl">
           My Wealth Stocks Portfolio
         </h1>
         <p className="max-w-xl text-sm text-stone-500">

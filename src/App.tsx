@@ -7,6 +7,7 @@ import WorkSection from '@/components/WorkSection';
 import EducationSection from '@/components/EducationSection';
 import ContactSection from '@/components/ContactSection';
 import Dock from '@/components/Dock';
+import PortfolioShortcut from '@/components/PortfolioShortcut';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
       <WorkSection />
       <EducationSection />
       <ContactSection />
+      <PortfolioShortcut />
       <Dock />
       <SpeedInsights />
     </div>
