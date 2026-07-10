@@ -8,7 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "dev:portfolio": "npm run dev --prefix apps/portfolio",
+    "build:portfolio": "npm run build --prefix apps/portfolio",
+    "lint:portfolio": "npm run lint --prefix apps/portfolio"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",
