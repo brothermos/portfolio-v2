@@ -149,7 +149,7 @@ export function MarketPreview({
   }
 
   return (
-    <div className="flex gap-3 overflow-x-auto pb-1 px-0.5 pt-0.5">
+    <div className="flex gap-3 overflow-x-auto pb-1 pt-0.5">
       {items.map((item) => {
         const up = item.changePercent >= 0;
         const selectable = isSelectableMarketItem(item) && !!onSelectSymbol;

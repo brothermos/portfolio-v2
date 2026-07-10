@@ -119,7 +119,7 @@ export function PortfolioPreview({
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 py-2 px-0.5 sm:flex sm:flex-wrap">
+        <div className="grid grid-cols-2 gap-3 py-2 sm:flex sm:flex-wrap">
           {items.map((item) => {
             const up = item.changePercent >= 0;
             const active = item.symbol === selectedSymbol;
