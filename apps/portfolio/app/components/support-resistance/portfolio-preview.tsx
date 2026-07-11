@@ -118,16 +118,16 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol, onReady }: Po
           {error}
         </div>
       ) : loading && items.length === 0 ? (
-        <div className="grid grid-cols-2 gap-3 pb-1 sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))]">
+        <div className="flex gap-3 overflow-x-auto pb-1 sm:grid sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible">
           {Array.from({ length: 15 }).map((_, i) => (
             <div
               key={i}
-              className="h-[92px] w-full animate-pulse rounded-2xl bg-white/70"
+              className="h-[92px] w-[132px] shrink-0 animate-pulse rounded-2xl bg-white/70 sm:w-full"
             />
           ))}
         </div>
       ) : (
-        <div className="grid w-full grid-cols-2 gap-3 py-2 sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))]">
+        <div className="flex gap-3 overflow-x-auto py-2 sm:grid sm:w-full sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible">
           {items.map((item) => {
             const up = item.changePercent >= 0;
             const active = item.symbol === selectedSymbol;
@@ -136,12 +136,11 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol, onReady }: Po
                 key={item.symbol}
                 type="button"
                 onClick={() => onSelectSymbol(item.symbol)}
-                className={`flex w-full cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3
-                  text-left transition-colors ${
-                    active
-                      ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
-                      : 'border-border bg-white hover:bg-stone-50'
-                  }`}
+                className={`flex w-[132px] shrink-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3 text-left transition-colors sm:w-full ${
+                  active
+                    ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
+                    : 'border-border bg-white hover:bg-stone-50'
+                }`}
               >
                 <span className="flex items-center gap-2">
                   <StockLogo symbol={item.symbol} size={20} />

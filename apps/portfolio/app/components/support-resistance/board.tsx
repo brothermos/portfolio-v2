@@ -14,6 +14,7 @@ import { PortfolioPreview } from './portfolio-preview';
 import { PriceChart } from './price-chart';
 import { PriceContext } from './price-context';
 import { QuoteStrip } from './quote-strip';
+import { ScrollToTop } from './scroll-to-top';
 import { SymbolPicker } from './symbol-picker';
 
 const POLL_MS = 15_000;
@@ -51,7 +52,9 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
 
   const contentRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
   const revealedRef = useRef(false);
+  const shouldScrollToDetailRef = useRef(false);
 
   const pageLoading = !boot.market || !boot.fund || !boot.portfolio;
 
@@ -75,7 +78,14 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
     setLevelsLoading(true);
     setQuoteError(null);
     setLevelsError(null);
+    shouldScrollToDetailRef.current = true;
   }
+
+  useEffect(() => {
+    if (!shouldScrollToDetailRef.current || showLoader) return;
+    shouldScrollToDetailRef.current = false;
+    detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [symbol, assetKind, showLoader]);
 
   useLayoutEffect(() => {
     const root = contentRef.current;
@@ -215,6 +225,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   return (
     <>
       {showLoader ? <PageLoader ref={loaderRef} /> : null}
+      {!showLoader ? <ScrollToTop /> : null}
 
       <div
         ref={contentRef}
@@ -273,7 +284,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
           <SymbolPicker onSymbolChange={(next) => selectAsset('stock', next)} />
         </div>
 
-        <div data-reveal>
+        <div ref={detailRef} data-reveal>
           <QuoteStrip quote={quote} loading={quoteLoading} polling={polling} error={quoteError} />
         </div>
 
