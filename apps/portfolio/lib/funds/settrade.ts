@@ -175,7 +175,7 @@ export async function fetchFundPreview(): Promise<FundPreviewItem[]> {
 
   const items = results.filter((item): item is FundPreviewItem => item != null);
   if (items.length === 0) {
-    throw new FundDataError("ไม่พบข้อมูลกองทุนสำหรับ preview", 502);
+    throw new FundDataError("ดึงข้อมูลกองทุนจาก Settrade ไม่สำเร็จ", 502);
   }
   return items;
 }
