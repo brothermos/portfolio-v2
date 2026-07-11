@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
-import type { PortfolioPreviewItem } from '@/lib/stocks/types';
+import type { PortfolioPreviewItem, PortfolioSummary } from '@/lib/stocks/types';
 import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
 import { StockLogo } from './stock-logo';
@@ -14,6 +14,7 @@ type PortfolioPreviewProps = {
   selectedSymbol: string;
   onSelectSymbol: (symbol: string) => void;
   onReady?: () => void;
+  onItemsChange?: (items: PortfolioPreviewItem[]) => void;
 };
 
 function formatPrice(price: number, currency: string) {
@@ -25,8 +26,14 @@ function formatPrice(price: number, currency: string) {
   }).format(price);
 }
 
-export function PortfolioPreview({ selectedSymbol, onSelectSymbol, onReady }: PortfolioPreviewProps) {
+export function PortfolioPreview({
+  selectedSymbol,
+  onSelectSymbol,
+  onReady,
+  onItemsChange,
+}: PortfolioPreviewProps) {
   const [items, setItems] = useState<PortfolioPreviewItem[]>([]);
+  const [summary, setSummary] = useState<PortfolioSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,6 +56,7 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol, onReady }: Po
         const response = await fetch(appPath('/api/stocks/portfolio-preview'));
         const body = (await response.json()) as {
           items?: PortfolioPreviewItem[];
+          summary?: PortfolioSummary;
           error?: string;
         };
         if (!response.ok) {
@@ -57,6 +65,8 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol, onReady }: Po
         if (!cancelled) {
           const sorted = [...(body.items ?? [])].sort((a, b) => b.changePercent - a.changePercent);
           setItems(sorted);
+          setSummary(body.summary ?? null);
+          onItemsChange?.(sorted);
           setError(null);
         }
       } catch (err) {
@@ -94,27 +104,43 @@ export function PortfolioPreview({ selectedSymbol, onSelectSymbol, onReady }: Po
       if (timer) clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [onReady]);
+  }, [onReady, onItemsChange]);
+
+  const summaryUp = (summary?.totalUnrealizedPnl ?? 0) >= 0;
 
   return (
     <section className="flex flex-col gap-2">
-      <div className="flex flex-wrap items-center gap-2">
-        <h2
-          className="border-border inline-flex items-center rounded-full border bg-emerald-700 px-3
-            py-1 text-sm font-medium text-white"
-        >
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <h2 className="border-border inline-flex items-center rounded-full border bg-emerald-700 px-3 py-1 text-sm font-medium text-white">
           หุ้นรายตัว
         </h2>
         <p className="text-xs text-stone-500">
           {items.length > 0 ? `${items.length} ตัว` : `${SEED_WATCHLIST.length} ตัว`} ·
           คลิกเพื่อดูแนวรับแนวต้าน
         </p>
+        {summary ? (
+          <p className="text-xs text-stone-600 sm:ml-auto">
+            รวม{' '}
+            <span className="font-semibold text-stone-900">
+              {formatPrice(summary.totalMarketValue, summary.currency)}
+            </span>
+            {' · '}
+            <span
+              className={
+                summaryUp ? 'font-semibold text-emerald-700' : 'font-semibold text-rose-600'
+              }
+            >
+              {summaryUp ? 'กำไร' : 'ขาดทุน'} {summaryUp ? '+' : ''}
+              {formatPrice(summary.totalUnrealizedPnl, summary.currency)} (
+              {summaryUp ? '+' : ''}
+              {summary.totalUnrealizedPnlPercent.toFixed(2)}%)
+            </span>
+          </p>
+        ) : null}
       </div>
 
       {error && items.length === 0 ? (
-        <div
-          className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
-        >
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {error}
         </div>
       ) : loading && items.length === 0 ? (

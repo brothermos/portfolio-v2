@@ -82,4 +82,23 @@ export type PortfolioPreviewItem = {
   price: number;
   changePercent: number;
   currency: string;
+  shares: number;
+  avgBuyPrice: number;
+  marketValue: number;
+  weightPercent: number;
+  unrealizedPnl: number;
+  unrealizedPnlPercent: number;
+};
+
+export type PortfolioSummary = {
+  totalMarketValue: number;
+  totalCostBasis: number;
+  totalUnrealizedPnl: number;
+  totalUnrealizedPnlPercent: number;
+  currency: string;
+};
+
+export type PortfolioPreviewResponse = {
+  items: PortfolioPreviewItem[];
+  summary: PortfolioSummary;
 };

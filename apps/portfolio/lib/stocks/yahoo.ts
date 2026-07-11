@@ -8,13 +8,14 @@ import type {
   ChartRangeId,
   MarketPreviewItem,
   PortfolioPreviewItem,
+  PortfolioPreviewResponse,
   PriorDayOhlc,
   StockChartSeries,
   StockQuote,
   StockSearchResult,
   SupportResistanceLevels,
 } from "./types";
-import { isValidSymbol, normalizeSymbol, SEED_WATCHLIST } from "./watchlist";
+import { isValidSymbol, normalizeSymbol, SEED_HOLDINGS, SEED_WATCHLIST } from "./watchlist";
 
 const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 
@@ -147,7 +148,7 @@ export async function fetchMarketPreview(): Promise<MarketPreviewItem[]> {
   }
 }
 
-export async function fetchPortfolioPreview(): Promise<PortfolioPreviewItem[]> {
+export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse> {
   const symbols = [...SEED_WATCHLIST];
 
   try {
@@ -157,7 +158,18 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewItem[]> {
       list.map((q) => [String(q.symbol ?? "").toUpperCase(), q]),
     );
 
-    const items: PortfolioPreviewItem[] = [];
+    const priced: Array<{
+      symbol: string;
+      price: number;
+      changePercent: number;
+      currency: string;
+      shares: number;
+      avgBuyPrice: number;
+      marketValue: number;
+      costBasis: number;
+      unrealizedPnl: number;
+      unrealizedPnlPercent: number;
+    }> = [];
 
     for (const symbol of symbols) {
       const quote = bySymbol.get(symbol);
@@ -171,19 +183,64 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewItem[]> {
         continue;
       }
 
-      items.push({
+      const holding = SEED_HOLDINGS[symbol];
+      const shares = holding?.quantity ?? 0;
+      const avgBuyPrice = holding?.avgBuyPrice ?? 0;
+      const marketValue = price * shares;
+      const costBasis = avgBuyPrice * shares;
+      const unrealizedPnl = marketValue - costBasis;
+      const unrealizedPnlPercent =
+        avgBuyPrice > 0 ? ((price - avgBuyPrice) / avgBuyPrice) * 100 : 0;
+
+      priced.push({
         symbol: quote?.symbol ?? symbol,
         price,
         changePercent: quote?.regularMarketChangePercent ?? 0,
         currency: quote?.currency ?? "USD",
+        shares,
+        avgBuyPrice,
+        marketValue,
+        costBasis,
+        unrealizedPnl,
+        unrealizedPnlPercent,
       });
     }
 
-    if (items.length === 0) {
+    if (priced.length === 0) {
       throw new StockDataError("ไม่พบข้อมูลพอร์ตสำหรับ preview", 502);
     }
 
-    return items;
+    const totalMarketValue = priced.reduce((sum, item) => sum + item.marketValue, 0);
+    const totalCostBasis = priced.reduce((sum, item) => sum + item.costBasis, 0);
+    const totalUnrealizedPnl = totalMarketValue - totalCostBasis;
+    const totalUnrealizedPnlPercent =
+      totalCostBasis > 0 ? (totalUnrealizedPnl / totalCostBasis) * 100 : 0;
+
+    const items: PortfolioPreviewItem[] = priced.map(
+      ({ costBasis: _costBasis, ...item }) => ({
+        symbol: item.symbol,
+        price: item.price,
+        changePercent: item.changePercent,
+        currency: item.currency,
+        shares: item.shares,
+        avgBuyPrice: item.avgBuyPrice,
+        marketValue: item.marketValue,
+        weightPercent: totalMarketValue > 0 ? (item.marketValue / totalMarketValue) * 100 : 0,
+        unrealizedPnl: item.unrealizedPnl,
+        unrealizedPnlPercent: item.unrealizedPnlPercent,
+      }),
+    );
+
+    return {
+      items,
+      summary: {
+        totalMarketValue,
+        totalCostBasis,
+        totalUnrealizedPnl,
+        totalUnrealizedPnlPercent,
+        currency: priced[0]?.currency ?? "USD",
+      },
+    };
   } catch (error) {
     if (error instanceof StockDataError) throw error;
     const message =

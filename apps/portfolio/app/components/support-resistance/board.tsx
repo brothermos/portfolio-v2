@@ -4,12 +4,17 @@ import gsap from 'gsap';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
-import type { StockQuote, SupportResistanceLevels } from '@/lib/stocks/types';
+import type {
+  PortfolioPreviewItem,
+  StockQuote,
+  SupportResistanceLevels,
+} from '@/lib/stocks/types';
 
 import { FundPreview } from './fund-preview';
 import { LevelsPanel } from './levels-panel';
 import { MarketPreview } from './market-preview';
 import { PageLoader } from './page-loader';
+import { HoldingDetail } from './holding-detail';
 import { PortfolioPreview } from './portfolio-preview';
 import { PriceChart } from './price-chart';
 import { PriceContext } from './price-context';
@@ -49,6 +54,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [polling, setPolling] = useState(true);
   const [boot, setBoot] = useState({ market: false, fund: false, portfolio: false });
   const [showLoader, setShowLoader] = useState(true);
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioPreviewItem[]>([]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -67,6 +73,15 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const markPortfolioReady = useCallback(() => {
     setBoot((prev) => (prev.portfolio ? prev : { ...prev, portfolio: true }));
   }, []);
+
+  const handlePortfolioItemsChange = useCallback((items: PortfolioPreviewItem[]) => {
+    setPortfolioItems(items);
+  }, []);
+
+  const selectedHolding =
+    assetKind === 'stock'
+      ? (portfolioItems.find((item) => item.symbol === symbol) ?? null)
+      : null;
 
   function selectAsset(nextKind: AssetKind, nextSymbol: string) {
     if (nextKind === assetKind && nextSymbol === symbol) return;
@@ -277,6 +292,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
             selectedSymbol={assetKind === 'stock' ? symbol : ''}
             onSelectSymbol={(next) => selectAsset('stock', next)}
             onReady={markPortfolioReady}
+            onItemsChange={handlePortfolioItemsChange}
           />
         </div>
 
@@ -285,12 +301,23 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
         </div>
 
         <div ref={detailRef} data-reveal>
-          <QuoteStrip quote={quote} loading={quoteLoading} polling={polling} error={quoteError} />
+          <QuoteStrip
+            quote={quote}
+            loading={quoteLoading}
+            polling={polling}
+            error={quoteError}
+          />
         </div>
 
         <div data-reveal>
           <PriceChart key={`${assetKind}-${symbol}`} symbol={symbol} assetKind={assetKind} />
         </div>
+
+        {assetKind === 'stock' && selectedHolding && selectedHolding.shares > 0 ? (
+          <div data-reveal>
+            <HoldingDetail holding={selectedHolding} />
+          </div>
+        ) : null}
 
         <div data-reveal className="grid gap-6 lg:grid-cols-2">
           <LevelsPanel
