@@ -246,8 +246,8 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
         className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8"
         aria-hidden={showLoader}
       >
-        <header data-reveal className="flex items-start justify-between gap-4">
-          <div className="flex flex-col gap-1">
+        <header data-reveal className="relative flex items-start gap-4 pr-16 sm:pr-20">
+          <div className="flex min-w-0 flex-col gap-1">
             <h1 className="text-2xl font-semibold tracking-tight text-emerald-700 sm:text-3xl">
               My Wealth Stocks Portfolio
             </h1>
@@ -255,7 +255,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
           </div>
           <a
             href="/"
-            className="mt-0.5 flex h-16 w-16 shrink-0 items-center justify-center transition-transform duration-200 ease-out hover:scale-110 sm:mt-1 sm:h-20 sm:w-20"
+            className="absolute top-0 right-0 flex h-14 w-14 items-center justify-center transition-transform duration-200 ease-out hover:scale-110 sm:h-16 sm:w-16"
             aria-label="กลับหน้าหลัก"
             title="กลับหน้าหลัก"
           >
@@ -263,9 +263,9 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
             <img
               src={appPath('/images/macbook.png')}
               alt=""
-              width={80}
-              height={80}
-              className="h-16 w-16 object-contain sm:h-20 sm:w-20"
+              width={64}
+              height={64}
+              className="h-14 w-14 object-contain sm:h-16 sm:w-16"
             />
           </a>
         </header>
