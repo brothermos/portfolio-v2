@@ -102,8 +102,7 @@ export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPre
           กองทุน
         </h2>
         <p className="text-xs text-stone-500">
-          {items.length > 0 ? `${items.length} กอง` : `${SEED_FUNDS.length} กอง`} ·
-          คลิกเพื่อดูแนวรับแนวต้าน
+          {items.length > 0 ? `${items.length} กอง` : `${SEED_FUNDS.length} กอง`}
         </p>
       </div>
 
