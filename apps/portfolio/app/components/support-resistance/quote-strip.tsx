@@ -55,23 +55,17 @@ export function QuoteStrip({ quote, loading, polling, error }: QuoteStripProps) 
         sm:items-end sm:justify-between sm:gap-6"
     >
       <div className="min-w-0 flex-1">
-        <div
-          className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2
-            sm:gap-y-1"
-        >
-          <span
-            className="border-border inline-flex w-fit shrink-0 items-center rounded-full border
-              bg-emerald-700 px-3 py-1 font-mono text-sm font-medium text-white uppercase"
-          >
-            {quote.symbol}
-          </span>
-          {quote.name ? (
-            <span
-              className="min-w-0 text-sm leading-snug wrap-break-word text-stone-700 sm:truncate"
-            >
-              {quote.name}
+        <div className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2 sm:gap-y-1">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="border-border inline-flex w-fit shrink-0 items-center rounded-full border bg-emerald-700 px-3 py-1 font-mono text-sm font-medium uppercase text-white">
+              {quote.symbol}
             </span>
-          ) : null}
+            {quote.name ? (
+              <span className="min-w-0 truncate text-sm leading-snug text-stone-700">
+                {quote.name}
+              </span>
+            ) : null}
+          </div>
           <span className="shrink-0 text-xs tracking-wide text-stone-500">
             <span className="hidden sm:inline">· </span>
             {marketStateLabel(quote.marketState)}
