@@ -7,6 +7,7 @@ import type { PortfolioPreviewItem, PortfolioSummary } from '@/lib/stocks/types'
 import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
 import { StockLogo } from './stock-logo';
+import { SymbolPicker } from './symbol-picker';
 
 const POLL_MS = 30_000;
 
@@ -138,6 +139,10 @@ export function PortfolioPreview({
             </span>
           </p>
         ) : null}
+      </div>
+
+      <div>
+        <SymbolPicker onSymbolChange={onSelectSymbol} />
       </div>
 
       {error && items.length === 0 ? (

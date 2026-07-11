@@ -185,6 +185,7 @@ export async function fetchFundQuote(symbol: string): Promise<StockQuote> {
   const latest = latestNav(page);
   return {
     symbol: page.symbol,
+    name: page.name,
     price: latest.nav,
     change:
       page.quotes.length >= 2

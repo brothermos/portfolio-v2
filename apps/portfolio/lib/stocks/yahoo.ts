@@ -72,8 +72,16 @@ export async function fetchQuote(symbol: string): Promise<StockQuote> {
       quote.preMarketPrice ??
       null;
 
+    const name =
+      quote.longName?.trim() ||
+      quote.shortName?.trim() ||
+      quote.displayName?.trim() ||
+      quote.symbol ||
+      symbol;
+
     return {
       symbol: quote.symbol ?? symbol,
+      name,
       price: requireNumber(price, "ราคา"),
       change: quote.regularMarketChange ?? 0,
       changePercent: quote.regularMarketChangePercent ?? 0,

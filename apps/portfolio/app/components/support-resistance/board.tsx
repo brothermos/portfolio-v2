@@ -20,7 +20,6 @@ import { PriceChart } from './price-chart';
 import { PriceContext } from './price-context';
 import { QuoteStrip } from './quote-strip';
 import { ScrollToTop } from './scroll-to-top';
-import { SymbolPicker } from './symbol-picker';
 
 const POLL_MS = 15_000;
 
@@ -294,10 +293,6 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
             onReady={markPortfolioReady}
             onItemsChange={handlePortfolioItemsChange}
           />
-        </div>
-
-        <div data-reveal>
-          <SymbolPicker onSymbolChange={(next) => selectAsset('stock', next)} />
         </div>
 
         <div ref={detailRef} data-reveal>
