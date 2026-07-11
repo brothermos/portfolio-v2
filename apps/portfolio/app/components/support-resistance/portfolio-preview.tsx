@@ -6,6 +6,7 @@ import { appPath } from '@/lib/base-path';
 import type { PortfolioPreviewItem, PortfolioSummary } from '@/lib/stocks/types';
 import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
+import { AllocationChart } from './allocation-chart';
 import { StockLogo } from './stock-logo';
 import { SymbolPicker } from './symbol-picker';
 
@@ -107,68 +108,47 @@ export function PortfolioPreview({
     };
   }, [onReady, onItemsChange]);
 
-  const summaryUp = (summary?.totalUnrealizedPnl ?? 0) >= 0;
+  const holdingsReady = !loading && items.some((item) => item.shares > 0) && summary;
 
   return (
     <section className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <h2
-          className="border-border inline-flex items-center rounded-full border bg-emerald-700 px-3
-            py-1 text-sm font-medium text-white"
-        >
+        <h2 className="border-border inline-flex items-center rounded-full border bg-emerald-700 px-3 py-1 text-sm font-medium text-white">
           หุ้นรายตัว
         </h2>
         <p className="text-xs text-stone-500">
           {items.length > 0 ? `${items.length} ตัว` : `${SEED_WATCHLIST.length} ตัว`}
         </p>
-        {summary ? (
-          <p className="text-xs text-stone-600 sm:ml-auto">
-            รวม{' '}
-            <span className="font-semibold text-stone-900">
-              {formatPrice(summary.totalMarketValue, summary.currency)}
-            </span>
-            {' · '}
-            <span
-              className={
-                summaryUp ? 'font-semibold text-emerald-700' : 'font-semibold text-rose-600'
-              }
-            >
-              {summaryUp ? 'กำไร' : 'ขาดทุน'} {summaryUp ? '+' : ''}
-              {formatPrice(summary.totalUnrealizedPnl, summary.currency)} ({summaryUp ? '+' : ''}
-              {summary.totalUnrealizedPnlPercent.toFixed(2)}%)
-            </span>
-          </p>
-        ) : null}
       </div>
 
       <div>
         <SymbolPicker onSymbolChange={onSelectSymbol} />
       </div>
 
+      {holdingsReady ? (
+        <AllocationChart
+          items={items}
+          summary={summary}
+          selectedSymbol={selectedSymbol}
+          onSelectSymbol={onSelectSymbol}
+        />
+      ) : null}
+
       {error && items.length === 0 ? (
-        <div
-          className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
-        >
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {error}
         </div>
       ) : loading && items.length === 0 ? (
-        <div
-          className="flex gap-3 overflow-x-auto pb-1 sm:grid
-            sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible"
-        >
+        <div className="flex gap-3 overflow-x-auto pb-1 sm:grid sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible">
           {Array.from({ length: 15 }).map((_, i) => (
             <div
               key={i}
-              className="h-[92px] w-[132px] shrink-0 animate-pulse rounded-2xl bg-white/70
-                sm:w-full"
+              className="h-[92px] w-[132px] shrink-0 animate-pulse rounded-2xl bg-white/70 sm:w-full"
             />
           ))}
         </div>
       ) : (
-        <div
-          className="flex gap-3 overflow-x-auto py-2 sm:grid sm:w-full
-            sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible"
-        >
+        <div className="flex gap-3 overflow-x-auto py-2 sm:grid sm:w-full sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible">
           {items.map((item) => {
             const up = item.changePercent >= 0;
             const active = item.symbol === selectedSymbol;
@@ -177,12 +157,11 @@ export function PortfolioPreview({
                 key={item.symbol}
                 type="button"
                 onClick={() => onSelectSymbol(item.symbol)}
-                className={`flex w-[132px] shrink-0 cursor-pointer flex-col gap-1.5 rounded-2xl
-                  border px-4 py-3 text-left transition-colors sm:w-full ${
-                    active
-                      ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
-                      : 'border-border bg-white hover:bg-stone-50'
-                  }`}
+                className={`flex w-[132px] shrink-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3 text-left transition-colors sm:w-full ${
+                  active
+                    ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
+                    : 'border-border bg-white hover:bg-stone-50'
+                }`}
               >
                 <span className="flex items-center gap-2">
                   <StockLogo symbol={item.symbol} size={20} />
