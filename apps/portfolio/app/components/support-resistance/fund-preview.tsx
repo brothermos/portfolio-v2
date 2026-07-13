@@ -122,7 +122,7 @@ export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPre
           ))}
         </div>
       ) : (
-        <div className="flex gap-3 overflow-x-auto py-2">
+        <div className="flex gap-3 overflow-x-auto">
           {items.map((item) => {
             const up = item.changePercent >= 0;
             const active = item.symbol === selectedSymbol;
