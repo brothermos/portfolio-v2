@@ -206,8 +206,12 @@ function latestNav(quotes: Array<{ date: string; navPerUnit: number }>): {
 }
 
 export async function fetchFundPreview(): Promise<FundPreviewItem[]> {
+  // Fail fast ถ้ายังไม่ได้ตั้ง key — อย่ากลืน error แล้วเหลือ 502 คลุมเครือ
+  requireSecApiKey();
+
   const end = new Date();
   const start = isoDateUtc(addUtcDays(end, -DEFAULT_NAV_LOOKBACK_DAYS));
+  const errors: string[] = [];
 
   const results: Array<FundPreviewItem | null> = await Promise.all(
     SEED_FUNDS.map(async (fund): Promise<FundPreviewItem | null> => {
@@ -224,7 +228,10 @@ export async function fetchFundPreview(): Promise<FundPreviewItem[]> {
           currency: "THB",
           asOfDate: latest.date,
         };
-      } catch {
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : `ดึง ${fund.symbol} ไม่สำเร็จ`;
+        errors.push(`${fund.symbol}: ${message}`);
         return null;
       }
     }),
@@ -232,7 +239,10 @@ export async function fetchFundPreview(): Promise<FundPreviewItem[]> {
 
   const items = results.filter((item): item is FundPreviewItem => item != null);
   if (items.length === 0) {
-    throw new FundDataError("ดึงข้อมูลกองทุนจาก SEC ไม่สำเร็จ", 502);
+    throw new FundDataError(
+      errors[0] ?? "ดึงข้อมูลกองทุนจาก SEC ไม่สำเร็จ",
+      502,
+    );
   }
   return items;
 }
