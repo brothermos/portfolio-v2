@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { fetchFundQuote, FundDataError } from "@/lib/funds/settrade";
+import { fetchFundQuote, FundDataError } from "@/lib/funds/sec";
 
 export const dynamic = "force-dynamic";
 

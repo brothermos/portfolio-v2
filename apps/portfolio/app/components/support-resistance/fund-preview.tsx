@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
-import type { FundPreviewItem } from '@/lib/funds/settrade';
+import type { FundPreviewItem } from '@/lib/funds/sec';
 import { SEED_FUNDS } from '@/lib/funds/watchlist';
 
 const POLL_MS = 60_000;

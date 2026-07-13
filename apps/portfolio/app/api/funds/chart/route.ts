@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { fetchFundChart, FundDataError } from "@/lib/funds/settrade";
+import { fetchFundChart, FundDataError } from "@/lib/funds/sec";
 import { isChartRangeId } from "@/lib/stocks/chart-ranges";
 
 export const dynamic = "force-dynamic";

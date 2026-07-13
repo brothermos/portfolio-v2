@@ -1,4 +1,4 @@
-import { fetchFundPreview, FundDataError } from "@/lib/funds/settrade";
+import { fetchFundPreview, FundDataError } from "@/lib/funds/sec";
 
 export const dynamic = "force-dynamic";
 
