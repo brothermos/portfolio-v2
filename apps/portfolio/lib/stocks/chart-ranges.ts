@@ -17,6 +17,11 @@ export type ChartRangeConfig = {
   interval: YahooChartInterval;
   /** true = ใช้ YYYY-MM-DD บนแกนเวลา */
   dailyScale: boolean;
+  /**
+   * จำนวนวันเทรดล่าสุดที่ต้องการแสดง (สำหรับกราฟ intraday)
+   * Yahoo ไม่มีแท่งช่วงวันหยุด — จึงดึงกว้างแล้วตัดเหลือเท่านี้อีกที
+   */
+  sessionDays?: number;
   period1: (now: Date) => Date;
 };
 
@@ -26,9 +31,11 @@ export const CHART_RANGES: ChartRangeConfig[] = [
     label: "1 วัน",
     interval: "5m",
     dailyScale: false,
+    // ย้อนปฏิทินให้พาดสุดสัปดาห์/วันหยุด แล้วค่อยตัดเหลือ 1 เซสชัน
+    sessionDays: 1,
     period1: (now) => {
       const d = new Date(now);
-      d.setUTCDate(d.getUTCDate() - 1);
+      d.setUTCDate(d.getUTCDate() - 7);
       return d;
     },
   },
@@ -37,9 +44,10 @@ export const CHART_RANGES: ChartRangeConfig[] = [
     label: "5 วัน",
     interval: "15m",
     dailyScale: false,
+    sessionDays: 5,
     period1: (now) => {
       const d = new Date(now);
-      d.setUTCDate(d.getUTCDate() - 5);
+      d.setUTCDate(d.getUTCDate() - 12);
       return d;
     },
   },

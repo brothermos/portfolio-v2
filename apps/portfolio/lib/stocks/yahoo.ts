@@ -339,6 +339,36 @@ function toChartTime(date: Date, dailyScale: boolean): number | string {
   return Math.floor(date.getTime() / 1000);
 }
 
+/** วันที่เซสชันตามเขตเวลาตลาดสหรัฐ (หุ้น US) */
+function sessionDayKey(date: Date): string {
+  return date.toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+}
+
+/**
+ * ตัดจุดกราฟให้เหลือเฉพาะ N วันเทรดล่าสุด
+ * (Yahoo คืนว่างถ้า period ครอบแค่เสาร์–อาทิตย์/ก่อนเปิดจันทร์)
+ */
+function trimToRecentSessions(
+  points: Array<ChartPoint & { _sessionDay: string }>,
+  sessionDays: number,
+): ChartPoint[] {
+  if (points.length === 0 || sessionDays <= 0) return [];
+
+  // จากท้ายสุด → วันเทรดล่าสุดอยู่หัวลิสต์
+  const recentDays: string[] = [];
+  for (let i = points.length - 1; i >= 0; i--) {
+    const day = points[i]!._sessionDay;
+    if (recentDays[recentDays.length - 1] !== day) {
+      recentDays.push(day);
+    }
+  }
+
+  const keep = new Set(recentDays.slice(0, sessionDays));
+  return points
+    .filter((p) => keep.has(p._sessionDay))
+    .map(({ time, value }) => ({ time, value }));
+}
+
 export async function fetchChartSeries(
   symbol: string,
   rangeId: ChartRangeId,
@@ -354,18 +384,24 @@ export async function fetchChartSeries(
       interval: range.interval,
     });
 
-    const points: ChartPoint[] = [];
+    const rawPoints: Array<ChartPoint & { _sessionDay: string }> = [];
     for (const q of chart.quotes ?? []) {
       if (!q?.date || typeof q.close !== "number" || Number.isNaN(q.close)) {
         continue;
       }
       const date = q.date instanceof Date ? q.date : new Date(q.date);
       if (Number.isNaN(date.getTime())) continue;
-      points.push({
+      rawPoints.push({
         time: toChartTime(date, range.dailyScale),
         value: q.close,
+        _sessionDay: sessionDayKey(date),
       });
     }
+
+    const points =
+      typeof range.sessionDays === "number"
+        ? trimToRecentSessions(rawPoints, range.sessionDays)
+        : rawPoints.map(({ time, value }) => ({ time, value }));
 
     if (points.length === 0) {
       throw new StockDataError(`ไม่พบข้อมูลกราฟของ ${symbol}`, 404);
