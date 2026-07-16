@@ -34,6 +34,7 @@ export const SEED_WATCHLIST = [
   "PEP",
   "ORCL",
   "VPG",
+  "AMBA",
 ] as const;
 
 export type SeedSymbol = (typeof SEED_WATCHLIST)[number];
@@ -57,7 +58,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   AAPL: { quantity: 0.8616279, avgBuyPrice: 231.7474 },
   NVDA: { quantity: 5.7003013, avgBuyPrice: 150.1728 },
   SE: { quantity: 1.5257621, avgBuyPrice: 85.1312 },
-  OUST: { quantity: 1.4513735, avgBuyPrice: 40.9819 },
+  OUST: { quantity: 2.2148797, avgBuyPrice: 40.2415 },
   SONY: { quantity: 7.0197503, avgBuyPrice: 18.5747 },
   AMZN: { quantity: 2.0931712, avgBuyPrice: 221.5156 },
   META: { quantity: 0.3571907, avgBuyPrice: 611.6901 },
@@ -79,7 +80,8 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   CRWV: { quantity: 0.2842694, avgBuyPrice: 107.574 },
   PEP: { quantity: 0.0082812, avgBuyPrice: 171.472 },
   ORCL: { quantity: 0.424794, avgBuyPrice: 140.986 },
-  VPG: { quantity: 0.2847889, avgBuyPrice: 104.358 },
+  VPG: { quantity: 0.5649446, avgBuyPrice: 105.0899 },
+  AMBA: { quantity: 0.437148, avgBuyPrice: 67.826 },
 };
 
 export function normalizeSymbol(raw: string): string {
