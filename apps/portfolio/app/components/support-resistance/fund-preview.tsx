@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
-import type { FundPreviewItem } from '@/lib/funds/sec';
+import type { FundPortfolioPreviewItem, FundPortfolioSummary } from '@/lib/funds/sec';
 import { SEED_FUNDS } from '@/lib/funds/watchlist';
+
+import { AllocationChart } from './allocation-chart';
 
 const POLL_MS = 60_000;
 
@@ -12,6 +14,7 @@ type FundPreviewProps = {
   selectedSymbol: string | null;
   onSelectSymbol: (symbol: string) => void;
   onReady?: () => void;
+  onItemsChange?: (items: FundPortfolioPreviewItem[]) => void;
 };
 
 function formatNav(nav: number) {
@@ -21,8 +24,14 @@ function formatNav(nav: number) {
   });
 }
 
-export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPreviewProps) {
-  const [items, setItems] = useState<FundPreviewItem[]>([]);
+export function FundPreview({
+  selectedSymbol,
+  onSelectSymbol,
+  onReady,
+  onItemsChange,
+}: FundPreviewProps) {
+  const [items, setItems] = useState<FundPortfolioPreviewItem[]>([]);
+  const [summary, setSummary] = useState<FundPortfolioSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +53,8 @@ export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPre
       try {
         const response = await fetch(appPath('/api/funds/preview'));
         const body = (await response.json()) as {
-          items?: FundPreviewItem[];
+          items?: FundPortfolioPreviewItem[];
+          summary?: FundPortfolioSummary;
           error?: string;
         };
         if (!response.ok) {
@@ -53,6 +63,8 @@ export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPre
         if (!cancelled) {
           const sorted = [...(body.items ?? [])].sort((a, b) => b.changePercent - a.changePercent);
           setItems(sorted);
+          setSummary(body.summary ?? null);
+          onItemsChange?.(sorted);
           setError(null);
         }
       } catch (err) {
@@ -90,7 +102,9 @@ export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPre
       if (timer) clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [onReady]);
+  }, [onReady, onItemsChange]);
+
+  const holdingsReady = !loading && items.some((item) => item.units > 0) && summary;
 
   return (
     <section className="flex flex-col gap-2">
@@ -105,6 +119,15 @@ export function FundPreview({ selectedSymbol, onSelectSymbol, onReady }: FundPre
           {items.length > 0 ? `${items.length} กอง` : `${SEED_FUNDS.length} กอง`}
         </p>
       </div>
+
+      {holdingsReady ? (
+        <AllocationChart
+          items={items}
+          summary={summary}
+          selectedSymbol={selectedSymbol ?? ''}
+          onSelectSymbol={onSelectSymbol}
+        />
+      ) : null}
 
       {error && items.length === 0 ? (
         <div

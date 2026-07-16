@@ -2,11 +2,27 @@
 
 import { useMemo, useState } from 'react';
 
-import type { PortfolioPreviewItem, PortfolioSummary } from '@/lib/stocks/types';
+type AllocationItem = {
+  symbol: string;
+  currency: string;
+  marketValue: number;
+  weightPercent: number;
+  unrealizedPnl: number;
+  unrealizedPnlPercent: number;
+  shares?: number;
+  units?: number;
+};
+
+type AllocationSummary = {
+  totalMarketValue: number;
+  totalUnrealizedPnl: number;
+  totalUnrealizedPnlPercent: number;
+  currency: string;
+};
 
 type AllocationChartProps = {
-  items: PortfolioPreviewItem[];
-  summary: PortfolioSummary;
+  items: AllocationItem[];
+  summary: AllocationSummary;
   selectedSymbol?: string;
   onSelectSymbol?: (symbol: string) => void;
 };
@@ -45,21 +61,22 @@ export function AllocationChart({
 
   const slices = useMemo(() => {
     const holdings = items
-      .filter((item) => item.shares > 0 && item.marketValue > 0)
+      .filter((item) => (item.shares ?? item.units ?? 0) > 0 && item.marketValue > 0)
       .sort((a, b) => b.marketValue - a.marketValue);
 
-    let offset = 0;
     return holdings.map((item, index) => {
       const ratio = item.weightPercent / 100;
       const length = Math.max(ratio * CIRCUMFERENCE, 0.5);
-      const slice = {
+      const offset = holdings.slice(0, index).reduce((sum, previous) => {
+        const previousRatio = previous.weightPercent / 100;
+        return sum + Math.max(previousRatio * CIRCUMFERENCE, 0.5);
+      }, 0);
+      return {
         ...item,
         color: PALETTE[index % PALETTE.length]!,
         dasharray: `${length} ${CIRCUMFERENCE - length}`,
         dashoffset: -offset,
       };
-      offset += length;
-      return slice;
     });
   }, [items]);
 
@@ -81,7 +98,7 @@ export function AllocationChart({
             viewBox={`0 0 ${SIZE} ${SIZE}`}
             className="h-full w-full -rotate-90"
             role="img"
-            aria-label="สัดส่วนพอร์ตหุ้น"
+            aria-label="สัดส่วนพอร์ตการลงทุน"
           >
             <circle
               cx={SIZE / 2}

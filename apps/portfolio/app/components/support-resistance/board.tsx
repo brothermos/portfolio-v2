@@ -1,9 +1,11 @@
 'use client';
 
 import gsap from 'gsap';
+import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
+import type { FundPortfolioPreviewItem } from '@/lib/funds/sec';
 import type {
   PortfolioPreviewItem,
   StockQuote,
@@ -11,6 +13,7 @@ import type {
 } from '@/lib/stocks/types';
 
 import { FundPreview } from './fund-preview';
+import { FundHoldingDetail } from './fund-holding-detail';
 import { LevelsPanel } from './levels-panel';
 import { MarketPreview } from './market-preview';
 import { PageLoader } from './page-loader';
@@ -54,6 +57,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [boot, setBoot] = useState({ market: false, fund: false, portfolio: false });
   const [showLoader, setShowLoader] = useState(true);
   const [portfolioItems, setPortfolioItems] = useState<PortfolioPreviewItem[]>([]);
+  const [fundPortfolioItems, setFundPortfolioItems] = useState<FundPortfolioPreviewItem[]>([]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -77,9 +81,17 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
     setPortfolioItems(items);
   }, []);
 
+  const handleFundPortfolioItemsChange = useCallback((items: FundPortfolioPreviewItem[]) => {
+    setFundPortfolioItems(items);
+  }, []);
+
   const selectedHolding =
     assetKind === 'stock'
       ? (portfolioItems.find((item) => item.symbol === symbol) ?? null)
+      : null;
+  const selectedFundHolding =
+    assetKind === 'fund'
+      ? (fundPortfolioItems.find((item) => item.symbol === symbol) ?? null)
       : null;
 
   function selectAsset(nextKind: AssetKind, nextSymbol: string) {
@@ -253,7 +265,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
             </h1>
             <p className="max-w-xl text-sm text-stone-500">รวมหุ้นและกองทุกที่ผมถือ</p>
           </div>
-          <a
+          <Link
             href="/"
             className="absolute top-0 right-0 flex h-14 w-14 items-center justify-center transition-transform duration-200 ease-out hover:scale-110 sm:h-16 sm:w-16"
             aria-label="กลับหน้าหลัก"
@@ -267,7 +279,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
               height={64}
               className="h-14 w-14 object-contain sm:h-16 sm:w-16"
             />
-          </a>
+          </Link>
         </header>
 
         <div data-reveal>
@@ -283,6 +295,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
             selectedSymbol={assetKind === 'fund' ? symbol : null}
             onSelectSymbol={(next) => selectAsset('fund', next)}
             onReady={markFundReady}
+            onItemsChange={handleFundPortfolioItemsChange}
           />
         </div>
 
@@ -311,6 +324,12 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
         {assetKind === 'stock' && selectedHolding && selectedHolding.shares > 0 ? (
           <div data-reveal>
             <HoldingDetail holding={selectedHolding} />
+          </div>
+        ) : null}
+
+        {assetKind === 'fund' && selectedFundHolding && selectedFundHolding.units > 0 ? (
+          <div data-reveal>
+            <FundHoldingDetail holding={selectedFundHolding} />
           </div>
         ) : null}
 

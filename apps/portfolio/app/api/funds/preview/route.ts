@@ -1,12 +1,12 @@
-import { fetchFundPreview, FundDataError } from "@/lib/funds/sec";
+import { fetchFundPortfolioPreview, FundDataError } from "@/lib/funds/sec";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const items = await fetchFundPreview();
+    const data = await fetchFundPortfolioPreview();
     return Response.json(
-      { items },
+      data,
       {
         headers: {
           "Cache-Control": "no-store",

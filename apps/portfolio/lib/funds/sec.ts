@@ -10,6 +10,7 @@ import type {
 import {
   getSeedFund,
   isSeedFundSymbol,
+  SEED_FUND_HOLDINGS,
   SEED_FUNDS,
   type SeedFund,
 } from "./watchlist";
@@ -23,6 +24,29 @@ export type FundPreviewItem = {
   changePercent: number;
   currency: string;
   asOfDate: string;
+};
+
+export type FundPortfolioPreviewItem = FundPreviewItem & {
+  units: number;
+  avgBuyNav: number;
+  marketValue: number;
+  costBasis: number;
+  weightPercent: number;
+  unrealizedPnl: number;
+  unrealizedPnlPercent: number;
+};
+
+export type FundPortfolioSummary = {
+  totalMarketValue: number;
+  totalCostBasis: number;
+  totalUnrealizedPnl: number;
+  totalUnrealizedPnlPercent: number;
+  currency: "THB";
+};
+
+export type FundPortfolioPreviewResponse = {
+  items: FundPortfolioPreviewItem[];
+  summary: FundPortfolioSummary;
 };
 
 export class FundDataError extends Error {
@@ -245,6 +269,49 @@ export async function fetchFundPreview(): Promise<FundPreviewItem[]> {
     );
   }
   return items;
+}
+
+export async function fetchFundPortfolioPreview(): Promise<FundPortfolioPreviewResponse> {
+  const previews = await fetchFundPreview();
+  const positions = previews.map((item) => {
+    const holding = SEED_FUND_HOLDINGS[item.symbol as keyof typeof SEED_FUND_HOLDINGS];
+    const units = holding?.units ?? 0;
+    const avgBuyNav = holding?.avgBuyNav ?? 0;
+    const marketValue = item.nav * units;
+    const costBasis = avgBuyNav * units;
+    const unrealizedPnl = marketValue - costBasis;
+
+    return {
+      ...item,
+      units,
+      avgBuyNav,
+      marketValue,
+      costBasis,
+      unrealizedPnl,
+      unrealizedPnlPercent: costBasis > 0 ? (unrealizedPnl / costBasis) * 100 : 0,
+    };
+  });
+
+  const totalMarketValue = positions.reduce((sum, item) => sum + item.marketValue, 0);
+  const totalCostBasis = positions.reduce((sum, item) => sum + item.costBasis, 0);
+  const totalUnrealizedPnl = totalMarketValue - totalCostBasis;
+
+  const items: FundPortfolioPreviewItem[] = positions.map((item) => ({
+    ...item,
+    weightPercent: totalMarketValue > 0 ? (item.marketValue / totalMarketValue) * 100 : 0,
+  }));
+
+  return {
+    items,
+    summary: {
+      totalMarketValue,
+      totalCostBasis,
+      totalUnrealizedPnl,
+      totalUnrealizedPnlPercent:
+        totalCostBasis > 0 ? (totalUnrealizedPnl / totalCostBasis) * 100 : 0,
+      currency: "THB",
+    },
+  };
 }
 
 export async function fetchFundQuote(symbol: string): Promise<StockQuote> {

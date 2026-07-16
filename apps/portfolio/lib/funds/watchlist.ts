@@ -37,6 +37,30 @@ export type SeedFundSymbol = (typeof SEED_FUNDS)[number]["symbol"];
 
 export type SeedFund = (typeof SEED_FUNDS)[number];
 
+export type SeedFundHolding = {
+  units: number;
+  avgBuyNav: number;
+};
+
+export const SEED_FUND_HOLDINGS: Record<SeedFundSymbol, SeedFundHolding> = {
+  "MEGA10CHINATECH-A": {
+    units: 1031.6718,
+    avgBuyNav: 8.5962,
+  },
+  "MEGA10CHINA-A": {
+    units: 678.9849,
+    avgBuyNav: 13.0614,
+  },
+  "A-JEDI": {
+    units: 707.5887,
+    avgBuyNav: 11.306,
+  },
+  "ES-GRID": {
+    units: 428.4783,
+    avgBuyNav: 11.6692,
+  },
+};
+
 export function getSeedFund(symbol: string): SeedFund | undefined {
   return SEED_FUNDS.find((f) => f.symbol === symbol);
 }
