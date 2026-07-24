@@ -58,7 +58,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   AAPL: { quantity: 0.8616279, avgBuyPrice: 231.7474 },
   NVDA: { quantity: 5.7003013, avgBuyPrice: 150.1728 },
   SE: { quantity: 1.5257621, avgBuyPrice: 85.1312 },
-  OUST: { quantity: 3.0491046, avgBuyPrice: 38.9491 },
+  OUST: { quantity: 7.2591861, avgBuyPrice: 36.7293 },
   SONY: { quantity: 7.0197503, avgBuyPrice: 18.5747 },
   AMZN: { quantity: 2.0931712, avgBuyPrice: 221.5156 },
   META: { quantity: 0.3571907, avgBuyPrice: 611.6901 },
