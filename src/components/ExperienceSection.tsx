@@ -77,6 +77,18 @@ const ExperienceSection = () => {
                         ))}
                       </ul>
                     ) : null}
+                    {exp.website ? (
+                      <a
+                        href={exp.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-block text-sm font-medium text-white/80 underline
+                          underline-offset-2 transition-colors hover:text-white md:text-base
+                          lg:text-lg"
+                      >
+                        {exp.website.replace(/^https?:\/\//, '')}
+                      </a>
+                    ) : null}
                     <div
                       className="mt-4 inline-block rounded-full bg-black/20 px-4 py-1.5 md:px-5
                         md:py-2"

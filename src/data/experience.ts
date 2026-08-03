@@ -5,6 +5,7 @@ export const EXPERIENCE: Array<{
   role: string;
   period: string;
   description?: string[];
+  website?: string;
   color: string;
   border: string;
   dotColor: string;
@@ -41,5 +42,18 @@ export const EXPERIENCE: Array<{
     shadow: 'shadow-[0_20px_40px_rgba(252,202,89,0.35)]',
     hoverShadow: 'md:hover:shadow-[0_28px_56px_rgba(252,202,89,0.5)]',
     iconKey: 'laptop',
+  },
+  {
+    company: 'Hugbearshop',
+    role: 'Business Owner',
+    period: 'June 2020 - Aug 2022',
+    description: ['Seller on Shopee and Lazada platform.'],
+    website: 'https://shopee.co.th/hugbearshop',
+    color: 'bg-pink',
+    border: 'border border-pink',
+    dotColor: 'bg-pink',
+    shadow: 'shadow-[0_20px_40px_rgba(242,150,189,0.35)]',
+    hoverShadow: 'md:hover:shadow-[0_28px_56px_rgba(242,150,189,0.5)]',
+    iconKey: 'briefcase',
   },
 ];
