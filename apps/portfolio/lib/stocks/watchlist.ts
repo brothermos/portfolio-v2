@@ -58,10 +58,10 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   AAPL: { quantity: 0.8616279, avgBuyPrice: 231.7474 },
   NVDA: { quantity: 5.7003013, avgBuyPrice: 150.1728 },
   SE: { quantity: 1.5257621, avgBuyPrice: 85.1312 },
-  OUST: { quantity: 7.2591861, avgBuyPrice: 36.7293 },
+  OUST: { quantity: 8.1535587, avgBuyPrice: 36.3455 },
   SONY: { quantity: 7.0197503, avgBuyPrice: 18.5747 },
   AMZN: { quantity: 2.0931712, avgBuyPrice: 221.5156 },
-  META: { quantity: 0.3571907, avgBuyPrice: 611.6901 },
+  META: { quantity: 0.6377621, avgBuyPrice: 576.0926 },
   TMDX: { quantity: 0.4226172, avgBuyPrice: 70.442 },
   PRCT: { quantity: 1.4897551, avgBuyPrice: 20.01 },
   TSLA: { quantity: 0.0880991, avgBuyPrice: 438.3698 },
@@ -80,7 +80,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   CRWV: { quantity: 0.2842694, avgBuyPrice: 107.574 },
   PEP: { quantity: 0.0082812, avgBuyPrice: 171.472 },
   ORCL: { quantity: 0.424794, avgBuyPrice: 140.986 },
-  VPG: { quantity: 0.8673224, avgBuyPrice: 102.6147 },
+  VPG: { quantity: 1.2032859, avgBuyPrice: 98.6632 },
   AMBA: { quantity: 0.437148, avgBuyPrice: 67.826 },
 };
 
