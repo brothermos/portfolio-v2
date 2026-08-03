@@ -44,16 +44,16 @@ export type SeedFundHolding = {
 
 export const SEED_FUND_HOLDINGS: Record<SeedFundSymbol, SeedFundHolding> = {
   "MEGA10CHINATECH-A": {
-    units: 1031.6718,
-    avgBuyNav: 8.5962,
+    units: 1166.1267,
+    avgBuyNav: 8.5557,
   },
   "MEGA10CHINA-A": {
-    units: 678.9849,
-    avgBuyNav: 13.0614,
+    units: 766.9638,
+    avgBuyNav: 13.0084,
   },
   "A-JEDI": {
-    units: 707.5887,
-    avgBuyNav: 11.306,
+    units: 813.6782,
+    avgBuyNav: 11.0609,
   },
   "ES-GRID": {
     units: 428.4783,
