@@ -60,8 +60,8 @@ const useDock = () => {
 
     for (let i = 0; i < items.length; i++) {
       const distance = i * MIN_SIZE + MIN_SIZE / 2 - pointer;
-      let x = 0;
       let scale = 1;
+      let x: number;
 
       if (-BOUND < distance && distance < BOUND) {
         const rad = (distance / MIN_SIZE) * 0.5;
