@@ -37,47 +37,45 @@ function Metric({
   label,
   value,
   tone,
-  surface = 'emerald',
+  surface = 'sky',
 }: {
   label: string;
   value: string;
   tone?: 'up' | 'down' | 'neutral';
-  surface?: 'emerald' | 'rose' | 'auto';
+  surface?: 'sky' | 'emerald' | 'rose' | 'auto';
 }) {
   const resolvedSurface =
-    surface === 'auto'
-      ? tone === 'down'
-        ? 'rose'
-        : tone === 'up'
-          ? 'emerald'
-          : 'emerald'
-      : surface;
-  const isRose = resolvedSurface === 'rose';
+    surface === 'auto' ? (tone === 'down' ? 'rose' : 'emerald') : surface;
+
+  const surfaceClass =
+    resolvedSurface === 'rose'
+      ? 'bg-rose-50'
+      : resolvedSurface === 'emerald'
+        ? 'bg-emerald-50/80'
+        : 'bg-sky-50';
+
+  const labelClass =
+    resolvedSurface === 'rose'
+      ? 'text-rose-800/55'
+      : resolvedSurface === 'emerald'
+        ? 'text-emerald-800/55'
+        : 'text-sky-800/55';
+
+  const valueClass =
+    tone === 'up'
+      ? 'text-emerald-700'
+      : tone === 'down'
+        ? 'text-rose-600'
+        : resolvedSurface === 'rose'
+          ? 'text-rose-900'
+          : resolvedSurface === 'emerald'
+            ? 'text-emerald-900'
+            : 'text-stone-900';
 
   return (
-    <div
-      className={`min-w-0 rounded-xl px-3 py-2.5 ${
-        isRose ? 'bg-rose-50' : 'bg-emerald-50/80'
-      }`}
-    >
-      <p
-        className={`text-[11px] leading-none ${
-          isRose ? 'text-rose-800/55' : 'text-emerald-800/55'
-        }`}
-      >
-        {label}
-      </p>
-      <p
-        className={`mt-1.5 truncate text-sm font-semibold tabular-nums ${
-          tone === 'up'
-            ? 'text-emerald-700'
-            : tone === 'down'
-              ? 'text-rose-600'
-              : isRose
-                ? 'text-rose-900'
-                : 'text-stone-900'
-        }`}
-      >
+    <div className={`min-w-0 rounded-xl px-3 py-2.5 ${surfaceClass}`}>
+      <p className={`text-[11px] leading-none ${labelClass}`}>{label}</p>
+      <p className={`mt-1.5 truncate text-sm font-semibold tabular-nums ${valueClass}`}>
         {value}
       </p>
     </div>
