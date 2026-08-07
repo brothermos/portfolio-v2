@@ -3,10 +3,16 @@
 import { useEffect, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
-import type { PortfolioPreviewItem, PortfolioSummary } from '@/lib/stocks/types';
+import type {
+  ClosedPositionItem,
+  ClosedPositionsSummary,
+  PortfolioPreviewItem,
+  PortfolioSummary,
+} from '@/lib/stocks/types';
 import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
 import { AllocationChart } from './allocation-chart';
+import { ClosedPositions } from './closed-positions';
 import { StockLogo } from './stock-logo';
 import { SymbolPicker } from './symbol-picker';
 
@@ -36,6 +42,8 @@ export function PortfolioPreview({
 }: PortfolioPreviewProps) {
   const [items, setItems] = useState<PortfolioPreviewItem[]>([]);
   const [summary, setSummary] = useState<PortfolioSummary | null>(null);
+  const [closedPositions, setClosedPositions] = useState<ClosedPositionItem[]>([]);
+  const [closedSummary, setClosedSummary] = useState<ClosedPositionsSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -59,6 +67,8 @@ export function PortfolioPreview({
         const body = (await response.json()) as {
           items?: PortfolioPreviewItem[];
           summary?: PortfolioSummary;
+          closedPositions?: ClosedPositionItem[];
+          closedSummary?: ClosedPositionsSummary;
           error?: string;
         };
         if (!response.ok) {
@@ -68,6 +78,8 @@ export function PortfolioPreview({
           const sorted = [...(body.items ?? [])].sort((a, b) => b.changePercent - a.changePercent);
           setItems(sorted);
           setSummary(body.summary ?? null);
+          setClosedPositions(body.closedPositions ?? []);
+          setClosedSummary(body.closedSummary ?? null);
           onItemsChange?.(sorted);
           setError(null);
         }
@@ -135,6 +147,10 @@ export function PortfolioPreview({
           selectedSymbol={selectedSymbol}
           onSelectSymbol={onSelectSymbol}
         />
+      ) : null}
+
+      {closedSummary && closedPositions.length > 0 ? (
+        <ClosedPositions items={closedPositions} summary={closedSummary} />
       ) : null}
 
       {error && items.length === 0 ? (

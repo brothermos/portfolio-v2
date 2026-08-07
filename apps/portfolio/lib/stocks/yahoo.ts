@@ -6,6 +6,8 @@ import { classicPivotPoints } from './pivot';
 import type {
   ChartPoint,
   ChartRangeId,
+  ClosedPositionItem,
+  ClosedPositionsSummary,
   MarketPreviewItem,
   PortfolioPreviewItem,
   PortfolioPreviewResponse,
@@ -15,7 +17,13 @@ import type {
   StockSearchResult,
   SupportResistanceLevels,
 } from './types';
-import { isValidSymbol, normalizeSymbol, SEED_HOLDINGS, SEED_WATCHLIST } from './watchlist';
+import {
+  isValidSymbol,
+  normalizeSymbol,
+  SEED_CLOSED_POSITIONS,
+  SEED_HOLDINGS,
+  SEED_WATCHLIST,
+} from './watchlist';
 
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 
@@ -134,8 +142,60 @@ export async function fetchMarketPreview(): Promise<MarketPreviewItem[]> {
   }
 }
 
+export function buildClosedPositions(
+  currency = 'USD',
+  currentPrices: Map<string, number> = new Map(),
+): {
+  closedPositions: ClosedPositionItem[];
+  closedSummary: ClosedPositionsSummary;
+} {
+  const closedPositions: ClosedPositionItem[] = SEED_CLOSED_POSITIONS.map((position) => {
+    const costBasis = position.avgBuyPrice * position.quantity;
+    const proceeds = position.sellPrice * position.quantity;
+    const realizedPnl = proceeds - costBasis;
+    const realizedPnlPercent =
+      costBasis > 0 ? (realizedPnl / costBasis) * 100 : 0;
+    const currentPrice = currentPrices.get(position.symbol.toUpperCase()) ?? null;
+    const priceSinceSellPercent =
+      currentPrice != null && position.sellPrice > 0
+        ? ((currentPrice - position.sellPrice) / position.sellPrice) * 100
+        : null;
+
+    return {
+      symbol: position.symbol,
+      currency,
+      shares: position.quantity,
+      avgBuyPrice: position.avgBuyPrice,
+      sellPrice: position.sellPrice,
+      currentPrice,
+      priceSinceSellPercent,
+      costBasis,
+      proceeds,
+      realizedPnl,
+      realizedPnlPercent,
+    };
+  });
+
+  const totalCostBasis = closedPositions.reduce((sum, item) => sum + item.costBasis, 0);
+  const totalProceeds = closedPositions.reduce((sum, item) => sum + item.proceeds, 0);
+  const totalRealizedPnl = totalProceeds - totalCostBasis;
+
+  return {
+    closedPositions,
+    closedSummary: {
+      totalCostBasis,
+      totalProceeds,
+      totalRealizedPnl,
+      totalRealizedPnlPercent:
+        totalCostBasis > 0 ? (totalRealizedPnl / totalCostBasis) * 100 : 0,
+      currency,
+    },
+  };
+}
+
 export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse> {
-  const symbols = [...SEED_WATCHLIST];
+  const closedSymbolSet = new Set(SEED_CLOSED_POSITIONS.map((position) => position.symbol));
+  const symbols = [...new Set([...SEED_WATCHLIST, ...closedSymbolSet])];
 
   try {
     const quotes = await yahooFinance.quote(symbols);
@@ -155,6 +215,8 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
       unrealizedPnlPercent: number;
     }> = [];
 
+    const closedCurrentPrices = new Map<string, number>();
+
     for (const symbol of symbols) {
       const quote = bySymbol.get(symbol);
       const price =
@@ -164,7 +226,16 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
         continue;
       }
 
-      const holding = SEED_HOLDINGS[symbol];
+      if (closedSymbolSet.has(symbol)) {
+        closedCurrentPrices.set(symbol, price);
+      }
+
+      // Closed-only symbols are not open holdings — skip open portfolio rows.
+      if (!(symbol in SEED_HOLDINGS)) {
+        continue;
+      }
+
+      const holding = SEED_HOLDINGS[symbol as keyof typeof SEED_HOLDINGS];
       const shares = holding?.quantity ?? 0;
       const avgBuyPrice = holding?.avgBuyPrice ?? 0;
       const marketValue = price * shares;
@@ -210,6 +281,12 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
       unrealizedPnlPercent: item.unrealizedPnlPercent,
     }));
 
+    const currency = priced[0]?.currency ?? 'USD';
+    const { closedPositions, closedSummary } = buildClosedPositions(
+      currency,
+      closedCurrentPrices,
+    );
+
     return {
       items,
       summary: {
@@ -217,8 +294,10 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
         totalCostBasis,
         totalUnrealizedPnl,
         totalUnrealizedPnlPercent,
-        currency: priced[0]?.currency ?? 'USD',
+        currency,
       },
+      closedPositions,
+      closedSummary,
     };
   } catch (error) {
     if (error instanceof StockDataError) throw error;

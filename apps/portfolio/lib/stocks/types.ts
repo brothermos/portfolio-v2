@@ -99,7 +99,31 @@ export type PortfolioSummary = {
   currency: string;
 };
 
+export type ClosedPositionItem = {
+  symbol: string;
+  currency: string;
+  shares: number;
+  avgBuyPrice: number;
+  sellPrice: number;
+  currentPrice: number | null;
+  priceSinceSellPercent: number | null;
+  costBasis: number;
+  proceeds: number;
+  realizedPnl: number;
+  realizedPnlPercent: number;
+};
+
+export type ClosedPositionsSummary = {
+  totalCostBasis: number;
+  totalProceeds: number;
+  totalRealizedPnl: number;
+  totalRealizedPnlPercent: number;
+  currency: string;
+};
+
 export type PortfolioPreviewResponse = {
   items: PortfolioPreviewItem[];
   summary: PortfolioSummary;
+  closedPositions: ClosedPositionItem[];
+  closedSummary: ClosedPositionsSummary;
 };

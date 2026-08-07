@@ -41,6 +41,13 @@ export type SeedHolding = {
   avgBuyPrice: number;
 };
 
+export type SeedClosedPosition = {
+  symbol: string;
+  quantity: number;
+  avgBuyPrice: number;
+  sellPrice: number;
+};
+
 /** Hardcoded holdings — edit when positions change. */
 export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   INTC: { quantity: 1.0843239, avgBuyPrice: 26.5972 },
@@ -77,6 +84,34 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   VPG: { quantity: 3.2032859, avgBuyPrice: 85.0294 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
 };
+
+/** Fully closed positions — edit when realizing sales. */
+export const SEED_CLOSED_POSITIONS: SeedClosedPosition[] = [
+  {
+    symbol: 'MSFT',
+    quantity: 0.4721259,
+    avgBuyPrice: 422.938,
+    sellPrice: 487.65,
+  },
+  {
+    symbol: 'AMZN',
+    quantity: 2.0931712,
+    avgBuyPrice: 221.5156,
+    sellPrice: 284.7801,
+  },
+  {
+    symbol: 'NVDA',
+    quantity: 5.7003013,
+    avgBuyPrice: 150.1728,
+    sellPrice: 206.96,
+  },
+  {
+    symbol: 'GOOG',
+    quantity: 2.0868389,
+    avgBuyPrice: 200.9019,
+    sellPrice: 375.0102,
+  },
+];
 
 export function normalizeSymbol(raw: string): string {
   return raw.trim().toUpperCase();
