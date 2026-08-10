@@ -24,6 +24,15 @@ function formatNav(nav: number) {
   });
 }
 
+function formatMoney(value: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'THB',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 export function FundPreview({
   selectedSymbol,
   onSelectSymbol,
@@ -106,63 +115,102 @@ export function FundPreview({
 
   const holdingsReady = !loading && items.some((item) => item.units > 0) && summary;
 
-  const cards =
-    error && items.length === 0 ? (
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
-        {error}
-      </div>
-    ) : loading && items.length === 0 ? (
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-[100px] animate-pulse rounded-2xl bg-white/70" />
-        ))}
-      </div>
-    ) : (
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
+  const cardButtons =
+    error && items.length === 0 ? null : loading && items.length === 0 ? null : (
+      <>
         {items.map((item) => {
           const up = item.changePercent >= 0;
+          const pnlUp = item.unrealizedPnl >= 0;
           const active = item.symbol === selectedSymbol;
+          const hasHolding = item.units > 0;
           return (
             <button
               key={item.symbol}
               type="button"
               onClick={() => onSelectSymbol(item.symbol)}
               title={item.name}
-              className={`flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3
-                text-left transition-colors ${
+              className={`flex h-full min-h-[140px] min-w-0 cursor-pointer flex-col
+                justify-between gap-3 rounded-2xl border px-4 py-4 text-left transition-colors ${
                   active
                     ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
                     : 'border-border bg-white hover:bg-stone-50'
                 }`}
             >
-              <div className="flex items-center gap-2">
-                <span
-                  className="inline-flex h-5 w-5 items-center justify-center overflow-hidden
-                    rounded-full bg-stone-200 text-[9px] leading-none"
-                >
-                  🇹🇭
-                </span>
-                <span className="truncate text-sm font-semibold text-stone-900">{item.title}</span>
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex min-w-0 items-center gap-2">
+                  <span
+                    className="inline-flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden
+                      rounded-full bg-stone-200 text-[9px] leading-none"
+                  >
+                    🇹🇭
+                  </span>
+                  <span className="truncate text-sm font-semibold text-stone-900">{item.title}</span>
+                </div>
+                {hasHolding ? (
+                  <span className="shrink-0 rounded-md bg-stone-100 px-1.5 py-0.5 font-mono text-[10px] text-stone-600">
+                    {item.weightPercent.toFixed(0)}%
+                  </span>
+                ) : null}
               </div>
-              <span
-                className={`flex items-center gap-1.5 text-base font-semibold ${
-                  up ? 'text-emerald-700' : 'text-rose-600'
-                }`}
-              >
-                <span aria-hidden>{up ? '↗' : '↘'}</span>
-                <span>
-                  {Math.abs(item.changePercent).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                  %
+
+              <div className="flex flex-col gap-1">
+                <span
+                  className={`flex items-center gap-1.5 text-xl font-semibold tracking-tight ${
+                    up ? 'text-emerald-700' : 'text-rose-600'
+                  }`}
+                >
+                  <span aria-hidden>{up ? '↗' : '↘'}</span>
+                  <span>
+                    {Math.abs(item.changePercent).toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                    %
+                  </span>
                 </span>
-              </span>
-              <span className="font-mono text-sm text-stone-600">{formatNav(item.nav)} THB</span>
+                <span className="font-mono text-sm text-stone-600">{formatNav(item.nav)} THB</span>
+              </div>
+
+              {hasHolding ? (
+                <div className="flex flex-wrap items-end justify-between gap-x-3 gap-y-1 border-t border-stone-100 pt-3">
+                  <div>
+                    <p className="text-[10px] text-stone-500">มูลค่า</p>
+                    <p className="font-mono text-xs font-medium text-stone-800">
+                      {formatMoney(item.marketValue)}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] text-stone-500">{pnlUp ? 'กำไร' : 'ขาดทุน'}</p>
+                    <p
+                      className={`font-mono text-xs font-medium ${
+                        pnlUp ? 'text-emerald-700' : 'text-rose-600'
+                      }`}
+                    >
+                      {pnlUp ? '+' : ''}
+                      {formatMoney(item.unrealizedPnl)}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
             </button>
           );
         })}
+      </>
+    );
+
+  const cardsAlone =
+    error && items.length === 0 ? (
+      <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        {error}
       </div>
+    ) : loading && items.length === 0 ? (
+      <div className="grid grid-cols-2 gap-3">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-[120px] animate-pulse rounded-2xl bg-white/70" />
+        ))}
+      </div>
+    ) : (
+      <div className="grid grid-cols-2 gap-3">{cardButtons}</div>
     );
 
   return (
@@ -180,17 +228,28 @@ export function FundPreview({
       </div>
 
       {holdingsReady ? (
-        <div className="grid items-start gap-6 lg:grid-cols-[minmax(260px,300px)_minmax(0,1fr)]">
+        <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(260px,300px)_minmax(0,1fr)]">
           <AllocationChart
             items={items}
             summary={summary}
             selectedSymbol={selectedSymbol ?? ''}
             onSelectSymbol={onSelectSymbol}
           />
-          {cards}
+          <div className="grid h-full grid-cols-2 gap-3 lg:auto-rows-fr">
+            {error && items.length === 0 ? (
+              <div
+                className="col-span-2 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3
+                  text-sm text-rose-700"
+              >
+                {error}
+              </div>
+            ) : (
+              cardButtons
+            )}
+          </div>
         </div>
       ) : (
-        cards
+        cardsAlone
       )}
     </section>
   );
