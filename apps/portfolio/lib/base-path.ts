@@ -1,5 +1,5 @@
-/** Must match `basePath` in next.config.ts */
-export const BASE_PATH = "/portfolio";
+/** Must match `basePath` in next.config.ts (empty when app is served at domain root). */
+export const BASE_PATH = "";
 
 /** Prefix an app-relative path with the Next.js basePath. */
 export function appPath(path = "/"): string {

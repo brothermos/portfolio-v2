@@ -1,12 +1,12 @@
-# Wealth Portfolio (`/portfolio`)
+# Wealth Portfolio (`wealth.bromos.dev`)
 
 Next.js app migrated from [`brothermos/wealth-portfolio`](https://github.com/brothermos/wealth-portfolio).
 
-Served on the main bromos domain at **`/portfolio`** via `basePath` + root `vercel.json` rewrites.
+Served at **`https://wealth.bromos.dev`**. The main site redirects `/portfolio` → this subdomain.
 
 ## Local development
 
-`basePath` is `/portfolio`, so the app is **not** at `/`.
+The app is served at `/` (no `basePath`).
 
 ### From the monorepo root (recommended)
 
@@ -16,7 +16,8 @@ npm install --prefix apps/portfolio
 npm run dev:all
 ```
 
-Open [http://localhost:5173/portfolio](http://localhost:5173/portfolio) — Vite proxies to Next.js.
+- Main site: [http://localhost:5173](http://localhost:5173)
+- Wealth app: [http://localhost:3000](http://localhost:3000)
 
 ### This app only
 
@@ -27,17 +28,17 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000/portfolio](http://localhost:3000/portfolio).
+Open [http://localhost:3000](http://localhost:3000).
 
-## Vercel setup (same domain as portfolio-v2)
+## Vercel setup
 
-1. In Vercel, **Add New Project** from this same GitHub repo.
+1. In Vercel, **Add New Project** from this same GitHub repo (if not already).
 2. Set **Root Directory** to `apps/portfolio`.
-3. Suggested project name: `bromos-portfolio` (must match the rewrite host in root `vercel.json`).
-4. Deploy. Confirm `https://bromos-portfolio.vercel.app/portfolio` works.
-5. If the production host differs, update the rewrite destinations in the repo-root `vercel.json`.
+3. Suggested project name: `bromos-portfolio`.
+4. **Settings → Domains** → add `wealth.bromos.dev` (DNS: CNAME to `cname.vercel-dns.com`, or follow Vercel’s instructions).
+5. Deploy. Confirm `https://wealth.bromos.dev` works.
 
-The main `portfolio-v2` project keeps `www.bromos.dev` and proxies `/portfolio` (+ `/portfolio/*`) to this app.
+The main `portfolio-v2` project keeps `www.bromos.dev` and 301-redirects `/portfolio` (+ `/portfolio/*`) to `wealth.bromos.dev`.
 
 ## Environment variables
 

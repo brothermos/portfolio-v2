@@ -26,14 +26,14 @@ body {
   background: var(--page-bg);
   color: var(--foreground);
   font-family: var(--font-ibm-plex-sans-thai), ui-sans-serif, system-ui, sans-serif;
-  cursor: url("/portfolio/svg/arrowhead-rounded-outline.svg") 0 0, auto;
+  cursor: url("/svg/arrowhead-rounded-outline.svg") 0 0, auto;
 }
 
 a,
 button,
 [role="button"],
 .cursor-pointer {
-  cursor: url("/portfolio/svg/hand-pointer.svg") 0 0, pointer;
+  cursor: url("/svg/hand-pointer.svg") 0 0, pointer;
 }
 
 @keyframes pig-bounce {

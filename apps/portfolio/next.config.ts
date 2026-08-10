@@ -5,7 +5,6 @@ import type { NextConfig } from "next";
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
-  basePath: "/portfolio",
   turbopack: {
     root: appRoot,
   },

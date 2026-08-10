@@ -1,13 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "redirects": [
     {
       "source": "/portfolio",
-      "destination": "https://bromos-portfolio.vercel.app/portfolio"
+      "destination": "https://wealth.bromos.dev/",
+      "permanent": true
     },
     {
       "source": "/portfolio/:path*",
-      "destination": "https://bromos-portfolio.vercel.app/portfolio/:path*"
+      "destination": "https://wealth.bromos.dev/:path*",
+      "permanent": true
     }
   ]
 }

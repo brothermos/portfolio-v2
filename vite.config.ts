@@ -22,21 +22,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  server: {
-    proxy: {
-      // Forward /portfolio to the Next.js app (npm run dev:portfolio)
-      '/portfolio': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-    },
-  },
-  preview: {
-    proxy: {
-      '/portfolio': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-    },
-  },
 });

@@ -7,9 +7,9 @@ Personal site for **bromos** (`www.bromos.dev`).
 | Path | Stack | URL |
 | --- | --- | --- |
 | `/` (repo root) | Vite + React | `https://www.bromos.dev` |
-| `apps/portfolio` | Next.js (Wealth Stocks) | `https://www.bromos.dev/portfolio` |
+| `apps/portfolio` | Next.js (Wealth Stocks) | `https://wealth.bromos.dev` |
 
-The wealth app was migrated from the standalone `wealth-portfolio` repo. It uses Next.js `basePath: "/portfolio"`. The root `vercel.json` rewrites `/portfolio` to the nested Vercel project (see `apps/portfolio/README.md`).
+The wealth app was migrated from the standalone `wealth-portfolio` repo. It is a separate Vercel project with custom domain `wealth.bromos.dev`. The root `vercel.json` 301-redirects `/portfolio` → that subdomain (see `apps/portfolio/README.md`).
 
 ### Run the main site
 
@@ -18,9 +18,9 @@ npm install
 npm run dev
 ```
 
-### Run Wealth Portfolio (`/portfolio`)
+### Run Wealth Portfolio (`wealth.bromos.dev`)
 
-`vercel.json` rewrites only apply on Vercel. Locally you need the Next.js app running.
+Locally you need the Next.js app running on port 3000.
 
 **Option A — both apps (recommended)**
 
@@ -32,8 +32,7 @@ npm run dev:all
 
 Then open:
 - Main site: [http://localhost:5173](http://localhost:5173)
-- Wealth app: [http://localhost:5173/portfolio](http://localhost:5173/portfolio) (proxied)  
-  or directly [http://localhost:3000/portfolio](http://localhost:3000/portfolio)
+- Wealth app: [http://localhost:3000](http://localhost:3000)
 
 **Option B — wealth app only**
 
@@ -41,8 +40,7 @@ Then open:
 npm run dev:portfolio
 ```
 
-Open [http://localhost:3000/portfolio](http://localhost:3000/portfolio)  
-(Note: `http://localhost:3000/` without `/portfolio` will 404 because of `basePath`.)
+Open [http://localhost:3000](http://localhost:3000).
 
 ## My Work API (Vercel + Postgres)
 
