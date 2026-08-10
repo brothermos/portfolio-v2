@@ -7,11 +7,14 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { appPath } from '@/lib/base-path';
 import type { FundPortfolioPreviewItem } from '@/lib/funds/sec';
 import type {
+  ClosedPositionItem,
+  ClosedPositionsSummary,
   PortfolioPreviewItem,
   StockQuote,
   SupportResistanceLevels,
 } from '@/lib/stocks/types';
 
+import { ClosedPositions } from './closed-positions';
 import { FundPreview } from './fund-preview';
 import { FundHoldingDetail } from './fund-holding-detail';
 import { LevelsPanel } from './levels-panel';
@@ -58,6 +61,8 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [showLoader, setShowLoader] = useState(true);
   const [portfolioItems, setPortfolioItems] = useState<PortfolioPreviewItem[]>([]);
   const [fundPortfolioItems, setFundPortfolioItems] = useState<FundPortfolioPreviewItem[]>([]);
+  const [closedPositions, setClosedPositions] = useState<ClosedPositionItem[]>([]);
+  const [closedSummary, setClosedSummary] = useState<ClosedPositionsSummary | null>(null);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -84,6 +89,14 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const handleFundPortfolioItemsChange = useCallback((items: FundPortfolioPreviewItem[]) => {
     setFundPortfolioItems(items);
   }, []);
+
+  const handleClosedPositionsChange = useCallback(
+    (items: ClosedPositionItem[], summary: ClosedPositionsSummary | null) => {
+      setClosedPositions(items);
+      setClosedSummary(summary);
+    },
+    [],
+  );
 
   const selectedHolding =
     assetKind === 'stock'
@@ -305,6 +318,7 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
             onSelectSymbol={(next) => selectAsset('stock', next)}
             onReady={markPortfolioReady}
             onItemsChange={handlePortfolioItemsChange}
+            onClosedPositionsChange={handleClosedPositionsChange}
           />
         </div>
 
@@ -343,6 +357,12 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
           />
           <PriceContext data={levels} quote={quote} />
         </div>
+
+        {closedSummary && closedPositions.length > 0 ? (
+          <div data-reveal>
+            <ClosedPositions items={closedPositions} summary={closedSummary} />
+          </div>
+        ) : null}
       </div>
     </>
   );

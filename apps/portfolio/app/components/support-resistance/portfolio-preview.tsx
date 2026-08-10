@@ -12,7 +12,6 @@ import type {
 import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
 import { AllocationChart } from './allocation-chart';
-import { ClosedPositions } from './closed-positions';
 import { StockLogo } from './stock-logo';
 import { SymbolPicker } from './symbol-picker';
 
@@ -23,6 +22,10 @@ type PortfolioPreviewProps = {
   onSelectSymbol: (symbol: string) => void;
   onReady?: () => void;
   onItemsChange?: (items: PortfolioPreviewItem[]) => void;
+  onClosedPositionsChange?: (
+    items: ClosedPositionItem[],
+    summary: ClosedPositionsSummary | null,
+  ) => void;
 };
 
 function formatPrice(price: number, currency: string) {
@@ -39,11 +42,10 @@ export function PortfolioPreview({
   onSelectSymbol,
   onReady,
   onItemsChange,
+  onClosedPositionsChange,
 }: PortfolioPreviewProps) {
   const [items, setItems] = useState<PortfolioPreviewItem[]>([]);
   const [summary, setSummary] = useState<PortfolioSummary | null>(null);
-  const [closedPositions, setClosedPositions] = useState<ClosedPositionItem[]>([]);
-  const [closedSummary, setClosedSummary] = useState<ClosedPositionsSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -78,9 +80,8 @@ export function PortfolioPreview({
           const sorted = [...(body.items ?? [])].sort((a, b) => b.changePercent - a.changePercent);
           setItems(sorted);
           setSummary(body.summary ?? null);
-          setClosedPositions(body.closedPositions ?? []);
-          setClosedSummary(body.closedSummary ?? null);
           onItemsChange?.(sorted);
+          onClosedPositionsChange?.(body.closedPositions ?? [], body.closedSummary ?? null);
           setError(null);
         }
       } catch (err) {
@@ -118,9 +119,66 @@ export function PortfolioPreview({
       if (timer) clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [onReady, onItemsChange]);
+  }, [onReady, onItemsChange, onClosedPositionsChange]);
 
   const holdingsReady = !loading && items.some((item) => item.shares > 0) && summary;
+
+  const cards =
+    error && items.length === 0 ? (
+      <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        {error}
+      </div>
+    ) : loading && items.length === 0 ? (
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <div key={i} className="h-[92px] animate-pulse rounded-2xl bg-white/70" />
+        ))}
+      </div>
+    ) : (
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3">
+        {items.map((item) => {
+          const up = item.changePercent >= 0;
+          const active = item.symbol === selectedSymbol;
+          return (
+            <button
+              key={item.symbol}
+              type="button"
+              onClick={() => onSelectSymbol(item.symbol)}
+              className={`flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3
+                text-left transition-colors ${
+                  active
+                    ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
+                    : 'border-border bg-white hover:bg-stone-50'
+                }`}
+            >
+              <span className="flex items-center gap-2">
+                <StockLogo symbol={item.symbol} size={20} />
+                <span className="font-mono text-sm font-semibold text-stone-900">
+                  {item.symbol}
+                </span>
+              </span>
+              <span
+                className={`flex items-center gap-1.5 text-base font-semibold ${
+                  up ? 'text-emerald-700' : 'text-rose-600'
+                }`}
+              >
+                <span aria-hidden>{up ? '↗' : '↘'}</span>
+                <span>
+                  {Math.abs(item.changePercent).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                  %
+                </span>
+              </span>
+              <span className="text-sm text-stone-600">
+                {formatPrice(item.price, item.currency)}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    );
 
   return (
     <section className="flex flex-col gap-2">
@@ -141,84 +199,17 @@ export function PortfolioPreview({
       </div>
 
       {holdingsReady ? (
-        <AllocationChart
-          items={items}
-          summary={summary}
-          selectedSymbol={selectedSymbol}
-          onSelectSymbol={onSelectSymbol}
-        />
-      ) : null}
-
-      {closedSummary && closedPositions.length > 0 ? (
-        <ClosedPositions items={closedPositions} summary={closedSummary} />
-      ) : null}
-
-      {error && items.length === 0 ? (
-        <div
-          className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
-        >
-          {error}
-        </div>
-      ) : loading && items.length === 0 ? (
-        <div
-          className="flex gap-3 overflow-x-auto pb-1 sm:grid
-            sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible"
-        >
-          {Array.from({ length: 15 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-[92px] w-[132px] shrink-0 animate-pulse rounded-2xl bg-white/70
-                sm:w-full"
-            />
-          ))}
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(260px,300px)_minmax(0,1fr)]">
+          <AllocationChart
+            items={items}
+            summary={summary}
+            selectedSymbol={selectedSymbol}
+            onSelectSymbol={onSelectSymbol}
+          />
+          {cards}
         </div>
       ) : (
-        <div
-          className="flex gap-3 overflow-x-auto sm:grid sm:w-full
-            sm:grid-cols-[repeat(auto-fill,minmax(132px,1fr))] sm:overflow-visible"
-        >
-          {items.map((item) => {
-            const up = item.changePercent >= 0;
-            const active = item.symbol === selectedSymbol;
-            return (
-              <button
-                key={item.symbol}
-                type="button"
-                onClick={() => onSelectSymbol(item.symbol)}
-                className={`flex w-[132px] shrink-0 cursor-pointer flex-col gap-1.5 rounded-2xl
-                  border px-4 py-3 text-left transition-colors sm:w-full ${
-                    active
-                      ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
-                      : 'border-border bg-white hover:bg-stone-50'
-                  }`}
-              >
-                <span className="flex items-center gap-2">
-                  <StockLogo symbol={item.symbol} size={20} />
-                  <span className="font-mono text-sm font-semibold text-stone-900">
-                    {item.symbol}
-                  </span>
-                </span>
-                <span
-                  className={`flex items-center gap-1.5 text-base font-semibold ${
-                    up ? 'text-emerald-700' : 'text-rose-600'
-                  }`}
-                >
-                  <span aria-hidden>{up ? '↗' : '↘'}</span>
-                  <span>
-                    {Math.abs(item.changePercent).toLocaleString('en-US', {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                    %
-                  </span>
-                </span>
-                <span className="text-sm text-stone-600">
-                  {formatPrice(item.price, item.currency)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        cards
       )}
     </section>
   );

@@ -87,11 +87,11 @@ export function AllocationChart({
   const pnlUp = summary.totalUnrealizedPnl >= 0;
 
   return (
-    <section className="border-border rounded-2xl border bg-white px-4 py-5 sm:px-6">
-      <div className="mx-auto flex max-w-lg flex-col items-center gap-5">
+    <section className="w-full py-1">
+      <div className="flex w-full flex-col items-center gap-4">
         <div
-          className="relative"
-          style={{ width: SIZE, height: SIZE, maxWidth: '100%' }}
+          className="relative w-full"
+          style={{ maxWidth: SIZE, aspectRatio: '1' }}
           onMouseLeave={() => setHovered(null)}
         >
           <svg

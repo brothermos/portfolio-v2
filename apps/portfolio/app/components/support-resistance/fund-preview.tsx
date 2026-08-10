@@ -106,6 +106,65 @@ export function FundPreview({
 
   const holdingsReady = !loading && items.some((item) => item.units > 0) && summary;
 
+  const cards =
+    error && items.length === 0 ? (
+      <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        {error}
+      </div>
+    ) : loading && items.length === 0 ? (
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-[100px] animate-pulse rounded-2xl bg-white/70" />
+        ))}
+      </div>
+    ) : (
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
+        {items.map((item) => {
+          const up = item.changePercent >= 0;
+          const active = item.symbol === selectedSymbol;
+          return (
+            <button
+              key={item.symbol}
+              type="button"
+              onClick={() => onSelectSymbol(item.symbol)}
+              title={item.name}
+              className={`flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3
+                text-left transition-colors ${
+                  active
+                    ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
+                    : 'border-border bg-white hover:bg-stone-50'
+                }`}
+            >
+              <div className="flex items-center gap-2">
+                <span
+                  className="inline-flex h-5 w-5 items-center justify-center overflow-hidden
+                    rounded-full bg-stone-200 text-[9px] leading-none"
+                >
+                  🇹🇭
+                </span>
+                <span className="truncate text-sm font-semibold text-stone-900">{item.title}</span>
+              </div>
+              <span
+                className={`flex items-center gap-1.5 text-base font-semibold ${
+                  up ? 'text-emerald-700' : 'text-rose-600'
+                }`}
+              >
+                <span aria-hidden>{up ? '↗' : '↘'}</span>
+                <span>
+                  {Math.abs(item.changePercent).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                  %
+                </span>
+              </span>
+              <span className="font-mono text-sm text-stone-600">{formatNav(item.nav)} THB</span>
+            </button>
+          );
+        })}
+      </div>
+    );
+
   return (
     <section className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center gap-2">
@@ -121,80 +180,17 @@ export function FundPreview({
       </div>
 
       {holdingsReady ? (
-        <AllocationChart
-          items={items}
-          summary={summary}
-          selectedSymbol={selectedSymbol ?? ''}
-          onSelectSymbol={onSelectSymbol}
-        />
-      ) : null}
-
-      {error && items.length === 0 ? (
-        <div
-          className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
-        >
-          {error}
-        </div>
-      ) : loading && items.length === 0 ? (
-        <div className="flex gap-3 overflow-x-auto pb-1">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-[100px] w-[160px] shrink-0 animate-pulse rounded-2xl bg-white/70"
-            />
-          ))}
+        <div className="grid items-start gap-6 lg:grid-cols-[minmax(260px,300px)_minmax(0,1fr)]">
+          <AllocationChart
+            items={items}
+            summary={summary}
+            selectedSymbol={selectedSymbol ?? ''}
+            onSelectSymbol={onSelectSymbol}
+          />
+          {cards}
         </div>
       ) : (
-        <div className="flex gap-3 overflow-x-auto">
-          {items.map((item) => {
-            const up = item.changePercent >= 0;
-            const active = item.symbol === selectedSymbol;
-            return (
-              <button
-                key={item.symbol}
-                type="button"
-                onClick={() => onSelectSymbol(item.symbol)}
-                title={item.name}
-                className={`flex min-w-[160px] shrink-0 cursor-pointer flex-col gap-1.5 rounded-2xl
-                  border px-4 py-3 text-left transition-colors ${
-                    active
-                      ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
-                      : 'border-border bg-white hover:bg-stone-50'
-                  }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span
-                    className="inline-flex h-5 w-5 items-center justify-center overflow-hidden
-                      rounded-full bg-stone-200 text-[9px] leading-none"
-                  >
-                    🇹🇭
-                  </span>
-                  <span className="truncate text-sm font-semibold text-stone-900">
-                    {item.title}
-                  </span>
-                </div>
-                <span
-                  className={`flex items-center gap-1.5 text-base font-semibold ${
-                    up ? 'text-emerald-700' : 'text-rose-600'
-                  }`}
-                >
-                  <span aria-hidden>{up ? '↗' : '↘'}</span>
-                  <span>
-                    {Math.abs(item.changePercent).toLocaleString('en-US', {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                    %
-                  </span>
-                </span>
-                <span className="font-mono text-sm text-stone-600">{formatNav(item.nav)} THB</span>
-                <span className="truncate text-[10px] text-stone-500">
-                  {item.symbol} · {item.asOfDate}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        cards
       )}
     </section>
   );
