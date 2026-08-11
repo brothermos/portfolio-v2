@@ -48,6 +48,12 @@ export type SeedClosedPosition = {
   sellPrice: number;
 };
 
+/** Cash waiting to deploy — edit when balances change. */
+export const SEED_CASH = {
+  THB: 64624.35,
+  USD: 2253.8,
+} as const;
+
 /** Hardcoded holdings — edit when positions change. */
 export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   INTC: { quantity: 1.0843239, avgBuyPrice: 26.5972 },

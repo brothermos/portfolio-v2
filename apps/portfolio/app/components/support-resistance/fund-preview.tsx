@@ -129,8 +129,8 @@ export function FundPreview({
               type="button"
               onClick={() => onSelectSymbol(item.symbol)}
               title={item.name}
-              className={`flex h-full min-h-[140px] min-w-0 cursor-pointer flex-col
-                justify-between gap-3 rounded-2xl border px-4 py-4 text-left transition-colors ${
+              className={`flex min-w-0 cursor-pointer flex-col justify-between gap-3 rounded-2xl
+                border px-4 py-3 text-left transition-colors lg:h-full lg:min-h-[140px] lg:py-4 ${
                   active
                     ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
                     : 'border-border bg-white hover:bg-stone-50'
@@ -204,13 +204,13 @@ export function FundPreview({
         {error}
       </div>
     ) : loading && items.length === 0 ? (
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-[120px] animate-pulse rounded-2xl bg-white/70" />
+          <div key={i} className="h-[88px] animate-pulse rounded-2xl bg-white/70 lg:h-[120px]" />
         ))}
       </div>
     ) : (
-      <div className="grid grid-cols-2 gap-3">{cardButtons}</div>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">{cardButtons}</div>
     );
 
   return (
@@ -235,7 +235,7 @@ export function FundPreview({
             selectedSymbol={selectedSymbol ?? ''}
             onSelectSymbol={onSelectSymbol}
           />
-          <div className="grid h-full grid-cols-2 gap-3 lg:auto-rows-fr">
+          <div className="grid h-full grid-cols-1 gap-3 sm:grid-cols-2 lg:auto-rows-fr">
             {error && items.length === 0 ? (
               <div
                 className="col-span-2 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3

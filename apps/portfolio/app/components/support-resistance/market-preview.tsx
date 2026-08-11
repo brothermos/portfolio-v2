@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { appPath } from "@/lib/base-path";
 import type { MarketPreviewItem } from "@/lib/stocks/types";
+import { SEED_CASH } from "@/lib/stocks/watchlist";
 
 const POLL_MS = 30_000;
 
@@ -54,6 +55,43 @@ function formatFooter(item: MarketPreviewItem) {
 
 function isSelectableMarketItem(item: MarketPreviewItem) {
   return item.footer === "symbol";
+}
+
+const CASH_CARDS = [
+  { currency: "THB" as const, flag: "th" as const, amount: SEED_CASH.THB },
+  { currency: "USD" as const, flag: "us" as const, amount: SEED_CASH.USD },
+];
+
+function formatCash(amount: number, currency: "THB" | "USD") {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
+function CashCards() {
+  return (
+    <>
+      {CASH_CARDS.map((row) => (
+        <div
+          key={row.currency}
+          className="border-border flex min-w-[150px] shrink-0 flex-col gap-1.5 rounded-2xl border
+            bg-white px-4 py-3 text-left"
+        >
+          <div className="flex items-center gap-2">
+            {row.flag === "th" ? <FlagTh /> : <FlagUs />}
+            <span className="text-sm font-semibold text-stone-900">เงินสด</span>
+          </div>
+          <div className="text-base font-semibold text-stone-900">
+            {formatCash(row.amount, row.currency)}
+          </div>
+          <div className="text-sm text-stone-600">{row.currency}</div>
+        </div>
+      ))}
+    </>
+  );
 }
 
 type MarketPreviewProps = {
@@ -141,8 +179,13 @@ export function MarketPreview({
 
   if (error && items.length === 0) {
     return (
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
-        {error}
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-3 overflow-x-auto pb-1 pt-0.5">
+          <CashCards />
+        </div>
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          {error}
+        </div>
       </div>
     );
   }
@@ -150,6 +193,7 @@ export function MarketPreview({
   if (loading && items.length === 0) {
     return (
       <div className="flex gap-3 overflow-x-auto pb-1">
+        <CashCards />
         {Array.from({ length: 3 }).map((_, i) => (
           <div
             key={i}
@@ -162,6 +206,7 @@ export function MarketPreview({
 
   return (
     <div className="flex gap-3 overflow-x-auto pb-1 pt-0.5">
+      <CashCards />
       {items.map((item) => {
         const up = item.changePercent >= 0;
         const selectable = isSelectableMarketItem(item) && !!onSelectSymbol;
