@@ -81,7 +81,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   CRWV: { quantity: 0.2842694, avgBuyPrice: 107.574 },
   PEP: { quantity: 0.0082812, avgBuyPrice: 171.472 },
   ORCL: { quantity: 0.424794, avgBuyPrice: 140.986 },
-  VPG: { quantity: 3.2032859, avgBuyPrice: 85.0294 },
+  VPG: { quantity: 5.20232859, avgBuyPrice: 77.8069 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
 };
 
