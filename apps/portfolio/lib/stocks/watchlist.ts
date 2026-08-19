@@ -31,6 +31,7 @@ export const SEED_WATCHLIST = [
   'PEP',
   'ORCL',
   'VPG',
+  'AMBQ',
   'SPCX',
 ] as const;
 
@@ -68,7 +69,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   SE: { quantity: 1.5257621, avgBuyPrice: 85.1312 },
   OUST: { quantity: 8.1535587, avgBuyPrice: 36.3455 },
   SONY: { quantity: 7.0197503, avgBuyPrice: 18.5747 },
-  META: { quantity: 0.6377621, avgBuyPrice: 576.0926 },
+  META: { quantity: 0.8191074, avgBuyPrice: 570.438 },
   TMDX: { quantity: 0.4226172, avgBuyPrice: 70.442 },
   PRCT: { quantity: 1.4897551, avgBuyPrice: 20.01 },
   TSLA: { quantity: 0.0880991, avgBuyPrice: 438.3698 },
@@ -79,7 +80,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   NFLX: { quantity: 4.6774549, avgBuyPrice: 96.2703 },
   GRAB: { quantity: 34.197434, avgBuyPrice: 5.4192 },
   CRM: { quantity: 0.1830046, avgBuyPrice: 272.78 },
-  ON: { quantity: 2.2261138, avgBuyPrice: 79.5753 },
+  ON: { quantity: 4.2261139, avgBuyPrice: 78.8819 },
   ONDS: { quantity: 10.5968339, avgBuyPrice: 8.4954 },
   QUBT: { quantity: 3.1094527, avgBuyPrice: 16.08 },
   DUOL: { quantity: 0.6427121, avgBuyPrice: 318.5874 },
@@ -87,7 +88,8 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   CRWV: { quantity: 0.2842694, avgBuyPrice: 107.574 },
   PEP: { quantity: 0.0082812, avgBuyPrice: 171.472 },
   ORCL: { quantity: 0.424794, avgBuyPrice: 140.986 },
-  VPG: { quantity: 5.20232859, avgBuyPrice: 77.8069 },
+  VPG: { quantity: 7.2032859, avgBuyPrice: 74.8308 },
+  AMBQ: { quantity: 2, avgBuyPrice: 62.6135 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
 };
 
