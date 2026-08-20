@@ -51,8 +51,8 @@ export type SeedClosedPosition = {
 
 /** Cash waiting to deploy — edit when balances change. */
 export const SEED_CASH = {
-  THB: 57581.35,
-  USD: 1737.85,
+  THB: 56081.35,
+  USD: 1675.87,
 } as const;
 
 /** Hardcoded holdings — edit when positions change. */
@@ -89,7 +89,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   PEP: { quantity: 0.0082812, avgBuyPrice: 171.472 },
   ORCL: { quantity: 0.424794, avgBuyPrice: 140.986 },
   VPG: { quantity: 7.2032859, avgBuyPrice: 74.8308 },
-  AMBQ: { quantity: 2, avgBuyPrice: 62.6135 },
+  AMBQ: { quantity: 3, avgBuyPrice: 62.4023 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
 };
 
