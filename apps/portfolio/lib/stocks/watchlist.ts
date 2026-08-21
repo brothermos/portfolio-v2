@@ -80,7 +80,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   NFLX: { quantity: 4.6774549, avgBuyPrice: 96.2703 },
   GRAB: { quantity: 34.197434, avgBuyPrice: 5.4192 },
   CRM: { quantity: 0.1830046, avgBuyPrice: 272.78 },
-  ON: { quantity: 4.2261139, avgBuyPrice: 78.8819 },
+  ON: { quantity: 5.2261139, avgBuyPrice: 78.252 },
   ONDS: { quantity: 10.5968339, avgBuyPrice: 8.4954 },
   QUBT: { quantity: 3.1094527, avgBuyPrice: 16.08 },
   DUOL: { quantity: 0.6427121, avgBuyPrice: 318.5874 },
@@ -88,8 +88,8 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   CRWV: { quantity: 0.2842694, avgBuyPrice: 107.574 },
   PEP: { quantity: 0.0082812, avgBuyPrice: 171.472 },
   ORCL: { quantity: 0.424794, avgBuyPrice: 140.986 },
-  VPG: { quantity: 7.2032859, avgBuyPrice: 74.8308 },
-  AMBQ: { quantity: 3, avgBuyPrice: 62.4023 },
+  VPG: { quantity: 9.2032859, avgBuyPrice: 72.0266 },
+  AMBQ: { quantity: 5, avgBuyPrice: 60.3274 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
 };
 
