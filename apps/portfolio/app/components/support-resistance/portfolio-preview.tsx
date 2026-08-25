@@ -17,6 +17,8 @@ import { SymbolPicker } from './symbol-picker';
 
 const POLL_MS = 30_000;
 
+type PortfolioView = 'today' | 'pnl';
+
 type PortfolioPreviewProps = {
   selectedSymbol: string;
   onSelectSymbol: (symbol: string) => void;
@@ -37,6 +39,13 @@ function formatPrice(price: number, currency: string) {
   }).format(price);
 }
 
+function formatSignedPercent(value: number) {
+  return `${Math.abs(value).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}%`;
+}
+
 export function PortfolioPreview({
   selectedSymbol,
   onSelectSymbol,
@@ -46,6 +55,7 @@ export function PortfolioPreview({
 }: PortfolioPreviewProps) {
   const [items, setItems] = useState<PortfolioPreviewItem[]>([]);
   const [summary, setSummary] = useState<PortfolioSummary | null>(null);
+  const [view, setView] = useState<PortfolioView>('today');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -123,6 +133,13 @@ export function PortfolioPreview({
 
   const holdingsReady = !loading && items.some((item) => item.shares > 0) && summary;
 
+  const displayItems =
+    view === 'pnl'
+      ? [...items]
+          .filter((item) => item.shares > 0)
+          .sort((a, b) => b.unrealizedPnlPercent - a.unrealizedPnlPercent)
+      : items;
+
   const cards =
     error && items.length === 0 ? (
       <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
@@ -136,9 +153,13 @@ export function PortfolioPreview({
       </div>
     ) : (
       <div className="grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3">
-        {items.map((item) => {
-          const up = item.changePercent >= 0;
+        {displayItems.map((item) => {
           const active = item.symbol === selectedSymbol;
+          const up =
+            view === 'pnl' ? item.unrealizedPnl >= 0 : item.changePercent >= 0;
+          const percent =
+            view === 'pnl' ? item.unrealizedPnlPercent : item.changePercent;
+
           return (
             <button
               key={item.symbol}
@@ -163,16 +184,20 @@ export function PortfolioPreview({
                 }`}
               >
                 <span aria-hidden>{up ? '↗' : '↘'}</span>
-                <span>
-                  {Math.abs(item.changePercent).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                  %
-                </span>
+                <span>{formatSignedPercent(percent)}</span>
               </span>
-              <span className="text-sm text-stone-600">
-                {formatPrice(item.price, item.currency)}
+              <span
+                className={`text-sm tabular-nums ${
+                  view === 'pnl'
+                    ? up
+                      ? 'text-emerald-700'
+                      : 'text-rose-600'
+                    : 'text-stone-600'
+                }`}
+              >
+                {view === 'pnl'
+                  ? `${up ? '+' : ''}${formatPrice(item.unrealizedPnl, item.currency)}`
+                  : formatPrice(item.price, item.currency)}
               </span>
             </button>
           );
@@ -196,6 +221,37 @@ export function PortfolioPreview({
 
       <div>
         <SymbolPicker onSymbolChange={onSelectSymbol} />
+      </div>
+
+      <div
+        className="border-border inline-flex w-fit rounded-full border bg-white p-1"
+        role="tablist"
+        aria-label="มุมมองหุ้นรายตัว"
+      >
+        {(
+          [
+            { id: 'today', label: 'วันนี้' },
+            { id: 'pnl', label: 'กำไร/ขาดทุน' },
+          ] as const
+        ).map((tab) => {
+          const active = view === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => setView(tab.id)}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                active
+                  ? 'bg-emerald-700 text-white'
+                  : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+              }`}
+            >
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
 
       {holdingsReady ? (
