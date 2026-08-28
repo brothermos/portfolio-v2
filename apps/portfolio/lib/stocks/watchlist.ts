@@ -82,7 +82,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   NFLX: { quantity: 4.6774549, avgBuyPrice: 96.2703 },
   GRAB: { quantity: 34.197434, avgBuyPrice: 5.4192 },
   CRM: { quantity: 0.1830046, avgBuyPrice: 272.78 },
-  ON: { quantity: 7.2261139, avgBuyPrice: 76.4884 },
+  ON: { quantity: 8.2261139, avgBuyPrice: 76.1931 },
   ONDS: { quantity: 10.5968339, avgBuyPrice: 8.4954 },
   QUBT: { quantity: 3.1094527, avgBuyPrice: 16.08 },
   DUOL: { quantity: 0.6427121, avgBuyPrice: 318.5874 },
