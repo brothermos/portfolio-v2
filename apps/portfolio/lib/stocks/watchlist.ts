@@ -53,8 +53,8 @@ export type SeedClosedPosition = {
 
 /** Cash waiting to deploy — edit when balances change. */
 export const SEED_CASH = {
-  THB: 56081.35,
-  USD: 1675.87,
+  THB: 69859.18,
+  USD: 730.28,
 } as const;
 
 /** Hardcoded holdings — edit when positions change. */
