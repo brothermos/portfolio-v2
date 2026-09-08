@@ -35,6 +35,7 @@ export const SEED_WATCHLIST = [
   'SPCX',
   'BE',
   'OSS',
+  'CRDO',
 ] as const;
 
 export type SeedSymbol = (typeof SEED_WATCHLIST)[number];
@@ -95,6 +96,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
   BE: { quantity: 1, avgBuyPrice: 193.27 },
   OSS: { quantity: 20, avgBuyPrice: 10.9559 },
+  CRDO: { quantity: 0.5968079, avgBuyPrice: 167.29 },
 };
 
 /** Fully closed positions — edit when realizing sales. */
