@@ -17,7 +17,7 @@ import { SymbolPicker } from './symbol-picker';
 
 const POLL_MS = 30_000;
 
-type PortfolioView = 'today' | 'pnl';
+type PortfolioView = 'today' | 'pnl' | 'value';
 
 type PortfolioPreviewProps = {
   selectedSymbol: string;
@@ -138,7 +138,11 @@ export function PortfolioPreview({
       ? [...items]
           .filter((item) => item.shares > 0)
           .sort((a, b) => b.unrealizedPnlPercent - a.unrealizedPnlPercent)
-      : items;
+      : view === 'value'
+        ? [...items]
+            .filter((item) => item.shares > 0)
+            .sort((a, b) => b.marketValue - a.marketValue)
+        : items;
 
   const cards =
     error && items.length === 0 ? (
@@ -178,27 +182,40 @@ export function PortfolioPreview({
                   {item.symbol}
                 </span>
               </span>
-              <span
-                className={`flex items-center gap-1.5 text-base font-semibold ${
-                  up ? 'text-emerald-700' : 'text-rose-600'
-                }`}
-              >
-                <span aria-hidden>{up ? '↗' : '↘'}</span>
-                <span>{formatSignedPercent(percent)}</span>
-              </span>
-              <span
-                className={`text-sm tabular-nums ${
-                  view === 'pnl'
-                    ? up
-                      ? 'text-emerald-700'
-                      : 'text-rose-600'
-                    : 'text-stone-600'
-                }`}
-              >
-                {view === 'pnl'
-                  ? `${up ? '+' : ''}${formatPrice(item.unrealizedPnl, item.currency)}`
-                  : formatPrice(item.price, item.currency)}
-              </span>
+              {view === 'value' ? (
+                <>
+                  <span className="text-base font-semibold tabular-nums text-stone-900">
+                    {formatPrice(item.marketValue, item.currency)}
+                  </span>
+                  <span className="text-sm tabular-nums text-stone-500">
+                    {item.weightPercent.toFixed(1)}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span
+                    className={`flex items-center gap-1.5 text-base font-semibold ${
+                      up ? 'text-emerald-700' : 'text-rose-600'
+                    }`}
+                  >
+                    <span aria-hidden>{up ? '↗' : '↘'}</span>
+                    <span>{formatSignedPercent(percent)}</span>
+                  </span>
+                  <span
+                    className={`text-sm tabular-nums ${
+                      view === 'pnl'
+                        ? up
+                          ? 'text-emerald-700'
+                          : 'text-rose-600'
+                        : 'text-stone-600'
+                    }`}
+                  >
+                    {view === 'pnl'
+                      ? `${up ? '+' : ''}${formatPrice(item.unrealizedPnl, item.currency)}`
+                      : formatPrice(item.price, item.currency)}
+                  </span>
+                </>
+              )}
             </button>
           );
         })}
@@ -232,6 +249,7 @@ export function PortfolioPreview({
           [
             { id: 'today', label: 'วันนี้' },
             { id: 'pnl', label: 'กำไร/ขาดทุน' },
+            { id: 'value', label: 'มูลค่า' },
           ] as const
         ).map((tab) => {
           const active = view === tab.id;
