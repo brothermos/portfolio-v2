@@ -148,7 +148,7 @@ export function PortfolioPreview({
     ) : loading && items.length === 0 ? (
       <div className="grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3">
         {Array.from({ length: 15 }).map((_, i) => (
-          <div key={i} className="h-[92px] animate-pulse rounded-2xl bg-white/70" />
+          <div key={i} className="h-[112px] animate-pulse rounded-2xl bg-white/70" />
         ))}
       </div>
     ) : (
@@ -159,6 +159,7 @@ export function PortfolioPreview({
             view === 'pnl' ? item.unrealizedPnl >= 0 : item.changePercent >= 0;
           const percent =
             view === 'pnl' ? item.unrealizedPnlPercent : item.changePercent;
+          const hasHolding = item.shares > 0;
 
           return (
             <button
@@ -199,6 +200,11 @@ export function PortfolioPreview({
                   ? `${up ? '+' : ''}${formatPrice(item.unrealizedPnl, item.currency)}`
                   : formatPrice(item.price, item.currency)}
               </span>
+              {hasHolding ? (
+                <span className="text-xs tabular-nums text-stone-500">
+                  {formatPrice(item.marketValue, item.currency)}
+                </span>
+              ) : null}
             </button>
           );
         })}
