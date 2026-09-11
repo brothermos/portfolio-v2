@@ -187,9 +187,15 @@ export function PortfolioPreview({
                   <span className="text-base font-semibold tabular-nums text-stone-900">
                     {formatPrice(item.marketValue, item.currency)}
                   </span>
-                  <span className="text-sm tabular-nums text-stone-500">
-                    {item.weightPercent.toFixed(1)}%
-                  </span>
+                  {typeof summary?.usdThbRate === 'number' && summary.usdThbRate > 0 ? (
+                    <span className="text-sm tabular-nums text-stone-500">
+                      {formatPrice(item.marketValue * summary.usdThbRate, 'THB')}
+                    </span>
+                  ) : (
+                    <span className="text-sm tabular-nums text-stone-500">
+                      {item.weightPercent.toFixed(1)}%
+                    </span>
+                  )}
                 </>
               ) : (
                 <>
@@ -249,7 +255,7 @@ export function PortfolioPreview({
           [
             { id: 'today', label: 'วันนี้' },
             { id: 'pnl', label: 'กำไร/ขาดทุน' },
-            { id: 'value', label: 'มูลค่า' },
+            { id: 'value', label: 'มูลค่ารวม' },
           ] as const
         ).map((tab) => {
           const active = view === tab.id;

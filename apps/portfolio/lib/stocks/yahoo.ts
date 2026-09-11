@@ -198,9 +198,20 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
   const symbols = [...new Set([...SEED_WATCHLIST, ...closedSymbolSet])];
 
   try {
-    const quotes = await yahooFinance.quote(symbols);
+    const [quotes, fxQuote] = await Promise.all([
+      yahooFinance.quote(symbols),
+      yahooFinance.quote('USDTHB=X'),
+    ]);
     const list = Array.isArray(quotes) ? quotes : [quotes];
     const bySymbol = new Map(list.map((q) => [String(q.symbol ?? '').toUpperCase(), q]));
+    const usdThbRate =
+      typeof fxQuote === 'object' &&
+      fxQuote !== null &&
+      !Array.isArray(fxQuote) &&
+      typeof fxQuote.regularMarketPrice === 'number' &&
+      !Number.isNaN(fxQuote.regularMarketPrice)
+        ? fxQuote.regularMarketPrice
+        : null;
 
     const priced: Array<{
       symbol: string;
@@ -295,6 +306,7 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
         totalUnrealizedPnl,
         totalUnrealizedPnlPercent,
         currency,
+        usdThbRate,
       },
       closedPositions,
       closedSummary,

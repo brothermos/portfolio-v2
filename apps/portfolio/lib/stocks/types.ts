@@ -97,6 +97,7 @@ export type PortfolioSummary = {
   totalUnrealizedPnl: number;
   totalUnrealizedPnlPercent: number;
   currency: string;
+  usdThbRate: number | null;
 };
 
 export type ClosedPositionItem = {
