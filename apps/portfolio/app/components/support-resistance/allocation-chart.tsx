@@ -18,6 +18,7 @@ type AllocationSummary = {
   totalUnrealizedPnl: number;
   totalUnrealizedPnlPercent: number;
   currency: string;
+  usdThbRate?: number | null;
 };
 
 type AllocationChartProps = {
@@ -155,6 +156,11 @@ export function AllocationChart({
                 <p className="mt-1 text-xl font-semibold tracking-tight text-stone-900 sm:text-2xl">
                   {formatPrice(summary.totalMarketValue, summary.currency)}
                 </p>
+                {typeof summary.usdThbRate === 'number' && summary.usdThbRate > 0 ? (
+                  <p className="mt-0.5 text-sm tabular-nums text-stone-500">
+                    {formatPrice(summary.totalMarketValue * summary.usdThbRate, 'THB')}
+                  </p>
+                ) : null}
                 <p
                   className={`mt-1 text-xs font-medium ${
                     pnlUp ? 'text-emerald-700' : 'text-rose-600'
