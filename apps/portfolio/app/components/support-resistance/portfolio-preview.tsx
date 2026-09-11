@@ -191,11 +191,10 @@ export function PortfolioPreview({
                     <span className="text-sm tabular-nums text-stone-500">
                       {formatPrice(item.marketValue * summary.usdThbRate, 'THB')}
                     </span>
-                  ) : (
-                    <span className="text-sm tabular-nums text-stone-500">
-                      {item.weightPercent.toFixed(1)}%
-                    </span>
-                  )}
+                  ) : null}
+                  <span className="text-sm tabular-nums text-stone-500">
+                    {item.weightPercent.toFixed(1)}%
+                  </span>
                 </>
               ) : (
                 <>
