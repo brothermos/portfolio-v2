@@ -93,8 +93,8 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   AMBQ: { quantity: 7, avgBuyPrice: 59.4139 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
   BE: { quantity: 1, avgBuyPrice: 193.27 },
-  OSS: { quantity: 25, avgBuyPrice: 10.6397 },
-  CRDO: { quantity: 0.5968079, avgBuyPrice: 167.29 },
+  OSS: { quantity: 26, avgBuyPrice: 10.5663 },
+  CRDO: { quantity: 0.9215542, avgBuyPrice: 162.5081 },
 };
 
 /** Fully closed positions — edit when realizing sales. */
