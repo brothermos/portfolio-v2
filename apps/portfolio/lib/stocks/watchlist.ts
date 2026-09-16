@@ -69,7 +69,7 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   ABBV: { quantity: 0.1684962, avgBuyPrice: 174.722 },
   AAPL: { quantity: 0.8616279, avgBuyPrice: 231.7474 },
   SE: { quantity: 1.5257621, avgBuyPrice: 85.1312 },
-  OUST: { quantity: 10.1535587, avgBuyPrice: 35.9791 },
+  OUST: { quantity: 11.1535587, avgBuyPrice: 35.6788 },
   SONY: { quantity: 7.0197503, avgBuyPrice: 18.5747 },
   META: { quantity: 0.8191074, avgBuyPrice: 570.438 },
   TMDX: { quantity: 0.4226172, avgBuyPrice: 70.442 },
