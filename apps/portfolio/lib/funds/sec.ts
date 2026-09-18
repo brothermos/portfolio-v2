@@ -7,13 +7,10 @@ import type {
   SupportResistanceLevels,
 } from "@/lib/stocks/types";
 
-import {
-  getSeedFund,
-  isSeedFundSymbol,
-  SEED_FUND_HOLDINGS,
-  SEED_FUNDS,
-  type SeedFund,
-} from "./watchlist";
+import { getPortfolioConfig } from "@/lib/portfolio/store";
+import type { FundDefinition } from "@/lib/portfolio/types";
+
+import { isSeedFundSymbol } from "./watchlist";
 
 export type FundPreviewItem = {
   symbol: string;
@@ -68,7 +65,7 @@ type SecNavItem = {
 };
 
 type FundNavSeries = {
-  fund: SeedFund;
+  fund: FundDefinition;
   quotes: Array<{ date: string; navPerUnit: number }>;
 };
 
@@ -183,7 +180,8 @@ async function fetchFundNavSeries(
   startDate: string | null,
   endDate: Date = new Date(),
 ): Promise<FundNavSeries> {
-  const fund = getSeedFund(symbol);
+  const { config } = await getPortfolioConfig();
+  const fund = config.funds.find((item) => item.symbol === symbol);
   if (!fund) {
     throw new FundDataError(`ไม่รองรับกองทุน ${symbol}`, 400);
   }
@@ -232,13 +230,14 @@ function latestNav(quotes: Array<{ date: string; navPerUnit: number }>): {
 export async function fetchFundPreview(): Promise<FundPreviewItem[]> {
   // Fail fast ถ้ายังไม่ได้ตั้ง key — อย่ากลืน error แล้วเหลือ 502 คลุมเครือ
   requireSecApiKey();
+  const { config } = await getPortfolioConfig();
 
   const end = new Date();
   const start = isoDateUtc(addUtcDays(end, -DEFAULT_NAV_LOOKBACK_DAYS));
   const errors: string[] = [];
 
   const results: Array<FundPreviewItem | null> = await Promise.all(
-    SEED_FUNDS.map(async (fund): Promise<FundPreviewItem | null> => {
+    config.funds.map(async (fund): Promise<FundPreviewItem | null> => {
       try {
         const series = await fetchFundNavSeries(fund.symbol, start, end);
         const latest = latestNav(series.quotes);
@@ -272,9 +271,12 @@ export async function fetchFundPreview(): Promise<FundPreviewItem[]> {
 }
 
 export async function fetchFundPortfolioPreview(): Promise<FundPortfolioPreviewResponse> {
-  const previews = await fetchFundPreview();
+  const [{ config }, previews] = await Promise.all([
+    getPortfolioConfig(),
+    fetchFundPreview(),
+  ]);
   const positions = previews.map((item) => {
-    const holding = SEED_FUND_HOLDINGS[item.symbol as keyof typeof SEED_FUND_HOLDINGS];
+    const holding = config.fundHoldings[item.symbol];
     const units = holding?.units ?? 0;
     const avgBuyNav = holding?.avgBuyNav ?? 0;
     const marketValue = item.nav * units;

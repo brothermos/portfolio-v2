@@ -17,12 +17,12 @@ import type {
   StockSearchResult,
   SupportResistanceLevels,
 } from './types';
+import { getPortfolioConfig } from '@/lib/portfolio/store';
+import type { ClosedPosition, StockHolding } from '@/lib/portfolio/types';
+
 import {
   isValidSymbol,
   normalizeSymbol,
-  SEED_CLOSED_POSITIONS,
-  SEED_HOLDINGS,
-  SEED_WATCHLIST,
 } from './watchlist';
 
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
@@ -143,13 +143,14 @@ export async function fetchMarketPreview(): Promise<MarketPreviewItem[]> {
 }
 
 export function buildClosedPositions(
+  closedSeeds: ClosedPosition[],
   currency = 'USD',
   currentPrices: Map<string, number> = new Map(),
 ): {
   closedPositions: ClosedPositionItem[];
   closedSummary: ClosedPositionsSummary;
 } {
-  const closedPositions: ClosedPositionItem[] = SEED_CLOSED_POSITIONS.map((position) => {
+  const closedPositions: ClosedPositionItem[] = closedSeeds.map((position) => {
     const costBasis = position.avgBuyPrice * position.quantity;
     const proceeds = position.sellPrice * position.quantity;
     const realizedPnl = proceeds - costBasis;
@@ -194,8 +195,12 @@ export function buildClosedPositions(
 }
 
 export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse> {
-  const closedSymbolSet = new Set(SEED_CLOSED_POSITIONS.map((position) => position.symbol));
-  const symbols = [...new Set([...SEED_WATCHLIST, ...closedSymbolSet])];
+  const { config } = await getPortfolioConfig();
+  const watchlist = config.watchlist;
+  const holdings: Record<string, StockHolding> = config.holdings;
+  const closedSeeds = config.closedPositions;
+  const closedSymbolSet = new Set(closedSeeds.map((position) => position.symbol.toUpperCase()));
+  const symbols = [...new Set([...watchlist, ...closedSymbolSet])];
 
   try {
     const [quotes, fxQuote] = await Promise.all([
@@ -242,11 +247,11 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
       }
 
       // Closed-only symbols are not open holdings — skip open portfolio rows.
-      if (!(symbol in SEED_HOLDINGS)) {
+      if (!(symbol in holdings)) {
         continue;
       }
 
-      const holding = SEED_HOLDINGS[symbol as keyof typeof SEED_HOLDINGS];
+      const holding = holdings[symbol];
       const shares = holding?.quantity ?? 0;
       const avgBuyPrice = holding?.avgBuyPrice ?? 0;
       const marketValue = price * shares;
@@ -294,6 +299,7 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
 
     const currency = priced[0]?.currency ?? 'USD';
     const { closedPositions, closedSummary } = buildClosedPositions(
+      closedSeeds,
       currency,
       closedCurrentPrices,
     );
