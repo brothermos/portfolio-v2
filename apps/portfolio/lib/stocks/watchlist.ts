@@ -35,6 +35,7 @@ export const SEED_WATCHLIST = [
   'BE',
   'OSS',
   'CRDO',
+  'NBIS',
 ] as const;
 
 export type SeedSymbol = (typeof SEED_WATCHLIST)[number];
@@ -93,8 +94,9 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   AMBQ: { quantity: 7, avgBuyPrice: 59.4139 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
   BE: { quantity: 1, avgBuyPrice: 193.27 },
-  OSS: { quantity: 26, avgBuyPrice: 10.5663 },
+  OSS: { quantity: 31, avgBuyPrice: 10.2486 },
   CRDO: { quantity: 0.9215542, avgBuyPrice: 162.5081 },
+  NBIS: { quantity: 0.3060397, avgBuyPrice: 212.064 },
 };
 
 /** Fully closed positions — edit when realizing sales. */
