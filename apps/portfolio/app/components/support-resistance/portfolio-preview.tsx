@@ -9,7 +9,6 @@ import type {
   PortfolioPreviewItem,
   PortfolioSummary,
 } from '@/lib/stocks/types';
-import { SEED_WATCHLIST } from '@/lib/stocks/watchlist';
 
 import { AllocationChart } from './allocation-chart';
 import { StockLogo } from './stock-logo';
@@ -237,7 +236,7 @@ export function PortfolioPreview({
           หุ้นรายตัว
         </h2>
         <p className="text-xs text-stone-500">
-          {items.length > 0 ? `${items.length} ตัว` : `${SEED_WATCHLIST.length} ตัว`}
+          {items.length > 0 ? `${items.length} ตัว` : 'กำลังโหลด…'}
         </p>
       </div>
 

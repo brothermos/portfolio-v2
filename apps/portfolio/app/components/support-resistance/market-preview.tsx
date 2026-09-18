@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 import { appPath } from "@/lib/base-path";
 import type { MarketPreviewItem } from "@/lib/stocks/types";
-import { SEED_CASH } from "@/lib/stocks/watchlist";
 
 const POLL_MS = 30_000;
 
@@ -57,11 +56,6 @@ function isSelectableMarketItem(item: MarketPreviewItem) {
   return item.footer === "symbol";
 }
 
-const CASH_CARDS = [
-  { currency: "THB" as const, flag: "th" as const, amount: SEED_CASH.THB },
-  { currency: "USD" as const, flag: "us" as const, amount: SEED_CASH.USD },
-];
-
 function formatCash(amount: number, currency: "THB" | "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -71,10 +65,14 @@ function formatCash(amount: number, currency: "THB" | "USD") {
   }).format(amount);
 }
 
-function CashCards() {
+function CashCards({ cash }: { cash: { THB: number; USD: number } }) {
+  const rows = [
+    { currency: "THB" as const, flag: "th" as const, amount: cash.THB },
+    { currency: "USD" as const, flag: "us" as const, amount: cash.USD },
+  ];
   return (
     <>
-      {CASH_CARDS.map((row) => (
+      {rows.map((row) => (
         <div
           key={row.currency}
           className="border-border flex min-w-[150px] shrink-0 flex-col gap-1.5 rounded-2xl border
@@ -106,6 +104,7 @@ export function MarketPreview({
   onReady,
 }: MarketPreviewProps) {
   const [items, setItems] = useState<MarketPreviewItem[]>([]);
+  const [cash, setCash] = useState<{ THB: number; USD: number }>({ THB: 0, USD: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -131,6 +130,7 @@ export function MarketPreview({
         const response = await fetch(appPath("/api/stocks/market-preview"));
         const body = (await response.json()) as {
           items?: MarketPreviewItem[];
+          cash?: { THB: number; USD: number };
           error?: string;
         };
         if (!response.ok) {
@@ -138,6 +138,7 @@ export function MarketPreview({
         }
         if (!cancelled) {
           setItems(body.items ?? []);
+          if (body.cash) setCash(body.cash);
           setError(null);
         }
       } catch (err) {
@@ -181,7 +182,7 @@ export function MarketPreview({
     return (
       <div className="flex flex-col gap-3">
         <div className="flex gap-3 overflow-x-auto pb-1 pt-0.5">
-          <CashCards />
+          <CashCards cash={cash} />
         </div>
         <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {error}
@@ -193,7 +194,7 @@ export function MarketPreview({
   if (loading && items.length === 0) {
     return (
       <div className="flex gap-3 overflow-x-auto pb-1">
-        <CashCards />
+        <CashCards cash={cash} />
         {Array.from({ length: 3 }).map((_, i) => (
           <div
             key={i}
@@ -206,7 +207,7 @@ export function MarketPreview({
 
   return (
     <div className="flex gap-3 overflow-x-auto pb-1 pt-0.5">
-      <CashCards />
+      <CashCards cash={cash} />
       {items.map((item) => {
         const up = item.changePercent >= 0;
         const selectable = isSelectableMarketItem(item) && !!onSelectSymbol;

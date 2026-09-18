@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { appPath } from '@/lib/base-path';
 import type { FundPortfolioPreviewItem, FundPortfolioSummary } from '@/lib/funds/sec';
-import { SEED_FUNDS } from '@/lib/funds/watchlist';
 
 import { AllocationChart } from './allocation-chart';
 
@@ -223,7 +222,7 @@ export function FundPreview({
           กองทุน
         </h2>
         <p className="text-xs text-stone-500">
-          {items.length > 0 ? `${items.length} กอง` : `${SEED_FUNDS.length} กอง`}
+          {items.length > 0 ? `${items.length} กอง` : 'กำลังโหลด…'}
         </p>
       </div>
 
