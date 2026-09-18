@@ -273,16 +273,32 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
       >
         <header data-reveal className="relative flex items-start gap-4 pr-16 sm:pr-20">
           <div className="flex min-w-0 flex-col gap-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-emerald-700 sm:text-3xl">
-              My Wealth Stocks Portfolio
-            </h1>
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              <h1 className="text-2xl font-semibold tracking-tight text-emerald-700 sm:text-3xl">
+                My Wealth Stocks Portfolio
+              </h1>
+              <Link
+                href="/admin"
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-stone-400 transition-colors hover:bg-emerald-50 hover:text-emerald-700 sm:h-9 sm:w-9"
+                aria-label="แก้ไขพอร์ต"
+                title="แก้ไขพอร์ต"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4 sm:h-[1.125rem] sm:w-[1.125rem]"
+                  aria-hidden
+                >
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+              </Link>
+            </div>
             <p className="max-w-xl text-sm text-stone-500">รวมหุ้นและกองทุกที่ผมถือ</p>
-            <Link
-              href="/admin"
-              className="mt-1 w-fit text-xs font-medium text-stone-400 transition-colors hover:text-emerald-700"
-            >
-              แก้ไขพอร์ต
-            </Link>
           </div>
           <Link
             href="/"
