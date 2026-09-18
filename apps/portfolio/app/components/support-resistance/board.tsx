@@ -277,6 +277,12 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
               My Wealth Stocks Portfolio
             </h1>
             <p className="max-w-xl text-sm text-stone-500">รวมหุ้นและกองทุกที่ผมถือ</p>
+            <Link
+              href="/admin"
+              className="mt-1 w-fit text-xs font-medium text-stone-400 transition-colors hover:text-emerald-700"
+            >
+              แก้ไขพอร์ต
+            </Link>
           </div>
           <Link
             href="/"
