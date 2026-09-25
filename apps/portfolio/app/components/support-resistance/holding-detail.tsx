@@ -1,6 +1,7 @@
 'use client';
 
 import type { PortfolioPreviewItem } from '@/lib/stocks/types';
+import { cryptoDisplaySymbol, isCryptoSymbol } from '@/lib/stocks/crypto';
 
 import { StockLogo } from './stock-logo';
 
@@ -17,9 +18,9 @@ function formatPrice(value: number, currency: string) {
   }).format(value);
 }
 
-function formatShares(shares: number) {
+function formatShares(shares: number, fractionDigits = 4) {
   return shares.toLocaleString('en-US', {
-    maximumFractionDigits: 4,
+    maximumFractionDigits: fractionDigits,
   });
 }
 
@@ -30,9 +31,11 @@ export function HoldingDetail({ holding }: HoldingDetailProps) {
 
   const pnlUp = holding.unrealizedPnl >= 0;
   const cost = holding.avgBuyPrice * holding.shares;
+  const crypto = isCryptoSymbol(holding.symbol);
+  const label = crypto ? cryptoDisplaySymbol(holding.symbol) : holding.symbol;
 
   const rows: { label: string; value: string; tone?: 'up' | 'down' }[] = [
-    { label: 'จำนวน', value: formatShares(holding.shares) },
+    { label: 'จำนวน', value: formatShares(holding.shares, crypto ? 8 : 4) },
     { label: 'ราคาเฉลี่ย', value: formatPrice(holding.avgBuyPrice, holding.currency) },
     { label: 'ต้นทุน', value: formatPrice(cost, holding.currency) },
     { label: 'มูลค่า', value: formatPrice(holding.marketValue, holding.currency) },
@@ -50,10 +53,14 @@ export function HoldingDetail({ holding }: HoldingDetailProps) {
         <StockLogo symbol={holding.symbol} size={22} />
         <div>
           <p className="text-sm font-medium text-stone-900">
-            มูลค่าหุ้นที่ถือ ·{' '}
-            <span className="font-mono">{holding.symbol}</span>
+            {crypto ? 'มูลค่าคริปโตที่ถือ' : 'มูลค่าหุ้นที่ถือ'} ·{' '}
+            <span className="font-mono">{label}</span>
           </p>
-          <p className="text-xs text-stone-500">ข้อมูลต้นทุนและผลตอบแทนของหุ้นนี้</p>
+          <p className="text-xs text-stone-500">
+            {crypto
+              ? 'ข้อมูลต้นทุนและผลตอบแทนของคริปโตนี้'
+              : 'ข้อมูลต้นทุนและผลตอบแทนของหุ้นนี้'}
+          </p>
         </div>
       </div>
 
