@@ -20,6 +20,7 @@ import type {
 import { getPortfolioConfig } from '@/lib/portfolio/store';
 import type { ClosedPosition, StockHolding } from '@/lib/portfolio/types';
 
+import { isCryptoSymbol } from './crypto';
 import {
   isValidSymbol,
   normalizeSymbol,
@@ -278,24 +279,43 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
       throw new StockDataError('ไม่พบข้อมูลพอร์ตสำหรับ preview', 502);
     }
 
-    const totalMarketValue = priced.reduce((sum, item) => sum + item.marketValue, 0);
-    const totalCostBasis = priced.reduce((sum, item) => sum + item.costBasis, 0);
-    const totalUnrealizedPnl = totalMarketValue - totalCostBasis;
-    const totalUnrealizedPnlPercent =
-      totalCostBasis > 0 ? (totalUnrealizedPnl / totalCostBasis) * 100 : 0;
+    const stockPriced = priced.filter((item) => !isCryptoSymbol(item.symbol));
+    const cryptoPriced = priced.filter((item) => isCryptoSymbol(item.symbol));
 
-    const items: PortfolioPreviewItem[] = priced.map(({ costBasis: _costBasis, ...item }) => ({
-      symbol: item.symbol,
-      price: item.price,
-      changePercent: item.changePercent,
-      currency: item.currency,
-      shares: item.shares,
-      avgBuyPrice: item.avgBuyPrice,
-      marketValue: item.marketValue,
-      weightPercent: totalMarketValue > 0 ? (item.marketValue / totalMarketValue) * 100 : 0,
-      unrealizedPnl: item.unrealizedPnl,
-      unrealizedPnlPercent: item.unrealizedPnlPercent,
-    }));
+    function toPreviewItems(
+      rows: typeof priced,
+    ): { items: PortfolioPreviewItem[]; summary: PortfolioPreviewResponse['summary'] } {
+      const totalMarketValue = rows.reduce((sum, item) => sum + item.marketValue, 0);
+      const totalCostBasis = rows.reduce((sum, item) => sum + item.costBasis, 0);
+      const totalUnrealizedPnl = totalMarketValue - totalCostBasis;
+      const items: PortfolioPreviewItem[] = rows.map(({ costBasis: _costBasis, ...item }) => ({
+        symbol: item.symbol,
+        price: item.price,
+        changePercent: item.changePercent,
+        currency: item.currency,
+        shares: item.shares,
+        avgBuyPrice: item.avgBuyPrice,
+        marketValue: item.marketValue,
+        weightPercent: totalMarketValue > 0 ? (item.marketValue / totalMarketValue) * 100 : 0,
+        unrealizedPnl: item.unrealizedPnl,
+        unrealizedPnlPercent: item.unrealizedPnlPercent,
+      }));
+      return {
+        items,
+        summary: {
+          totalMarketValue,
+          totalCostBasis,
+          totalUnrealizedPnl,
+          totalUnrealizedPnlPercent:
+            totalCostBasis > 0 ? (totalUnrealizedPnl / totalCostBasis) * 100 : 0,
+          currency: rows[0]?.currency ?? 'USD',
+          usdThbRate,
+        },
+      };
+    }
+
+    const stocks = toPreviewItems(stockPriced);
+    const crypto = toPreviewItems(cryptoPriced);
 
     const currency = priced[0]?.currency ?? 'USD';
     const { closedPositions, closedSummary } = buildClosedPositions(
@@ -305,15 +325,10 @@ export async function fetchPortfolioPreview(): Promise<PortfolioPreviewResponse>
     );
 
     return {
-      items,
-      summary: {
-        totalMarketValue,
-        totalCostBasis,
-        totalUnrealizedPnl,
-        totalUnrealizedPnlPercent,
-        currency,
-        usdThbRate,
-      },
+      items: stocks.items,
+      summary: stocks.summary,
+      cryptoItems: crypto.items,
+      cryptoSummary: crypto.summary,
       closedPositions,
       closedSummary,
     };

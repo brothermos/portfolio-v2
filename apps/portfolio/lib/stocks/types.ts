@@ -125,6 +125,8 @@ export type ClosedPositionsSummary = {
 export type PortfolioPreviewResponse = {
   items: PortfolioPreviewItem[];
   summary: PortfolioSummary;
+  cryptoItems: PortfolioPreviewItem[];
+  cryptoSummary: PortfolioSummary;
   closedPositions: ClosedPositionItem[];
   closedSummary: ClosedPositionsSummary;
 };

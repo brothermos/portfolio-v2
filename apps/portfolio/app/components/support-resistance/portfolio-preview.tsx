@@ -23,6 +23,10 @@ type PortfolioPreviewProps = {
   onSelectSymbol: (symbol: string) => void;
   onReady?: () => void;
   onItemsChange?: (items: PortfolioPreviewItem[]) => void;
+  onCryptoChange?: (
+    items: PortfolioPreviewItem[],
+    summary: PortfolioSummary | null,
+  ) => void;
   onClosedPositionsChange?: (
     items: ClosedPositionItem[],
     summary: ClosedPositionsSummary | null,
@@ -50,6 +54,7 @@ export function PortfolioPreview({
   onSelectSymbol,
   onReady,
   onItemsChange,
+  onCryptoChange,
   onClosedPositionsChange,
 }: PortfolioPreviewProps) {
   const [items, setItems] = useState<PortfolioPreviewItem[]>([]);
@@ -78,6 +83,8 @@ export function PortfolioPreview({
         const body = (await response.json()) as {
           items?: PortfolioPreviewItem[];
           summary?: PortfolioSummary;
+          cryptoItems?: PortfolioPreviewItem[];
+          cryptoSummary?: PortfolioSummary;
           closedPositions?: ClosedPositionItem[];
           closedSummary?: ClosedPositionsSummary;
           error?: string;
@@ -90,6 +97,7 @@ export function PortfolioPreview({
           setItems(sorted);
           setSummary(body.summary ?? null);
           onItemsChange?.(sorted);
+          onCryptoChange?.(body.cryptoItems ?? [], body.cryptoSummary ?? null);
           onClosedPositionsChange?.(body.closedPositions ?? [], body.closedSummary ?? null);
           setError(null);
         }
@@ -128,7 +136,7 @@ export function PortfolioPreview({
       if (timer) clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [onReady, onItemsChange, onClosedPositionsChange]);
+  }, [onReady, onItemsChange, onCryptoChange, onClosedPositionsChange]);
 
   const holdingsReady = !loading && items.some((item) => item.shares > 0) && summary;
 

@@ -10,11 +10,13 @@ import type {
   ClosedPositionItem,
   ClosedPositionsSummary,
   PortfolioPreviewItem,
+  PortfolioSummary,
   StockQuote,
   SupportResistanceLevels,
 } from '@/lib/stocks/types';
 
 import { ClosedPositions } from './closed-positions';
+import { CryptoPreview } from './crypto-preview';
 import { FundPreview } from './fund-preview';
 import { FundHoldingDetail } from './fund-holding-detail';
 import { LevelsPanel } from './levels-panel';
@@ -60,6 +62,8 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [boot, setBoot] = useState({ market: false, fund: false, portfolio: false });
   const [showLoader, setShowLoader] = useState(true);
   const [portfolioItems, setPortfolioItems] = useState<PortfolioPreviewItem[]>([]);
+  const [cryptoItems, setCryptoItems] = useState<PortfolioPreviewItem[]>([]);
+  const [cryptoSummary, setCryptoSummary] = useState<PortfolioSummary | null>(null);
   const [fundPortfolioItems, setFundPortfolioItems] = useState<FundPortfolioPreviewItem[]>([]);
   const [closedPositions, setClosedPositions] = useState<ClosedPositionItem[]>([]);
   const [closedSummary, setClosedSummary] = useState<ClosedPositionsSummary | null>(null);
@@ -86,6 +90,14 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
     setPortfolioItems(items);
   }, []);
 
+  const handleCryptoChange = useCallback(
+    (items: PortfolioPreviewItem[], summary: PortfolioSummary | null) => {
+      setCryptoItems(items);
+      setCryptoSummary(summary);
+    },
+    [],
+  );
+
   const handleFundPortfolioItemsChange = useCallback((items: FundPortfolioPreviewItem[]) => {
     setFundPortfolioItems(items);
   }, []);
@@ -100,7 +112,9 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
 
   const selectedHolding =
     assetKind === 'stock'
-      ? (portfolioItems.find((item) => item.symbol === symbol) ?? null)
+      ? (portfolioItems.find((item) => item.symbol === symbol) ??
+        cryptoItems.find((item) => item.symbol === symbol) ??
+        null)
       : null;
   const selectedFundHolding =
     assetKind === 'fund'
@@ -335,11 +349,21 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
         </div>
 
         <div data-reveal>
+          <CryptoPreview
+            items={cryptoItems}
+            summary={cryptoSummary}
+            selectedSymbol={assetKind === 'stock' ? symbol : ''}
+            onSelectSymbol={(next) => selectAsset('stock', next)}
+          />
+        </div>
+
+        <div data-reveal>
           <PortfolioPreview
             selectedSymbol={assetKind === 'stock' ? symbol : ''}
             onSelectSymbol={(next) => selectAsset('stock', next)}
             onReady={markPortfolioReady}
             onItemsChange={handlePortfolioItemsChange}
+            onCryptoChange={handleCryptoChange}
             onClosedPositionsChange={handleClosedPositionsChange}
           />
         </div>
