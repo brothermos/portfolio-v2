@@ -29,8 +29,6 @@ export const SEED_WATCHLIST = [
   'CRWV',
   'PEP',
   'ORCL',
-  'VPG',
-  'AMBQ',
   'SPCX',
   'BE',
   'OSS',
@@ -90,8 +88,6 @@ export const SEED_HOLDINGS: Record<SeedSymbol, SeedHolding> = {
   CRWV: { quantity: 0.2842694, avgBuyPrice: 107.574 },
   PEP: { quantity: 0.0082812, avgBuyPrice: 171.472 },
   ORCL: { quantity: 0.424794, avgBuyPrice: 140.986 },
-  VPG: { quantity: 9.2032859, avgBuyPrice: 72.0266 },
-  AMBQ: { quantity: 7, avgBuyPrice: 59.4139 },
   SPCX: { quantity: 1, avgBuyPrice: 114.61 },
   BE: { quantity: 1, avgBuyPrice: 193.27 },
   OSS: { quantity: 31, avgBuyPrice: 10.2486 },
@@ -124,6 +120,18 @@ export const SEED_CLOSED_POSITIONS: SeedClosedPosition[] = [
     quantity: 2.0868389,
     avgBuyPrice: 200.9019,
     sellPrice: 375.0102,
+  },
+  {
+    symbol: 'VPG',
+    quantity: 9.2032859,
+    avgBuyPrice: 72.0266,
+    sellPrice: 79.48,
+  },
+  {
+    symbol: 'AMBQ',
+    quantity: 7,
+    avgBuyPrice: 59.4139,
+    sellPrice: 69.63,
   },
 ];
 
