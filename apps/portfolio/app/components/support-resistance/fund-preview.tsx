@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 import { appPath } from '@/lib/base-path';
 import type { FundPortfolioPreviewItem, FundPortfolioSummary } from '@/lib/funds/sec';
 
+import { exportFundsExcel } from '@/lib/portfolio/export-excel';
+
 import { AllocationChart } from './allocation-chart';
+import { ExportExcelButton } from './export-excel-button';
 
 const POLL_MS = 60_000;
 
@@ -43,6 +46,8 @@ export function FundPreview({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pinAllocationTotal, setPinAllocationTotal] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   useEffect(() => {
     setPinAllocationTotal(false);
@@ -55,6 +60,19 @@ export function FundPreview({
     }
     setPinAllocationTotal(false);
     onSelectSymbol(nextSymbol);
+  }
+
+  async function handleExportExcel() {
+    if (exporting || !items.some((item) => item.units > 0)) return;
+    setExporting(true);
+    setExportError(null);
+    try {
+      await exportFundsExcel(items);
+    } catch (err) {
+      setExportError(err instanceof Error ? err.message : 'ส่งออก Excel ไม่สำเร็จ');
+    } finally {
+      setExporting(false);
+    }
   }
 
   useEffect(() => {
@@ -238,6 +256,14 @@ export function FundPreview({
         <p className="text-xs text-stone-500">
           {items.length > 0 ? `${items.length} กอง` : 'กำลังโหลด…'}
         </p>
+        <ExportExcelButton
+          label="Excel กองทุน"
+          title="ส่งออกกองทุนเป็น Excel"
+          exporting={exporting}
+          disabled={!items.some((item) => item.units > 0)}
+          onClick={() => void handleExportExcel()}
+        />
+        {exportError ? <p className="text-xs text-rose-600">{exportError}</p> : null}
       </div>
 
       {holdingsReady ? (
