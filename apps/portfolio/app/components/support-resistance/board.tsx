@@ -15,6 +15,8 @@ import type {
   SupportResistanceLevels,
 } from '@/lib/stocks/types';
 
+import { exportStocksAndFundsExcel } from '@/lib/portfolio/export-excel';
+
 import { ClosedPositions } from './closed-positions';
 import { CryptoPreview } from './crypto-preview';
 import { FundPreview } from './fund-preview';
@@ -67,6 +69,8 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
   const [fundPortfolioItems, setFundPortfolioItems] = useState<FundPortfolioPreviewItem[]>([]);
   const [closedPositions, setClosedPositions] = useState<ClosedPositionItem[]>([]);
   const [closedSummary, setClosedSummary] = useState<ClosedPositionsSummary | null>(null);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -132,6 +136,27 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
     setQuoteError(null);
     setLevelsError(null);
     shouldScrollToDetailRef.current = true;
+  }
+
+  const canExport =
+    !exporting &&
+    (portfolioItems.some((item) => item.shares > 0) ||
+      fundPortfolioItems.some((item) => item.units > 0));
+
+  async function handleExportExcel() {
+    if (!canExport) return;
+    setExporting(true);
+    setExportError(null);
+    try {
+      await exportStocksAndFundsExcel({
+        stocks: portfolioItems,
+        funds: fundPortfolioItems,
+      });
+    } catch (error) {
+      setExportError(error instanceof Error ? error.message : 'ส่งออก Excel ไม่สำเร็จ');
+    } finally {
+      setExporting(false);
+    }
   }
 
   useEffect(() => {
@@ -311,8 +336,32 @@ export function SupportResistanceBoard({ initialSymbol }: SupportResistanceBoard
                   <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
                 </svg>
               </Link>
+              <button
+                type="button"
+                onClick={() => void handleExportExcel()}
+                disabled={!canExport}
+                className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-border bg-white px-2.5 text-xs font-medium text-stone-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 disabled:cursor-not-allowed disabled:opacity-50 sm:h-9 sm:px-3"
+                title="ส่งออกหุ้นและกองทุนเป็น Excel"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-3.5 w-3.5"
+                  aria-hidden
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" x2="12" y1="15" y2="3" />
+                </svg>
+                <span>{exporting ? 'กำลังส่งออก…' : 'Excel'}</span>
+              </button>
             </div>
             <p className="max-w-xl text-sm text-stone-500">รวมหุ้นและกองทุกที่ผมถือ</p>
+            {exportError ? <p className="text-xs text-rose-600">{exportError}</p> : null}
           </div>
           <Link
             href="/"
