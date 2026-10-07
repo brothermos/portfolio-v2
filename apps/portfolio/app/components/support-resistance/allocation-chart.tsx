@@ -61,9 +61,12 @@ export function AllocationChart({
   const [hovered, setHovered] = useState<string | null>(null);
   /** When true, ignore selectedSymbol and show portfolio total until another slice is chosen. */
   const [preferTotal, setPreferTotal] = useState(false);
+  /** After toggling back to total, ignore hover until the pointer leaves the chart/chip. */
+  const [hoverSuppressed, setHoverSuppressed] = useState(false);
 
   useEffect(() => {
     setPreferTotal(false);
+    setHoverSuppressed(false);
   }, [selectedSymbol]);
 
   const slices = useMemo(() => {
@@ -92,23 +95,37 @@ export function AllocationChart({
   const selectedInChart =
     Boolean(selectedSymbol) && slices.some((slice) => slice.symbol === selectedSymbol);
   const lockedSelection = selectedInChart && !preferTotal ? selectedSymbol : null;
-  const activeSymbol = hovered ?? lockedSelection;
+  const activeSymbol = (hoverSuppressed ? null : hovered) ?? lockedSelection;
   const active = slices.find((s) => s.symbol === activeSymbol) ?? null;
   const pnlUp = summary.totalUnrealizedPnl >= 0;
-  const showingSelectedDetail = Boolean(active && !hovered && lockedSelection);
+  const showingSelectedDetail = Boolean(active && !hovered && !hoverSuppressed && lockedSelection);
 
   function selectSlice(symbol: string) {
     if (symbol === selectedSymbol && !preferTotal) {
       setPreferTotal(true);
+      setHovered(null);
+      setHoverSuppressed(true);
       return;
     }
     setPreferTotal(false);
+    setHoverSuppressed(false);
     onSelectSymbol?.(symbol);
   }
 
   function showTotal() {
     setPreferTotal(true);
     setHovered(null);
+    setHoverSuppressed(true);
+  }
+
+  function handlePointerEnter(symbol: string) {
+    if (hoverSuppressed) return;
+    setHovered(symbol);
+  }
+
+  function handlePointerLeave() {
+    setHovered(null);
+    setHoverSuppressed(false);
   }
 
   return (
@@ -117,7 +134,7 @@ export function AllocationChart({
         <div
           className="relative w-full"
           style={{ maxWidth: SIZE, aspectRatio: '1' }}
-          onMouseLeave={() => setHovered(null)}
+          onMouseLeave={handlePointerLeave}
         >
           <svg
             viewBox={`0 0 ${SIZE} ${SIZE}`}
@@ -148,7 +165,7 @@ export function AllocationChart({
                   strokeDashoffset={slice.dashoffset}
                   strokeLinecap="butt"
                   className="cursor-pointer transition-[stroke-width] duration-150"
-                  onMouseEnter={() => setHovered(slice.symbol)}
+                  onMouseEnter={() => handlePointerEnter(slice.symbol)}
                   onClick={() => selectSlice(slice.symbol)}
                 />
               );
@@ -226,8 +243,8 @@ export function AllocationChart({
               <li key={slice.symbol}>
                 <button
                   type="button"
-                  onMouseEnter={() => setHovered(slice.symbol)}
-                  onMouseLeave={() => setHovered(null)}
+                  onMouseEnter={() => handlePointerEnter(slice.symbol)}
+                  onMouseLeave={handlePointerLeave}
                   onClick={() => selectSlice(slice.symbol)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-colors ${
                     activeChip
