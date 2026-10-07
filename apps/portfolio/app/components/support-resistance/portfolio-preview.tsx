@@ -62,6 +62,21 @@ export function PortfolioPreview({
   const [view, setView] = useState<PortfolioView>('today');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  /** Re-clicking the selected card pins the allocation chart back to portfolio total. */
+  const [pinAllocationTotal, setPinAllocationTotal] = useState(false);
+
+  useEffect(() => {
+    setPinAllocationTotal(false);
+  }, [selectedSymbol]);
+
+  function selectHolding(nextSymbol: string) {
+    if (nextSymbol === selectedSymbol) {
+      setPinAllocationTotal((prev) => !prev);
+      return;
+    }
+    setPinAllocationTotal(false);
+    onSelectSymbol(nextSymbol);
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -175,10 +190,10 @@ export function PortfolioPreview({
             <button
               key={item.symbol}
               type="button"
-              onClick={() => onSelectSymbol(item.symbol)}
+              onClick={() => selectHolding(item.symbol)}
               className={`flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3
                 text-left transition-colors ${
-                  active
+                  active && !pinAllocationTotal
                     ? 'border-emerald-300 bg-emerald-50 ring-1 ring-emerald-500/30'
                     : 'border-border bg-white hover:bg-stone-50'
                 }`}
@@ -290,7 +305,11 @@ export function PortfolioPreview({
             items={items}
             summary={summary}
             selectedSymbol={selectedSymbol}
-            onSelectSymbol={onSelectSymbol}
+            onSelectSymbol={(next) => {
+              setPinAllocationTotal(false);
+              if (next !== selectedSymbol) onSelectSymbol(next);
+            }}
+            showTotal={pinAllocationTotal}
           />
           {cards}
         </div>
