@@ -10,7 +10,10 @@ import type {
   PortfolioSummary,
 } from '@/lib/stocks/types';
 
+import { exportStocksExcel } from '@/lib/portfolio/export-excel';
+
 import { AllocationChart } from './allocation-chart';
+import { ExportExcelButton } from './export-excel-button';
 import { StockLogo } from './stock-logo';
 import { SymbolPicker } from './symbol-picker';
 
@@ -64,6 +67,8 @@ export function PortfolioPreview({
   const [error, setError] = useState<string | null>(null);
   /** Re-clicking the selected card pins the allocation chart back to portfolio total. */
   const [pinAllocationTotal, setPinAllocationTotal] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   useEffect(() => {
     setPinAllocationTotal(false);
@@ -76,6 +81,19 @@ export function PortfolioPreview({
     }
     setPinAllocationTotal(false);
     onSelectSymbol(nextSymbol);
+  }
+
+  async function handleExportExcel() {
+    if (exporting || !items.some((item) => item.shares > 0)) return;
+    setExporting(true);
+    setExportError(null);
+    try {
+      await exportStocksExcel(items);
+    } catch (err) {
+      setExportError(err instanceof Error ? err.message : 'ส่งออก Excel ไม่สำเร็จ');
+    } finally {
+      setExporting(false);
+    }
   }
 
   useEffect(() => {
@@ -261,6 +279,14 @@ export function PortfolioPreview({
         <p className="text-xs text-stone-500">
           {items.length > 0 ? `${items.length} ตัว` : 'กำลังโหลด…'}
         </p>
+        <ExportExcelButton
+          label="Excel หุ้น"
+          title="ส่งออกหุ้นเป็น Excel"
+          exporting={exporting}
+          disabled={!items.some((item) => item.shares > 0)}
+          onClick={() => void handleExportExcel()}
+        />
+        {exportError ? <p className="text-xs text-rose-600">{exportError}</p> : null}
       </div>
 
       <div>
