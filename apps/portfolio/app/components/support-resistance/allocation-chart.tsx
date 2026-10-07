@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 type AllocationItem = {
   symbol: string;
@@ -59,6 +59,12 @@ export function AllocationChart({
   onSelectSymbol,
 }: AllocationChartProps) {
   const [hovered, setHovered] = useState<string | null>(null);
+  /** When true, ignore selectedSymbol and show portfolio total until another slice is chosen. */
+  const [preferTotal, setPreferTotal] = useState(false);
+
+  useEffect(() => {
+    setPreferTotal(false);
+  }, [selectedSymbol]);
 
   const slices = useMemo(() => {
     const holdings = items
@@ -83,9 +89,27 @@ export function AllocationChart({
 
   if (slices.length === 0) return null;
 
-  const activeSymbol = hovered ?? (selectedSymbol || null);
+  const selectedInChart =
+    Boolean(selectedSymbol) && slices.some((slice) => slice.symbol === selectedSymbol);
+  const lockedSelection = selectedInChart && !preferTotal ? selectedSymbol : null;
+  const activeSymbol = hovered ?? lockedSelection;
   const active = slices.find((s) => s.symbol === activeSymbol) ?? null;
   const pnlUp = summary.totalUnrealizedPnl >= 0;
+  const showingSelectedDetail = Boolean(active && !hovered && lockedSelection);
+
+  function selectSlice(symbol: string) {
+    if (symbol === selectedSymbol && !preferTotal) {
+      setPreferTotal(true);
+      return;
+    }
+    setPreferTotal(false);
+    onSelectSymbol?.(symbol);
+  }
+
+  function showTotal() {
+    setPreferTotal(true);
+    setHovered(null);
+  }
 
   return (
     <section className="w-full py-1">
@@ -125,7 +149,7 @@ export function AllocationChart({
                   strokeLinecap="butt"
                   className="cursor-pointer transition-[stroke-width] duration-150"
                   onMouseEnter={() => setHovered(slice.symbol)}
-                  onClick={() => onSelectSymbol?.(slice.symbol)}
+                  onClick={() => selectSlice(slice.symbol)}
                 />
               );
             })}
@@ -149,6 +173,15 @@ export function AllocationChart({
                   {active.unrealizedPnl >= 0 ? '+' : ''}
                   {active.unrealizedPnlPercent.toFixed(1)}%)
                 </p>
+                {showingSelectedDetail ? (
+                  <button
+                    type="button"
+                    onClick={showTotal}
+                    className="pointer-events-auto mt-2 rounded-full px-2 py-0.5 text-[10px] text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700"
+                  >
+                    คลิกเพื่อดูยอดรวม
+                  </button>
+                ) : null}
               </>
             ) : (
               <>
@@ -175,17 +208,27 @@ export function AllocationChart({
           </div>
         </div>
 
+        {selectedInChart && !preferTotal ? (
+          <button
+            type="button"
+            onClick={showTotal}
+            className="rounded-full border border-border bg-white px-3 py-1 text-xs font-medium text-stone-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
+          >
+            ดูยอดรวม
+          </button>
+        ) : null}
+
         <ul className="flex w-full flex-wrap justify-center gap-1.5">
           {slices.map((slice) => {
             const activeChip =
-              slice.symbol === selectedSymbol || slice.symbol === hovered;
+              (!preferTotal && slice.symbol === selectedSymbol) || slice.symbol === hovered;
             return (
               <li key={slice.symbol}>
                 <button
                   type="button"
                   onMouseEnter={() => setHovered(slice.symbol)}
                   onMouseLeave={() => setHovered(null)}
-                  onClick={() => onSelectSymbol?.(slice.symbol)}
+                  onClick={() => selectSlice(slice.symbol)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-colors ${
                     activeChip
                       ? 'border-emerald-300 bg-emerald-50 text-stone-900'
