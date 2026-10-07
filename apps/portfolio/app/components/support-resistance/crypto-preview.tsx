@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { cryptoDisplaySymbol } from '@/lib/stocks/crypto';
 import type { PortfolioPreviewItem, PortfolioSummary } from '@/lib/stocks/types';
 
@@ -39,6 +41,21 @@ export function CryptoPreview({
   loading = false,
   error = null,
 }: CryptoPreviewProps) {
+  const [pinAllocationTotal, setPinAllocationTotal] = useState(false);
+
+  useEffect(() => {
+    setPinAllocationTotal(false);
+  }, [selectedSymbol]);
+
+  function selectHolding(nextSymbol: string) {
+    if (nextSymbol === selectedSymbol) {
+      setPinAllocationTotal((prev) => !prev);
+      return;
+    }
+    setPinAllocationTotal(false);
+    onSelectSymbol(nextSymbol);
+  }
+
   if (!loading && !error && items.length === 0) {
     return null;
   }
@@ -65,10 +82,10 @@ export function CryptoPreview({
             <button
               key={item.symbol}
               type="button"
-              onClick={() => onSelectSymbol(item.symbol)}
+              onClick={() => selectHolding(item.symbol)}
               className={`flex min-w-0 cursor-pointer flex-col gap-1.5 rounded-2xl border px-4 py-3
                 text-left transition-colors ${
-                  active
+                  active && !pinAllocationTotal
                     ? 'border-amber-300 bg-amber-50 ring-1 ring-amber-500/30'
                     : 'border-border bg-white hover:bg-stone-50'
                 }`}
@@ -124,7 +141,11 @@ export function CryptoPreview({
             items={items}
             summary={summary}
             selectedSymbol={selectedSymbol}
-            onSelectSymbol={onSelectSymbol}
+            onSelectSymbol={(next) => {
+              setPinAllocationTotal(false);
+              if (next !== selectedSymbol) onSelectSymbol(next);
+            }}
+            showTotal={pinAllocationTotal}
           />
           {cards}
         </div>

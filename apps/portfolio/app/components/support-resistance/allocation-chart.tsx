@@ -26,6 +26,8 @@ type AllocationChartProps = {
   summary: AllocationSummary;
   selectedSymbol?: string;
   onSelectSymbol?: (symbol: string) => void;
+  /** When true (e.g. holding card re-clicked), force the center to portfolio total. */
+  showTotal?: boolean;
 };
 
 const PALETTE = [
@@ -57,17 +59,16 @@ export function AllocationChart({
   summary,
   selectedSymbol = '',
   onSelectSymbol,
+  showTotal = false,
 }: AllocationChartProps) {
   const [hovered, setHovered] = useState<string | null>(null);
   /** When true, ignore selectedSymbol and show portfolio total until another slice is chosen. */
   const [preferTotal, setPreferTotal] = useState(false);
-  /** After toggling back to total, ignore hover until the pointer leaves the chart/chip. */
-  const [hoverSuppressed, setHoverSuppressed] = useState(false);
 
+  // Sync from parent card re-click; also reset when the selected holding changes.
   useEffect(() => {
-    setPreferTotal(false);
-    setHoverSuppressed(false);
-  }, [selectedSymbol]);
+    setPreferTotal(showTotal);
+  }, [selectedSymbol, showTotal]);
 
   const slices = useMemo(() => {
     const holdings = items
@@ -94,38 +95,26 @@ export function AllocationChart({
 
   const selectedInChart =
     Boolean(selectedSymbol) && slices.some((slice) => slice.symbol === selectedSymbol);
+  // Center follows selection only — hover never changes the center label.
   const lockedSelection = selectedInChart && !preferTotal ? selectedSymbol : null;
-  const activeSymbol = (hoverSuppressed ? null : hovered) ?? lockedSelection;
-  const active = slices.find((s) => s.symbol === activeSymbol) ?? null;
+  const active = lockedSelection
+    ? (slices.find((s) => s.symbol === lockedSelection) ?? null)
+    : null;
+  const highlightSymbol = hovered ?? lockedSelection;
   const pnlUp = summary.totalUnrealizedPnl >= 0;
-  const showingSelectedDetail = Boolean(active && !hovered && !hoverSuppressed && lockedSelection);
 
   function selectSlice(symbol: string) {
-    if (symbol === selectedSymbol && !preferTotal) {
-      setPreferTotal(true);
-      setHovered(null);
-      setHoverSuppressed(true);
+    // Re-clicking the selected slice toggles center back to portfolio total.
+    if (symbol === selectedSymbol) {
+      setPreferTotal((prev) => !prev);
       return;
     }
     setPreferTotal(false);
-    setHoverSuppressed(false);
     onSelectSymbol?.(symbol);
   }
 
-  function showTotal() {
+  function showPortfolioTotal() {
     setPreferTotal(true);
-    setHovered(null);
-    setHoverSuppressed(true);
-  }
-
-  function handlePointerEnter(symbol: string) {
-    if (hoverSuppressed) return;
-    setHovered(symbol);
-  }
-
-  function handlePointerLeave() {
-    setHovered(null);
-    setHoverSuppressed(false);
   }
 
   return (
@@ -134,7 +123,7 @@ export function AllocationChart({
         <div
           className="relative w-full"
           style={{ maxWidth: SIZE, aspectRatio: '1' }}
-          onMouseLeave={handlePointerLeave}
+          onMouseLeave={() => setHovered(null)}
         >
           <svg
             viewBox={`0 0 ${SIZE} ${SIZE}`}
@@ -151,7 +140,7 @@ export function AllocationChart({
               strokeWidth={STROKE}
             />
             {slices.map((slice) => {
-              const isActive = activeSymbol === slice.symbol;
+              const isHighlighted = highlightSymbol === slice.symbol;
               return (
                 <circle
                   key={slice.symbol}
@@ -160,12 +149,12 @@ export function AllocationChart({
                   r={RADIUS}
                   fill="none"
                   stroke={slice.color}
-                  strokeWidth={isActive ? STROKE + 6 : STROKE}
+                  strokeWidth={isHighlighted ? STROKE + 6 : STROKE}
                   strokeDasharray={slice.dasharray}
                   strokeDashoffset={slice.dashoffset}
                   strokeLinecap="butt"
                   className="cursor-pointer transition-[stroke-width] duration-150"
-                  onMouseEnter={() => handlePointerEnter(slice.symbol)}
+                  onMouseEnter={() => setHovered(slice.symbol)}
                   onClick={() => selectSlice(slice.symbol)}
                 />
               );
@@ -190,15 +179,13 @@ export function AllocationChart({
                   {active.unrealizedPnl >= 0 ? '+' : ''}
                   {active.unrealizedPnlPercent.toFixed(1)}%)
                 </p>
-                {showingSelectedDetail ? (
-                  <button
-                    type="button"
-                    onClick={showTotal}
-                    className="pointer-events-auto mt-2 rounded-full px-2 py-0.5 text-[10px] text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700"
-                  >
-                    คลิกเพื่อดูยอดรวม
-                  </button>
-                ) : null}
+                <button
+                  type="button"
+                  onClick={showPortfolioTotal}
+                  className="pointer-events-auto mt-2 rounded-full px-2 py-0.5 text-[10px] text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700"
+                >
+                  คลิกเพื่อดูยอดรวม
+                </button>
               </>
             ) : (
               <>
@@ -228,7 +215,7 @@ export function AllocationChart({
         {selectedInChart && !preferTotal ? (
           <button
             type="button"
-            onClick={showTotal}
+            onClick={showPortfolioTotal}
             className="rounded-full border border-border bg-white px-3 py-1 text-xs font-medium text-stone-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"
           >
             ดูยอดรวม
@@ -243,8 +230,8 @@ export function AllocationChart({
               <li key={slice.symbol}>
                 <button
                   type="button"
-                  onMouseEnter={() => handlePointerEnter(slice.symbol)}
-                  onMouseLeave={handlePointerLeave}
+                  onMouseEnter={() => setHovered(slice.symbol)}
+                  onMouseLeave={() => setHovered(null)}
                   onClick={() => selectSlice(slice.symbol)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-colors ${
                     activeChip
